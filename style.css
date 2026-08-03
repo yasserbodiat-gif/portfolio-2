@@ -1,0 +1,929 @@
+/* =========================================================
+   Yasser — portfolio hero (parallax prototype)
+   ========================================================= */
+
+:root {
+  /* ---------- Typography ---------- */
+  --font-display: "Anton", system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --eyebrow-size: clamp(0.9rem, 1.9vw, 1.45rem);
+  --h1-size: clamp(3.5rem, 22vw, 30rem); /* higher cap so the name keeps pace with the chair on wide displays */
+  --h1-tracking: -0.03em;
+  --triplet-size: clamp(1.25rem, 3.2vw, 2.75rem);
+
+  /* ---------- Colour ---------- */
+  --ink: #2e2e2e;         /* eyebrow + H1 */
+  --triplet-ink: #ffffff; /* triplet */
+  --bg: #161616;          /* page below hero */
+  --sky-fallback: #93a3b4; /* == the sky image's top-edge colour, so when the sky
+                              drifts down late in the parallax its top edge blends
+                              into the background instead of showing a hard line */
+
+  /* ---------- Framing ----------
+     The sky + hill share ONE placement (same scale, same top, same
+     transform) so the two halves of the photo reassemble exactly.
+
+     The image is portrait (0.806:1); on a landscape viewport it is far
+     taller than the screen, so we anchor it by the CREST rather than by an
+     edge. --crest-vh pins the hilltop to a fixed % of viewport height and
+     the math tracks the aspect ratio automatically, so the crest stays put
+     across 16:9, 16:10 and portrait.
+
+       --hill-scale   : image WIDTH as a multiple of viewport width (vw).
+                        Keep >= 100 so it always covers the width.
+       --crest-vh     : where the crest lands, in % of viewport height.
+       --crest-frac   : where the crest sits in the SOURCE image (measured,
+                        ~0.47 down). A constant — you shouldn't need to move it.
+       --hill-offset-y: fine vertical nudge on top of all that (vh).            */
+  /* ===== ACTIVE: landscape hero images (3840×2160, aspect 1.78) =====
+     The hill is a cutout (transparent above ~50%, opaque hill+figure below);
+     overlaid on the sky it hides the figure baked into the sky layer. */
+  --hill-scale: 100;         /* exact width cover => native res, no horizontal upscale */
+  --crest-vh: 50;            /* figure/crest sits ~centre */
+  --crest-frac: 0.5;         /* hill goes opaque ~50% down the source */
+  --hill-offset-y: 0vh;
+  --img-aspect-inv: 0.5625;  /* 2160 / 3840 */
+  --cover-vh: 180;           /* just covers the height (no rise now) => almost none of the
+                                image is cropped top/bottom. also stays native-sharp. */
+
+  /* ----- OLD portrait values (chair-hill) — reuse on the case-studies page -----
+       --hill-scale: 100;  --crest-vh: 60;  --crest-frac: 0.47;
+       --img-aspect-inv: 1.2413;   (height/width = 1/0.8056)
+       --composite-width: max(hill-scale*1vw, crest-vh*1.85*1vh);
+       --sky-min-width: 215vh;  --sky-width: max(composite-width, sky-min-width);
+     (crest-vh media overrides were 58 @≥1600 and 56 @≤640)                       */
+
+  /* Cover the viewport (width AND height) with overscan for the parallax. */
+  --composite-width: max(
+    calc(var(--hill-scale) * 1vw),
+    calc(var(--cover-vh) * 1vh)
+  );
+  --composite-top: calc(
+    var(--crest-vh) * 1vh + var(--hill-offset-y)
+    - var(--crest-frac) * var(--composite-width) * var(--img-aspect-inv)
+  );
+
+  /* Sky aligned 1:1 with the hill so the hill keeps the sky's figure covered. */
+  --sky-width: var(--composite-width);
+  --sky-top: var(--composite-top);
+
+  /* ---------- Hero furniture ---------- */
+  --title-shift: -13vh;   /* vertical nudge of the eyebrow+name block (up) */
+  --eyebrow-lift: 24px;   /* gap above the name (title stays put) */
+  --triplet-bottom: 26vh; /* triplet distance up from the hero bottom */
+
+  /* ---------- Section 2 (pinned cross-dissolve) ---------- */
+  --computerman-position: center 45%; /* object-position for the figure crop */
+  --scrim-opacity: 0.5;               /* darkening scrim over the bright clouds */
+
+  /* Section-transition fades: hero bottom + computerman top both resolve to
+     this colour, so the seam between the two scenes is invisible. */
+  --transition-color: #000000;        /* black, to match the computerman section */
+  --transition-fade: 9vh;             /* height of each edge fade (thin) */
+}
+
+/* ---------- Reset-ish ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  overflow-x: hidden; /* the layers bleed wider than the viewport */
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; }
+
+/* =========================================================
+   NAV + sound toggle (subtle, top-right)
+   ========================================================= */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+  padding: clamp(1rem, 2vw, 1.75rem) clamp(1.25rem, 3vw, 2.5rem);
+  pointer-events: none;         /* let clicks through except the button */
+}
+.sound-toggle {
+  pointer-events: auto;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.4rem;
+  color: #e2a6cd;               /* flower-petal pink, on theme */
+  opacity: 0.55;                /* not very pronounced */
+  transition: opacity 0.3s ease;
+}
+.sound-toggle:hover { opacity: 0.85; }
+
+.eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  width: 20px;
+  height: 16px;
+}
+.eq i {
+  flex: 1;
+  height: 30%;                  /* short/flat when muted */
+  background: currentColor;
+  border-radius: 1px;
+  transition: height 0.2s ease;
+}
+.sound-toggle.playing .eq i { animation: eq-bounce 0.9s ease-in-out infinite; }
+.sound-toggle.playing .eq i:nth-child(1) { animation-delay: 0s; }
+.sound-toggle.playing .eq i:nth-child(2) { animation-delay: 0.15s; }
+.sound-toggle.playing .eq i:nth-child(3) { animation-delay: 0.3s; }
+.sound-toggle.playing .eq i:nth-child(4) { animation-delay: 0.45s; }
+@keyframes eq-bounce {
+  0%, 100% { height: 25%; }
+  50%      { height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sound-toggle.playing .eq i { animation: none; height: 100%; }
+}
+
+/* =========================================================
+   SCENES + STICKY STAGES
+   Two pinned scenes, one after the other:
+     .hero-scene pins the hero for the parallax rise;
+     .man-scene  pins the computerman for the scrim + text beats.
+   Between them the page scrolls normally (hero out the top, computerman up
+   from the bottom) — a real scroll to the next section, no slide/fade.
+   ========================================================= */
+.hero-scene {
+  position: relative;
+  height: 100vh; /* no parallax now the hill is gone — plain 100vh hero */
+}
+.man-scene {
+  position: relative;
+  height: 400vh; /* pin lasts 300vh: scrim + text (beat 1), then cards (beat 2) */
+}
+
+/* Small solid section between the scenes, in the transition colour. */
+.section-spacer {
+  height: 8vh;
+  background: var(--transition-color);
+}
+
+/* Computerman bottom -> black, so it hands off cleanly to the next scene.
+   z-index 1 keeps it under the text/cards (which stay bright). */
+.man-fade-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26vh;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--transition-color) 100%);
+}
+
+/* =========================================================
+   CONTACT SCENE + liquid-glass form
+   ========================================================= */
+:root {
+  /* liquid glass tunables */
+  --glass-fill: rgba(0, 0, 0, 0.4);
+  --glass-blur: 8px;            /* base (refraction) blur */
+  --glass-blur-fallback: 18px;  /* heavier, when SVG displacement is unavailable */
+  --glass-sat: 1.5;
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --send-purple: #7c5cd6;
+  --contact-pos: 50% 50%;       /* object-position of the bg (figure ~centred) */
+}
+
+.contact-scene {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--transition-color);
+}
+.contact-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--contact-pos);
+}
+/* top of the contact image fades from black to match the scene above */
+.contact-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 34vh;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--transition-color) 0%, rgba(0, 0, 0, 0) 100%);
+}
+.cf-filters { position: absolute; }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+.contact-inner {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(2rem, 6vh, 5rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 8vh, 6rem);
+}
+
+.contact-heading {
+  margin: 0 0 clamp(2rem, 8vh, 6rem);
+  font-family: var(--font-serif);
+  font-weight: 300;                       /* match .s2-headline */
+  text-transform: lowercase;
+  color: #ffffff;
+  text-align: center;
+  font-size: clamp(2rem, 5.2vw, 3.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+/* ---------- form layout ---------- */
+.cf {
+  width: 100%;
+  max-width: 900px;
+  margin-top: auto;            /* sit the form lower, figure's head under the heading */
+  margin-bottom: auto;
+}
+.cf-row {
+  display: flex;
+  gap: 24px;
+  max-width: 640px;            /* narrower, LEFT-aligned with the message box */
+}
+.cf-field { flex: 1 1 0; }
+.cf-row .cf-field { min-width: 0; }
+.cf-field--message {
+  margin-top: 24px;
+  height: 200px;
+}
+.cf-field--name,
+.cf-field--email { height: 76px; }
+
+/* honeypot: offscreen, not display:none */
+.cf-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  opacity: 0;
+}
+
+/* ---------- inputs ---------- */
+.cf-input,
+.cf-textarea {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  resize: none;
+}
+.cf-input::placeholder,
+.cf-textarea::placeholder { color: rgba(255, 255, 255, 0.75); }
+
+.cf-input {
+  text-align: center;
+  font-family: var(--font-sans);   /* stack sans headline */
+  font-weight: 200;                /* ultra light */
+  letter-spacing: 0.02em;          /* 2% */
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  padding: 0 1.5rem;
+}
+.cf-textarea {
+  font-family: var(--font-sans);   /* match the name/email fields */
+  font-weight: 200;                /* ultra light */
+  letter-spacing: 0.02em;          /* 2% */
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.5;
+  /* typed text starts near the top; placeholder is centred (rule below) */
+  padding: 1.75rem 6rem 3.25rem 2.25rem;
+  overflow-y: auto;
+}
+/* placeholder sits at roughly the vertical centre */
+.cf-textarea:placeholder-shown { padding-top: 74px; }
+
+/* ---------- character counter ---------- */
+.cf-counter {
+  position: absolute;
+  left: 2.25rem;
+  bottom: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+.cf-counter.is-visible { opacity: 1; }
+
+/* ---------- send button (solid, no glass) ---------- */
+.cf-send {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  width: 76px;
+  height: 52px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--send-purple);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.2s ease;
+}
+.cf-send-icon { width: 26px; height: 26px; fill: currentColor; }
+.cf-send[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.cf-send .cf-spinner { display: none; }
+.cf-send.is-sending .cf-send-icon { display: none; }
+.cf-send.is-sending .cf-spinner {
+  display: block;
+  width: 22px; height: 22px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cf-spin 0.7s linear infinite;
+}
+@keyframes cf-spin { to { transform: rotate(360deg); } }
+
+/* ---------- tooltip (desktop hover) ---------- */
+.cf-tip {
+  position: absolute;
+  right: 28px;
+  bottom: 88px;
+  transform: translateY(4px);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(20, 16, 30, 0.92);
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.cf-tip.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- touch inline message ---------- */
+.cf-inline {
+  margin: 0.9rem 0 0;
+  min-height: 1.2em;
+  text-align: right;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.cf-inline.is-visible { opacity: 1; }
+
+/* ---------- success / failure ---------- */
+.cf-status {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: #ffffff;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+}
+.cf-status.is-visible { display: flex; }
+.cf-field--message.is-done .cf-textarea,
+.cf-field--message.is-done .cf-counter,
+.cf-field--message.is-done .cf-send { visibility: hidden; }
+
+/* collapse name + email on success */
+.cf-row.is-collapsed {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease, height 0.4s ease 0.1s;
+}
+
+/* amber invalid state */
+.cf-field.is-invalid { --glass-border: rgba(240, 180, 90, 0.85); }
+.cf-field.is-invalid .cf-input::placeholder { color: rgba(240, 180, 90, 0.9); }
+
+/* focus ring */
+.cf-field:focus-within {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35), 0 0 0 4px rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- glass base + specular rim ---------- */
+.glass {
+  position: relative;
+  border-radius: 20px;
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--glass-border);
+  /* frosted fallback (Safari/Firefox drop the url() filter) */
+  -webkit-backdrop-filter: blur(var(--glass-blur-fallback)) saturate(var(--glass-sat));
+          backdrop-filter: blur(var(--glass-blur-fallback)) saturate(var(--glass-sat));
+  overflow: hidden;
+  transition: box-shadow 0.25s ease;
+}
+/* specular rim highlight along the top-left edge (light @ -45°) */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.15) 35%,
+    rgba(255, 255, 255, 0) 55%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+/* refraction where the SVG filter is actually applied (Chromium) */
+@supports (backdrop-filter: url(#glass-single)) {
+  .cf-field--name,
+  .cf-field--email {
+    -webkit-backdrop-filter: url(#glass-single) blur(var(--glass-blur)) saturate(var(--glass-sat));
+            backdrop-filter: url(#glass-single) blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+  .cf-field--message {
+    -webkit-backdrop-filter: url(#glass-message) blur(var(--glass-blur)) saturate(var(--glass-sat));
+            backdrop-filter: url(#glass-message) blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+
+/* ---------- mobile: stack name + email ---------- */
+@media (max-width: 640px) {
+  .cf-row { flex-direction: column; max-width: none; }
+  .cf-textarea { padding: 1.5rem 4.25rem 3rem 1.5rem; }
+  .cf-textarea:placeholder-shown { padding-top: 68px; }
+  .cf-counter { left: 1.5rem; }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .cf-send, .cf-tip, .cf-inline, .cf-row, .cf-counter, .glass { transition: none; }
+  .cf-send.is-sending .cf-spinner { animation: none; }
+}
+
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;            /* clip the over-scanned layers */
+  background: var(--sky-fallback);
+}
+
+.man-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ---------- Section-transition fades ----------
+   Both edges resolve to --transition-color so the scenes meet seamlessly. */
+.hero-fade,
+.man-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--transition-fade);
+  pointer-events: none;
+}
+/* hero bottom: transparent -> colour (darkens downward) */
+.hero-fade {
+  bottom: 0;
+  z-index: 6;                  /* over every hero layer */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--transition-color) 100%);
+}
+/* computerman top: colour -> transparent, pulled well down into the image
+   with an eased multi-stop falloff so there's no perceptible edge. */
+.man-fade {
+  top: 0;
+  z-index: 1;                  /* over the image, under scrim/text */
+  height: 20vh;
+  background: linear-gradient(
+    180deg,
+    var(--transition-color) 0%,
+    rgba(0, 0, 0, 0.85) 22%,
+    rgba(0, 0, 0, 0.45) 52%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* Every parallax plane fills the hero; JS translates it on Y only. */
+.plane {
+  position: absolute;
+  inset: 0;
+  overflow: visible;           /* let the tall images spill out */
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.plane--sky     { z-index: 1; }
+.plane--type    { z-index: 2; }   /* name sits BEHIND the hill */
+.plane--hill    { z-index: 3; }
+.plane--triplet { z-index: 5; }   /* above the gradient (z-index 4) */
+
+/* ---------- Shared image composition ----------
+   The sky image and the hill canvas use the SAME width / top / transform,
+   so they overlay pixel-for-pixel and the photo reassembles. Because the
+   image is far taller than the viewport, the sky layer is intrinsically
+   over-scanned top and bottom — that surplus is the slow sky plane's
+   travel room. */
+.sky-img,
+.hill-canvas {
+  position: absolute;
+  left: 50%;
+  height: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  user-select: none;
+}
+
+/* Hill: the tuned crest placement. */
+.hill-canvas {
+  top: var(--composite-top);
+  width: var(--composite-width);
+}
+
+/* Sky: same crest anchor, but taller (extra top overscan for the drift). */
+.sky-img {
+  top: var(--sky-top);
+  width: var(--sky-width);
+  pointer-events: none;
+}
+
+/* The hill canvas just carries the hill image; the gradient + triplet are
+   siblings on the plane (below) so they stay at the viewport's lower edge
+   while still parallaxing with the hill. */
+.hill-canvas .hill-img {
+  width: 100%;
+  height: auto;
+}
+
+/* =========================================================
+   TYPE  (eyebrow + H1)
+   ========================================================= */
+.type-block {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  transform: translate(-50%, calc(-50% + var(--title-shift)));
+  text-align: center;
+  padding: 0 4vw;
+}
+
+.eyebrow {
+  margin: 0 0 0.1em;
+  transform: translateY(calc(-1 * var(--eyebrow-lift))); /* lift without moving the name */
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--eyebrow-size);
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--h1-size);
+  line-height: 0.85;
+  letter-spacing: var(--h1-tracking);
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* =========================================================
+   TRIPLET  (over the hill, lower third)
+   ========================================================= */
+.triplet {
+  position: absolute;
+  left: 50%;
+  bottom: var(--triplet-bottom);
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 2;                  /* above hill image, below gradient */
+  white-space: nowrap;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--triplet-size);
+  color: var(--triplet-ink);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.28);
+}
+.triplet em     { font-style: italic; font-weight: 400; }
+.triplet strong { font-style: normal; font-weight: 700; }
+
+/* =========================================================
+   COMPUTERMAN image (fills the pinned .man-stage)
+   ========================================================= */
+.figure-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--computerman-position);
+}
+
+/* ---------- Beat 1: scrim ----------
+   Full-bleed solid black over the image (below the text), covering it edge to
+   edge. Dissolves in as you scroll (opacity), no wipe, no gradient. The 50%
+   level lives in the background alpha (--scrim-opacity); the element opacity
+   is the 0 -> 1 dissolve JS drives. */
+.stage-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;                  /* above the image, below the text */
+  background: rgba(0, 0, 0, var(--scrim-opacity));
+  opacity: 0;                  /* dissolves in (JS-driven) */
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* ---------- Beat 2: text ----------
+   Header (Newsreader, lowercase) centred near the top; two small sans blocks
+   flank the sides; thin dividers run down the far edges. Reveal order is
+   header -> side blocks -> dividers (JS, driven by [data-reveal]). */
+.stage-text {
+  position: absolute;
+  inset: 0;
+  z-index: 2;                  /* above the scrim */
+  color: #ffffff;
+  pointer-events: none;
+}
+
+/* hidden base states (JS reveals) */
+.s2-headline,
+.s2-left,
+.s2-right { opacity: 0; transform: translateY(16px); }
+.s2-rule  { opacity: 0; transform: scaleY(0); transform-origin: top; }
+
+/* Header — Newsreader, lowercase, centred near the top. */
+.s2-headline {
+  position: absolute;
+  top: 13%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0 6vw;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  text-transform: lowercase;
+  font-size: clamp(2rem, 5.2vw, 3.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+/* Small blocks — sans, lowercase, flanking the sides. */
+.s2-left,
+.s2-right {
+  position: absolute;
+  top: 30%;
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-transform: lowercase;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+.s2-left  { left: 5vw;  text-align: left; }
+.s2-right { right: 5vw; text-align: right; }
+
+/* Thin vertical dividers on the far edges. */
+.s2-rule {
+  position: absolute;
+  top: 38%;
+  bottom: 6%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+.s2-rule--left  { left: 7vw; }
+.s2-rule--right { right: 7vw; }
+
+/* ---------- Beat 2: cards ----------
+   Two cards, centred as a group in the lower area. Widths come from each
+   source image's aspect ratio (landscape vs portrait) — the imbalance is
+   intentional. JS fades + raises them after the text. */
+.s2-cards {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4vh;
+  /* at least 38vh (narrow unchanged), but grow with width on wide screens */
+  height: max(38vh, min(32vw, 60vh));
+  z-index: 3;                  /* above scrim + text */
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2.5vw;
+  padding: 0 8vw;
+  pointer-events: none;        /* wrapper ignores; cards re-enable below */
+}
+.s2-card {
+  position: relative;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+  pointer-events: auto;
+  text-decoration: none;
+  opacity: 0;                  /* JS reveals */
+  transform: translateY(28px);
+  will-change: opacity, transform;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* animates to a soft lift on hover */
+  transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.s2-card--wide   { aspect-ratio: 4800 / 3584; } /* landscape -> wider */
+.s2-card--narrow { aspect-ratio: 3584 / 4800; } /* portrait  -> narrower */
+
+.s2-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.s2-card-grad {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+.s2-card-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: clamp(0.9rem, 1.6vw, 1.5rem);
+  color: #ffffff;
+  font-family: var(--font-serif);
+}
+.s2-card-title {
+  font-weight: 400;
+  font-size: clamp(1.05rem, 2vw, 1.75rem);
+  line-height: 1.1;
+}
+.s2-card-arrow {
+  flex: none;
+  font-size: clamp(1.05rem, 1.8vw, 1.6rem);
+  line-height: 1.1;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- Card premium hover interactions ----------
+   - white stroke draws in (::after)
+   - cursor-follow spotlight (::before, JS sets --mx/--my)
+   - image slowly zooms, arrow springs right, card lifts on a soft shadow */
+.s2-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.18),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+.s2-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  padding: 1.5px;              /* stroke thickness */
+  /* gradient stroke: white (top-left) -> transparent (bottom-right) */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude; /* keep only the border ring */
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.s2-card:hover {
+  box-shadow: 0 26px 70px -26px rgba(0, 0, 0, 0.7);
+}
+.s2-card:hover img { transform: scale(1.055); }
+.s2-card:hover::before { opacity: 1; }
+.s2-card:hover::after { opacity: 1; }
+.s2-card:hover .s2-card-arrow { transform: translateX(8px); }
+
+/* =========================================================
+   SCROLL RUNWAY  (temporary placeholder sections)
+   ========================================================= */
+.runway { position: relative; z-index: 4; }
+
+.pad {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+}
+.pad-num {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 12vw, 10rem);
+  color: #ffffff;
+  opacity: 0.06;
+  letter-spacing: 0.02em;
+}
+
+/* =========================================================
+   BREAKPOINT TUNING
+   The crest formula tracks the aspect ratio on its own, so per-width we
+   mostly nudge --crest-vh / furniture. --hill-scale only needs bumping on
+   narrow (portrait) viewports so the short image still fills the height.
+   ========================================================= */
+
+/* Wide desktop (16:9) — a touch more sky above the name. */
+@media (min-width: 1600px) {
+  :root {
+    --crest-vh: 50;
+    --title-shift: -14vh;
+  }
+}
+
+/* Portrait / mobile — the max() in --composite-width now handles the vertical
+   fill automatically, so we only tune the crest height and furniture here. */
+@media (max-width: 640px) {
+  :root {
+    --crest-vh: 50;
+    --title-shift: -11vh;
+    --triplet-bottom: 22vh;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   - parallax off (static, composed)
+   - pin off: scene collapses, hero renders once
+   - computerman becomes an ordinary full-viewport section below, opaque
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .plane {
+    will-change: auto;
+    transform: none !important;
+  }
+
+  .hero-scene,
+  .man-scene { height: auto; }          /* collapse the pins */
+  .hero,
+  .man-stage { position: static; }      /* hero, then computerman, both static */
+
+  /* Scrim fully dissolved in; all text + dividers + cards visible, no reveal. */
+  .stage-scrim { opacity: 1 !important; will-change: auto; }
+  .stage-text > *,
+  .s2-card { opacity: 1 !important; transform: none !important; }
+}

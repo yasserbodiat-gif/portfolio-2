@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yasser — UX Lead &amp; Manager</title>
+
+  <!-- Google Fonts: Anton (400), Newsreader (400, 400i, 700) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background music (autoplay is gated by the browser, so it starts on the
+       first toggle click). -->
+  <audio id="bgAudio" src="assets/Hide_Song.mp3" loop preload="auto"></audio>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <button class="sound-toggle" id="soundToggle" type="button" aria-label="Toggle sound" aria-pressed="false">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    </button>
+  </nav>
+
+  <!-- ===================== HERO SCENE =====================
+       Tall scroll container. The .hero pins while scroll drives the parallax
+       RISE (the hill climbs near the top and eases to a stop). When this scene
+       ends the pin releases and the page scrolls on to the computerman scene. -->
+  <div class="hero-scene" id="heroScene">
+
+    <!-- Sticky stage. Back -> front: 1. sky  2. eyebrow+H1  3. hill  4. triplet -->
+    <header class="hero" id="hero">
+
+      <!-- 1. SKY (back) -->
+      <div class="plane plane--sky" data-speed="sky">
+        <img
+          class="sky-img"
+          src="assets/sky_layer.png"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+      </div>
+
+      <!-- 2. TYPE (eyebrow + name) -->
+      <div class="plane plane--type" data-speed="type">
+        <div class="type-block">
+          <p class="eyebrow">user experience lead &amp; manager</p>
+          <h1 class="title">YASSER</h1>
+        </div>
+      </div>
+
+      <!-- Triplet plane (static — hill removed, no hero parallax). -->
+      <div class="plane plane--triplet" data-speed="hill">
+        <p class="triplet"><em>designer</em>. <strong>creator</strong>. strategist</p>
+      </div>
+
+    </header>
+
+  </div>
+
+  <!-- ===================== COMPUTERMAN SCENE =====================
+       A separate scene BELOW the hero. Scrolled into normally after the hero
+       rise; its .man-stage pins so the scrim + text reveal on scroll. -->
+  <div class="man-scene" id="manScene">
+    <section class="man-stage" id="manStage">
+      <img
+        class="figure-img"
+        src="assets/computerman_layer.png"
+        alt="A figure reclining in the meadow with a CRT monitor for a head reading THINKING IN SYSTEMS"
+        draggable="false"
+      />
+
+      <!-- Beat 1 — scrim dissolves in over the image, below the text -->
+      <div class="stage-scrim" id="stageScrim" aria-hidden="true"></div>
+
+      <!-- Beat 2 — reveals in order: header (0), then side blocks (1), then dividers (2) -->
+      <div class="stage-text" id="stageText">
+        <h2 class="s2-headline" data-reveal="0">helping brands build<br>experiences</h2>
+        <p class="s2-left" data-reveal="1">leading designers across four verticals</p>
+        <p class="s2-right" data-reveal="1">shaping platforms across five insurers</p>
+        <span class="s2-rule s2-rule--left" data-reveal="2" aria-hidden="true"></span>
+        <span class="s2-rule s2-rule--right" data-reveal="2" aria-hidden="true"></span>
+      </div>
+
+      <!-- Beat 2 (second tension) — cards reveal after the text + lines.
+           Widths are imbalanced by design (landscape vs portrait source). -->
+      <div class="s2-cards" id="s2Cards">
+        <a class="s2-card s2-card--wide" href="#">
+          <img src="assets/casestudy_layer.png" alt="Case studies" draggable="false" />
+          <span class="s2-card-grad" aria-hidden="true"></span>
+          <span class="s2-card-label">
+            <span class="s2-card-title">View my case studies</span>
+            <span class="s2-card-arrow" aria-hidden="true">&rarr;</span>
+          </span>
+        </a>
+        <a class="s2-card s2-card--narrow" href="#">
+          <img src="assets/aboutme_layer.png" alt="How I lead" draggable="false" />
+          <span class="s2-card-grad" aria-hidden="true"></span>
+          <span class="s2-card-label">
+            <span class="s2-card-title">How I lead</span>
+            <span class="s2-card-arrow" aria-hidden="true">&rarr;</span>
+          </span>
+        </a>
+      </div>
+
+      <!-- Transition fade: computerman bottom resolves to black -->
+      <div class="man-fade-bottom" aria-hidden="true"></div>
+    </section>
+  </div>
+
+  <!-- Small black spacer between scenes. -->
+  <section class="section-spacer" aria-hidden="true"></section>
+
+  <!-- ===================== CONTACT SCENE ===================== -->
+  <section class="contact-scene" id="contact">
+    <img
+      class="contact-bg"
+      src="assets/contactme_layer.png"
+      alt=""
+      aria-hidden="true"
+      draggable="false"
+    />
+    <!-- Transition fade: contact top resolves to black -->
+    <div class="contact-fade" aria-hidden="true"></div>
+
+    <div class="contact-inner">
+      <h2 class="contact-heading">get in touch</h2>
+
+      <form class="cf" id="contactForm" novalidate>
+        <!-- honeypot (not display:none — bots detect that) -->
+        <input class="cf-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <div class="cf-row">
+          <div class="glass cf-field cf-field--name">
+            <label class="sr-only" for="cf-name">Full name</label>
+            <input class="cf-input" id="cf-name" name="name" type="text"
+                   placeholder="Full Name" autocomplete="name" required />
+          </div>
+          <div class="glass cf-field cf-field--email">
+            <label class="sr-only" for="cf-email">Email address</label>
+            <input class="cf-input" id="cf-email" name="email" type="email"
+                   placeholder="Email Address" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="glass cf-field cf-field--message" id="cfMessagePanel">
+          <label class="sr-only" for="cf-message">Message</label>
+          <textarea class="cf-textarea" id="cf-message" name="message"
+                    placeholder="Write a message...." maxlength="1000" required></textarea>
+          <div class="cf-counter" id="cfCounter" aria-hidden="true"></div>
+
+          <button class="cf-send" id="cfSend" type="submit" aria-disabled="true" aria-label="Send message">
+            <svg class="cf-send-icon" viewBox="0 -960 960 960" aria-hidden="true">
+              <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v155l240 45-240 45v155Z"/>
+            </svg>
+            <span class="cf-spinner" aria-hidden="true"></span>
+          </button>
+
+          <div class="cf-tip" id="cfTip" role="status"></div>
+
+          <!-- success / failure replaces the message content -->
+          <div class="cf-status" id="cfStatus" aria-live="polite"></div>
+        </div>
+
+        <!-- touch-tap explanation, below the button -->
+        <p class="cf-inline" id="cfInline" aria-live="polite"></p>
+        <!-- screen-reader announcements (validation) -->
+        <p class="sr-only" id="cfAnnounce" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <!-- Liquid-glass displacement filters (feImage href set in JS) -->
+    <svg class="cf-filters" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="glass-single" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+          <feImage class="cf-map" x="0" y="0" preserveAspectRatio="none" result="map"/>
+          <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" class="cf-dispR" result="dR"/>
+          <feColorMatrix in="dR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cR"/>
+          <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" class="cf-dispG" result="dG"/>
+          <feColorMatrix in="dG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cG"/>
+          <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" class="cf-dispB" result="dB"/>
+          <feColorMatrix in="dB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="cB"/>
+          <feBlend in="cR" in2="cG" mode="screen" result="rg"/>
+          <feBlend in="rg" in2="cB" mode="screen"/>
+        </filter>
+        <filter id="glass-message" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+          <feImage class="cf-map" x="0" y="0" preserveAspectRatio="none" result="map"/>
+          <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" class="cf-dispR" result="dR"/>
+          <feColorMatrix in="dR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cR"/>
+          <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" class="cf-dispG" result="dG"/>
+          <feColorMatrix in="dG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cG"/>
+          <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" class="cf-dispB" result="dB"/>
+          <feColorMatrix in="dB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="cB"/>
+          <feBlend in="cR" in2="cG" mode="screen" result="rg"/>
+          <feBlend in="rg" in2="cB" mode="screen"/>
+        </filter>
+      </defs>
+    </svg>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
