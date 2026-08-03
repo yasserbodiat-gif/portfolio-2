@@ -1,0 +1,145 @@
+/* =========================================================
+   Case studies page — pinned background, content scrolls over it.
+   Inherits typography + colour tokens from style.css.
+   ========================================================= */
+
+.cs-body {
+  background: #000;         /* shows through before the image paints */
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* ---------- Pinned background ----------
+   Fixed to the viewport, so it never scrolls. object-fit:cover keeps it
+   filling the screen at any aspect ratio. */
+.cs-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Legibility scrim over the image — also fixed, so it pins with it. */
+.cs-bg-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Nav ---------- */
+.cs-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: clamp(1rem, 2vw, 1.75rem) clamp(1.25rem, 3vw, 2.5rem);
+}
+.cs-back {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.cs-back:hover { color: #ffffff; }
+.cs-back--footer { font-size: 1.1rem; }
+
+/* ---------- Scrolling content ----------
+   z-index 2 puts every section above the fixed image + scrim. */
+.cs-main {
+  position: relative;
+  z-index: 2;
+  padding: 0 clamp(1.25rem, 6vw, 4rem) clamp(4rem, 12vh, 9rem);
+}
+
+.cs-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cs-eyebrow {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--eyebrow-size);
+  color: rgba(255, 255, 255, 0.85);
+}
+.cs-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  text-transform: lowercase;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+/* ---------- Placeholder sections ----------
+   Each is a tall translucent panel so you can see the image sitting still
+   behind them as they scroll past. */
+.cs-section {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto clamp(3rem, 10vh, 8rem);
+  padding: clamp(2rem, 5vw, 4rem);
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+          backdrop-filter: blur(14px) saturate(1.4);
+}
+.cs-index {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-sans);
+  font-weight: 200;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.cs-heading {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  text-transform: lowercase;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+.cs-body-text {
+  margin: 0;
+  max-width: 55ch;
+  font-family: var(--font-sans);
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cs-footer {
+  text-align: center;
+  padding-top: clamp(2rem, 6vh, 4rem);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  .cs-section { min-height: 60vh; }
+}

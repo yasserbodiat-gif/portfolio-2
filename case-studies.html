@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Studies — Yasser</title>
+
+  <!-- Google Fonts: Anton (400), Newsreader (400, 400i, 700) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="case-studies.css" />
+</head>
+<body class="cs-body">
+
+  <!-- ===================== PINNED BACKGROUND =====================
+       position:fixed rather than background-attachment:fixed — the latter is
+       broken/janky on iOS Safari. This sits behind everything and never moves;
+       all the content below scrolls over it. -->
+  <img
+    class="cs-bg"
+    src="assets/view_casestudies_bg.png"
+    alt=""
+    aria-hidden="true"
+    draggable="false"
+  />
+  <!-- Slight darkening so white type stays legible over any part of the image. -->
+  <div class="cs-bg-scrim" aria-hidden="true"></div>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="cs-nav">
+    <a class="cs-back" href="index.html">&larr; back</a>
+  </nav>
+
+  <!-- ===================== SCROLLING CONTENT ===================== -->
+  <main class="cs-main">
+
+    <header class="cs-hero">
+      <p class="cs-eyebrow">selected work</p>
+      <h1 class="cs-title">case studies</h1>
+    </header>
+
+    <!-- Placeholder sections — dummy content to prove the scroll + pin. -->
+    <section class="cs-section">
+      <span class="cs-index">01</span>
+      <h2 class="cs-heading">insurance platform rebuild</h2>
+      <p class="cs-body-text">
+        Placeholder copy. A short framing of the problem, the constraints, and
+        what shipped — replaced later with the real write-up.
+      </p>
+    </section>
+
+    <section class="cs-section">
+      <span class="cs-index">02</span>
+      <h2 class="cs-heading">claims intake redesign</h2>
+      <p class="cs-body-text">
+        Placeholder copy. A short framing of the problem, the constraints, and
+        what shipped — replaced later with the real write-up.
+      </p>
+    </section>
+
+    <section class="cs-section">
+      <span class="cs-index">03</span>
+      <h2 class="cs-heading">design system rollout</h2>
+      <p class="cs-body-text">
+        Placeholder copy. A short framing of the problem, the constraints, and
+        what shipped — replaced later with the real write-up.
+      </p>
+    </section>
+
+    <section class="cs-section">
+      <span class="cs-index">04</span>
+      <h2 class="cs-heading">broker portal</h2>
+      <p class="cs-body-text">
+        Placeholder copy. A short framing of the problem, the constraints, and
+        what shipped — replaced later with the real write-up.
+      </p>
+    </section>
+
+    <footer class="cs-footer">
+      <a class="cs-back cs-back--footer" href="index.html">&larr; back to home</a>
+    </footer>
+
+  </main>
+
+</body>
+</html>
