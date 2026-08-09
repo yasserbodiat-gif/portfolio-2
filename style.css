@@ -1107,6 +1107,38 @@ body {
   background: linear-gradient(150deg, #1c1c22 0%, #3a2f4d 100%);
 }
 
+.tile-github {
+  background: #18181b;
+}
+
+.tile-github svg {
+  width: 62%;
+}
+
+/* Adobe apps are wordmark tiles rather than glyphs. */
+.tile-ps {
+  background: #001e36;
+}
+
+.tile-ai {
+  background: #330000;
+}
+
+.adobe-mark {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.tile-ps .adobe-mark {
+  color: #31a8ff;
+}
+
+.tile-ai .adobe-mark {
+  color: #ff9a00;
+}
+
 /* ── Tooltip ───────────────────────────────────────────── */
 .dock-tip {
   position: absolute;
