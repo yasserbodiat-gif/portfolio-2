@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -53,6 +53,44 @@
       <span class="desk-icon-label">Case Studies</span>
     </button>
   </main>
+
+  <!-- ── Now Playing widget ───────────────────────────────── -->
+  <aside class="player" id="player" aria-label="Now playing">
+    <div class="player-head">
+      <span class="player-cover">
+        <img id="trackCover" src="" alt="" hidden>
+      </span>
+      <span class="player-meta">
+        <span class="player-title" id="trackTitle">—</span>
+        <span class="player-artist" id="trackArtist">—</span>
+      </span>
+    </div>
+
+    <div class="player-controls">
+      <button class="pbtn" id="prevBtn" aria-label="Previous track">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M7 5h2.2v14H7V5Zm11 .8v12.4a.8.8 0 0 1-1.24.67l-9.3-6.2a.8.8 0 0 1 0-1.34l9.3-6.2A.8.8 0 0 1 18 5.8Z"/>
+        </svg>
+      </button>
+
+      <button class="pbtn pbtn-play" id="playBtn" aria-label="Play">
+        <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M8 5.14v13.72a.7.7 0 0 0 1.07.6l10.6-6.86a.7.7 0 0 0 0-1.2L9.07 4.54A.7.7 0 0 0 8 5.14Z"/>
+        </svg>
+        <svg class="ico-pause" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M7 4.5h3.2v15H7v-15Zm6.8 0H17v15h-3.2v-15Z"/>
+        </svg>
+      </button>
+
+      <button class="pbtn" id="nextBtn" aria-label="Next track">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M14.8 5h2.2v14h-2.2V5ZM6 5.8a.8.8 0 0 1 1.24-.67l9.3 6.2a.8.8 0 0 1 0 1.34l-9.3 6.2A.8.8 0 0 1 6 18.2V5.8Z"/>
+        </svg>
+      </button>
+    </div>
+
+    <audio id="audio" preload="none"></audio>
+  </aside>
 
   <!-- ── Finder window ────────────────────────────────────── -->
   <div class="finder" id="caseStudiesWindow" role="dialog" aria-modal="false" aria-labelledby="finderTitle" hidden>
@@ -149,6 +187,6 @@
 
 </div>
 
-<script src="main.js?v=3"></script>
+<script src="main.js?v=4"></script>
 </body>
 </html>
