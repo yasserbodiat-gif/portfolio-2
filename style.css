@@ -127,6 +127,235 @@ body {
   font-size: 13px;
 }
 
+/* ── Desktop icons ─────────────────────────────────────── */
+.desktop-icons {
+  flex: 1;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.desk-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 92px;
+  padding: 8px 4px 6px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+}
+
+.desk-icon:hover,
+.desk-icon.is-open {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.desk-icon:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
+}
+
+.desk-icon-art {
+  display: block;
+  width: 58px;
+  filter: drop-shadow(0 4px 8px rgba(20, 8, 40, 0.4));
+}
+
+.desk-icon-art svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.desk-icon-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+/* ── Finder window ─────────────────────────────────────── */
+.finder {
+  position: fixed;
+  z-index: 50;
+  top: 96px;
+  left: 132px;
+  width: min(520px, calc(100vw - 32px));
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(38, 30, 52, 0.62);
+  border: 1px solid var(--hairline);
+  box-shadow: 0 24px 60px rgba(12, 4, 24, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(34px) saturate(180%);
+  -webkit-backdrop-filter: blur(34px) saturate(180%);
+  transform-origin: top left;
+  animation: finder-open 0.22s var(--ease);
+}
+
+.finder[hidden] {
+  display: none;
+}
+
+.finder.is-closing {
+  animation: finder-close 0.16s var(--ease) forwards;
+}
+
+@keyframes finder-open {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
+}
+
+@keyframes finder-close {
+  to {
+    opacity: 0;
+    transform: scale(0.94) translateY(-6px);
+  }
+}
+
+.finder-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: grab;
+  user-select: none;
+}
+
+.finder-bar.is-dragging {
+  cursor: grabbing;
+}
+
+.traffic {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.light {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.18);
+}
+
+.light.close {
+  background: #ff5f57;
+  cursor: pointer;
+}
+
+.light.min {
+  background: #febc2e;
+}
+
+.light.max {
+  background: #28c840;
+}
+
+.light.close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.finder-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.finder-count {
+  margin-left: auto;
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.finder-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 6px;
+  padding: 16px 14px 20px;
+  max-height: min(420px, 60vh);
+  overflow-y: auto;
+}
+
+.finder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s var(--ease);
+}
+
+.finder-item:hover,
+.finder-item:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+}
+
+.file-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 58px;
+  border-radius: 5px;
+  background: linear-gradient(160deg, #ffffff 0%, #e6e2ee 100%);
+  box-shadow: 0 3px 10px rgba(20, 8, 40, 0.35);
+}
+
+/* Folded top-right corner, the way a document icon reads in Finder. */
+.file-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 0 5px 0 5px;
+  background: rgba(120, 105, 145, 0.35);
+}
+
+.file-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #6a5a86;
+}
+
+.file-name {
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.file-meta {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
 /* ── Dock ──────────────────────────────────────────────── */
 .dock-wrap {
   position: relative;
@@ -265,9 +494,25 @@ body {
   }
 }
 
+@media (max-width: 560px) {
+  .finder {
+    top: 78px;
+    left: 16px;
+  }
+
+  .desktop-icons {
+    padding: 16px 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dock-item,
   .dock-tip {
     transition: none;
+  }
+
+  .finder,
+  .finder.is-closing {
+    animation: none;
   }
 }

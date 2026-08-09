@@ -30,6 +30,60 @@
     </div>
   </header>
 
+  <!-- ── Desktop icons ────────────────────────────────────── -->
+  <main class="desktop-icons">
+    <button class="desk-icon" id="caseStudiesIcon" aria-haspopup="dialog" aria-expanded="false" aria-controls="caseStudiesWindow">
+      <span class="desk-icon-art">
+        <svg viewBox="0 0 64 52" aria-hidden="true">
+          <defs>
+            <linearGradient id="folderBack" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#6fc4ff"/>
+              <stop offset="1" stop-color="#3d9de0"/>
+            </linearGradient>
+            <linearGradient id="folderFront" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#8fd4ff"/>
+              <stop offset="1" stop-color="#4aa8ea"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#folderBack)" d="M0 8a6 6 0 0 1 6-6h17.2c1.6 0 3.1.6 4.2 1.8L31 7h27a6 6 0 0 1 6 6v33a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V8Z"/>
+          <path fill="url(#folderFront)" d="M0 17h64v29a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V17Z"/>
+        </svg>
+      </span>
+      <span class="desk-icon-label">Case Studies</span>
+    </button>
+  </main>
+
+  <!-- ── Finder window ────────────────────────────────────── -->
+  <div class="finder" id="caseStudiesWindow" role="dialog" aria-modal="false" aria-labelledby="finderTitle" hidden>
+    <div class="finder-bar" id="finderBar">
+      <div class="traffic">
+        <button class="light close" id="finderClose" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="finderTitle">Case Studies</span>
+      <span class="finder-count">3 items</span>
+    </div>
+
+    <div class="finder-body">
+      <a class="finder-item" href="#">
+        <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
+        <span class="file-name">Case Study 01</span>
+        <span class="file-meta">Coming soon</span>
+      </a>
+      <a class="finder-item" href="#">
+        <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
+        <span class="file-name">Case Study 02</span>
+        <span class="file-meta">Coming soon</span>
+      </a>
+      <a class="finder-item" href="#">
+        <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
+        <span class="file-name">Case Study 03</span>
+        <span class="file-meta">Coming soon</span>
+      </a>
+    </div>
+  </div>
+
   <!-- ── Dock ─────────────────────────────────────────────── -->
   <footer class="dock-wrap">
     <span class="dock-label">Tech Stack</span>

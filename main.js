@@ -20,6 +20,84 @@
   tick();
 })();
 
+/* Case Studies folder — opens a Finder-style window that can be dragged. */
+(function finder() {
+  const icon = document.getElementById("caseStudiesIcon");
+  const win = document.getElementById("caseStudiesWindow");
+  const bar = document.getElementById("finderBar");
+  const closeBtn = document.getElementById("finderClose");
+  if (!icon || !win || !bar || !closeBtn) return;
+
+  const open = () => {
+    win.classList.remove("is-closing");
+    win.hidden = false;
+    icon.classList.add("is-open");
+    icon.setAttribute("aria-expanded", "true");
+    closeBtn.focus();
+  };
+
+  const close = () => {
+    if (win.hidden) return;
+    icon.classList.remove("is-open");
+    icon.setAttribute("aria-expanded", "false");
+    win.classList.add("is-closing");
+    // Wait for the shrink to finish before pulling it from the layout.
+    win.addEventListener(
+      "animationend",
+      () => {
+        win.hidden = true;
+        win.classList.remove("is-closing");
+      },
+      { once: true }
+    );
+    icon.focus();
+  };
+
+  icon.addEventListener("click", () => (win.hidden ? open() : close()));
+  closeBtn.addEventListener("click", close);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  /* Drag by the title bar, clamped so the window can't be lost off-screen. */
+  let startX = 0;
+  let startY = 0;
+  let originLeft = 0;
+  let originTop = 0;
+
+  bar.addEventListener("pointerdown", (e) => {
+    if (e.target.closest(".light")) return; // let the traffic lights be clicked
+    const box = win.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    originLeft = box.left;
+    originTop = box.top;
+    bar.classList.add("is-dragging");
+    bar.setPointerCapture(e.pointerId);
+  });
+
+  bar.addEventListener("pointermove", (e) => {
+    if (!bar.hasPointerCapture(e.pointerId)) return;
+    const box = win.getBoundingClientRect();
+    const maxLeft = window.innerWidth - box.width;
+    // Keep the title bar below the menu bar and always reachable.
+    const maxTop = window.innerHeight - 44;
+    const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+    win.style.left = clamp(originLeft + (e.clientX - startX), 0, maxLeft) + "px";
+    win.style.top = clamp(originTop + (e.clientY - startY), 30, maxTop) + "px";
+  });
+
+  const endDrag = (e) => {
+    bar.classList.remove("is-dragging");
+    if (bar.hasPointerCapture(e.pointerId)) bar.releasePointerCapture(e.pointerId);
+  };
+
+  bar.addEventListener("pointerup", endDrag);
+  bar.addEventListener("pointercancel", endDrag);
+})();
+
 /* Dock magnification — neighbours scale on a falloff curve from the cursor. */
 (function dockMagnify() {
   const dock = document.getElementById("dock");
