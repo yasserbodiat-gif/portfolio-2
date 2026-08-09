@@ -1103,10 +1103,6 @@ body {
   background: #fff;
 }
 
-.tile-higgsfield {
-  background: linear-gradient(150deg, #1c1c22 0%, #3a2f4d 100%);
-}
-
 .tile-github {
   background: #18181b;
 }
