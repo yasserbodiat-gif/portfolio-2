@@ -857,6 +857,24 @@ body {
   position: relative;
 }
 
+/* Figures and sub-headings nested inside a panel need their own rhythm —
+   between panels the .cd-body flex gap already handles it. */
+.cd-section .cd-figure {
+  margin-top: 20px;
+}
+
+.cd-p + .cd-h3,
+.cd-cards + .cd-h3,
+.cd-specs + .cd-h3,
+.cd-figure + .cd-h3,
+.cd-steps + .cd-h3 {
+  margin-top: 30px;
+}
+
+.cd-figure + .cd-specs {
+  margin-top: 16px;
+}
+
 .cd-figure img {
   display: block;
   width: 100%;
@@ -886,6 +904,23 @@ body {
 
 .cd-figure.is-missing .cd-ph {
   display: grid;
+}
+
+/* Portrait screens and small illustration tiles need their own proportions,
+   otherwise a 16/9 placeholder misrepresents what will sit there. */
+.cd-figure--phone .cd-ph {
+  aspect-ratio: 9 / 16;
+  max-width: 280px;
+  margin-inline: auto;
+}
+
+.cd-figure--phone img {
+  max-width: 280px;
+  margin-inline: auto;
+}
+
+.cd-figure--tile .cd-ph {
+  aspect-ratio: 1 / 1;
 }
 
 .cd-ph-name {
