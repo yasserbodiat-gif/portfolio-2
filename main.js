@@ -99,6 +99,17 @@ const TRACKS = [
   load(0, false);
 })();
 
+/* Case study figures — show the labelled placeholder until the real image
+   file exists, so dropping a screenshot into assets/ needs no code change. */
+(function figurePlaceholders() {
+  document.querySelectorAll(".cd-figure img").forEach((img) => {
+    const miss = () => img.closest(".cd-figure").classList.add("is-missing");
+    // A cached failure can land before this script runs.
+    if (img.complete && img.naturalWidth === 0) miss();
+    img.addEventListener("error", miss);
+  });
+})();
+
 /* Desktop windows — one factory drives every draggable window on screen. */
 (function windows() {
   let topZ = 50; // bumped so the most recently touched window sits in front
@@ -204,6 +215,7 @@ const TRACKS = [
   makeWindow("resumeIcon", "resumeWindow");
   // Opened from inside the folder rather than from a desktop icon.
   makeWindow("caseStudy1Item", "caseStudy1Window");
+  makeWindow("caseStudy2Item", "caseStudy2Window");
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && opened.length) opened[opened.length - 1].close();

@@ -6,9 +6,9 @@
 <title>Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -122,11 +122,11 @@
         <span class="file-name">Sales Flow Redesign</span>
         <span class="file-meta">TIH · 2025</span>
       </button>
-      <a class="finder-item" href="#">
+      <button class="finder-item" id="caseStudy2Item" aria-haspopup="dialog" aria-expanded="false" aria-controls="caseStudy2Window">
         <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
-        <span class="file-name">Case Study 02</span>
-        <span class="file-meta">Coming soon</span>
-      </a>
+        <span class="file-name">Marketing Templatisation</span>
+        <span class="file-meta">TIH · 2026</span>
+      </button>
       <a class="finder-item" href="#">
         <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
         <span class="file-name">Case Study 03</span>
@@ -157,7 +157,7 @@
     </div>
   </div>
 
-  <!-- ── Case study window ────────────────────────────────── -->
+  <!-- ── Case study 01 ────────────────────────────────────── -->
   <div class="finder win-doc win-case" id="caseStudy1Window" role="dialog" aria-modal="false" aria-labelledby="caseStudy1Title" hidden>
     <div class="win-bar">
       <div class="traffic">
@@ -168,69 +168,70 @@
       <span class="finder-title" id="caseStudy1Title">Sales Flow Redesign</span>
     </div>
 
-    <!-- Every .ph block is a placeholder awaiting a real screenshot. -->
-    <div class="case-body">
+    <div class="cd-body">
 
-      <!-- Hero -->
-      <header class="case-hero">
-        <div class="case-hero-col">
-          <p class="case-hero-lede">
-            Redesigning the short-term insurance sales flows across all 5 brands
-            and for all products
-          </p>
-          <p class="case-stat"><b>66% Flow reduction</b>Strategic redesign to reduce form fatigue and abandonment</p>
-          <p class="case-stat"><b>4.5%</b>Increase end-to-end digital policy sales to 4.5% from 2.5%</p>
-          <p class="case-client"><span class="case-rule"></span>Telesure Investment Holdings</p>
+      <header class="cd-hero">
+        <h1 class="cd-hero-title">sales flow redesign</h1>
+        <p class="cd-p cd-p--lead">
+          Redesigning the short-term insurance sales flows across all 5 brands and
+          for all products.
+        </p>
+        <ul class="cd-tags">
+          <li class="cd-tag">Design Lead</li>
+          <li class="cd-tag">Telesure Investment Holdings</li>
+          <li class="cd-tag">2025</li>
+          <li class="cd-tag">5 Brands</li>
+          <li class="cd-tag">Customer Journeys</li>
+          <li class="cd-tag">Design Systems</li>
+        </ul>
+
+        <div class="cd-stats">
+          <p><span class="cd-stat-num">66%</span><span class="cd-stat-label">Flow reduction — strategic redesign to reduce form fatigue and abandonment</span></p>
+          <p><span class="cd-stat-num">4.5%</span><span class="cd-stat-label">Increase end-to-end digital policy sales to 4.5% from 2.5%</span></p>
         </div>
-
-        <div class="ph ph-hero">Hero image</div>
-
-        <dl class="case-facts">
-          <dt>Year</dt><dd>2025</dd>
-          <dt>Role</dt><dd>Design Lead</dd>
-          <dt>Remit</dt>
-          <dd>Build customer journeys<br>Design systems<br>Proof of concept<br>Manage design teams</dd>
-        </dl>
       </header>
 
-      <!-- Overview -->
-      <section class="case-card">
-        <h2>Project overview</h2>
-        <p>
+      <figure class="cd-figure">
+        <img src="assets/cs-tih-1.jpg" alt="Sales flow redesign hero">
+        <div class="cd-ph"><span class="cd-ph-name">cs-tih-1.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Hero image</figcaption>
+      </figure>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">project overview</h2>
+        <p class="cd-p">
           Part of my role within TIH is to optimise our sales flows for short-term
-          insurance on digital platforms. Instead of simply optimising small portions
-          of the flow, I proposed a big-bang rebuild/redesign which would enhance the
-          customer experience and mitigate abandonment by reducing the cognitive load
-          customers currently experience while simultaneously bringing more joy to an
-          otherwise cumbersome and frictional experience.
+          insurance on digital platforms. Instead of simply optimising small portions of
+          the flow, I proposed a big-bang rebuild/redesign which would enhance the customer
+          experience and mitigate abandonment by reducing the cognitive load customers
+          currently experience while simultaneously bringing more joy to an otherwise
+          cumbersome and frictional experience.
         </p>
 
-        <h2>The problem statement</h2>
-        <p>
+        <h2 class="cd-h2">the problem statement</h2>
+        <p class="cd-p">
           The current sales journey is long and cumbersome, which risks losing customers
-          along the way. Entry points provide little context, and motivation to complete
-          can taper off without stronger cues to build trust and momentum. By rethinking
-          the flow through UX optimisation, we can create a simpler, more engaging
-          experience that sets the stage for growth and confidently accommodates upcoming
-          multi-risk and multi-vehicle inclusions.
+          along the way. Entry points provide little context, and motivation to complete can
+          taper off without stronger cues to build trust and momentum. By rethinking the flow
+          through UX optimisation, we can create a simpler, more engaging experience that sets
+          the stage for growth and confidently accommodates upcoming multi-risk and
+          multi-vehicle inclusions.
         </p>
       </section>
 
-      <!-- Process -->
-      <section class="case-card">
-        <h2>Our process</h2>
-        <ol class="case-process">
-          <li><span class="case-step">1</span>Research</li>
-          <li><span class="case-step">2</span>Build</li>
-          <li><span class="case-step">3</span>Validate</li>
-          <li><span class="case-step">4</span>Release</li>
-        </ol>
+      <section class="cd-section">
+        <h2 class="cd-h2">our process</h2>
+        <div class="cd-cards">
+          <div class="cd-card"><span class="cd-card-num">01</span><h3 class="cd-card-title">research</h3></div>
+          <div class="cd-card"><span class="cd-card-num">02</span><h3 class="cd-card-title">build</h3></div>
+          <div class="cd-card"><span class="cd-card-num">03</span><h3 class="cd-card-title">validate</h3></div>
+          <div class="cd-card"><span class="cd-card-num">04</span><h3 class="cd-card-title">release</h3></div>
+        </div>
       </section>
 
-      <!-- Data -->
-      <section class="case-card">
-        <h2>Using data to define</h2>
-        <p>
+      <section class="cd-section">
+        <h2 class="cd-h2">using data to define</h2>
+        <p class="cd-p">
           Our data analysts consistently tracked key metrics across the sales funnel,
           including abandonment rates, premium views, and end-to-end conversions. With an
           end-to-end close rate of 1.8%, it became clear that meaningful improvement would
@@ -240,87 +241,117 @@
         </p>
       </section>
 
-      <div class="ph ph-wide">Product photograph</div>
+      <figure class="cd-figure">
+        <img src="assets/cs-tih-2.jpg" alt="Product photograph">
+        <div class="cd-ph"><span class="cd-ph-name">cs-tih-2.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Product photograph</figcaption>
+      </figure>
 
-      <!-- Research -->
-      <section class="case-card">
-        <h2>Research, research + more research..</h2>
-        <p>
+      <section class="cd-section">
+        <h2 class="cd-h2">research, research + more research..</h2>
+        <p class="cd-p">
           Research is not a one-off phase in our process — it's something we continuously
           invest in where time allows. Alongside internal data, my team and I benchmarked
           established UX patterns across insurance, fintech, and best-in-class consumer
           products to understand where friction typically emerges and what genuinely drives
           completion.
         </p>
-        <p>
+        <p class="cd-p">
           By analysing models such as MQPS vs OQPS, reviewing behavioural research, and
           studying proven principles from teams like Headspace and Google, we were able to
-          ground design decisions in evidence rather than intuition. This approach ensured
-          the redesigned flow wasn't just visually improved, but deliberately structured to
-          reduce cognitive load, build trust earlier, and maintain momentum throughout the
-          journey.
+          ground design decisions in evidence rather than intuition. This approach ensured the
+          redesigned flow wasn't just visually improved, but deliberately structured to reduce
+          cognitive load, build trust earlier, and maintain momentum throughout the journey.
         </p>
       </section>
 
-      <div class="ph-grid">
-        <div class="ph">Design principles board</div>
-        <div class="ph">Headspace design principles</div>
-        <div class="ph">Principle intensity plot</div>
-        <div class="ph">Component audit</div>
+      <div class="cd-gallery">
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-3.jpg" alt="Design principles board">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-3.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Design principles board</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-4.jpg" alt="Headspace design principles">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-4.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Headspace design principles</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-5.jpg" alt="Principle intensity plot">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-5.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Principle intensity plot</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-6.jpg" alt="Component audit">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-6.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Component audit</figcaption>
+        </figure>
       </div>
 
-      <!-- Metrics -->
-      <section class="case-card">
-        <h2>Quantifiable metrics</h2>
-        <div class="case-metrics">
-          <p><b>66%</b>Reduction in new flow length (end-to-end)</p>
-          <p><b>82%</b>Reduction in below the fold content</p>
-          <p><b>27</b>No. of pages reduced from start quote to premium viewed</p>
+      <section class="cd-section">
+        <h2 class="cd-h2">quantifiable metrics</h2>
+        <div class="cd-stats">
+          <p><span class="cd-stat-num">66%</span><span class="cd-stat-label">Reduction in new flow length (end-to-end)</span></p>
+          <p><span class="cd-stat-num">82%</span><span class="cd-stat-label">Reduction in below the fold content</span></p>
+          <p><span class="cd-stat-num">27</span><span class="cd-stat-label">No. of pages reduced from start quote to premium viewed</span></p>
         </div>
       </section>
 
-      <!-- Outcomes -->
-      <section class="case-card case-card-center">
-        <h2>Key Outcomes</h2>
-        <div class="case-outcomes">
-          <p>Reduce friction and cognitive load across the entire sales journey</p>
-          <p>Increase E2E conversion with trust and momentum</p>
-          <p>Deliver a scalable, future-fit sales framework</p>
+      <section class="cd-section">
+        <h2 class="cd-h2">key outcomes</h2>
+        <div class="cd-cards">
+          <div class="cd-card"><span class="cd-card-num">01</span><p class="cd-card-body">Reduce friction and cognitive load across the entire sales journey</p></div>
+          <div class="cd-card"><span class="cd-card-num">02</span><p class="cd-card-body">Increase E2E conversion with trust and momentum</p></div>
+          <div class="cd-card"><span class="cd-card-num">03</span><p class="cd-card-body">Deliver a scalable, future-fit sales framework</p></div>
         </div>
       </section>
 
-      <!-- Leadership -->
-      <section class="case-card">
-        <h2>Taking the vision to leadership</h2>
-        <p>
+      <section class="cd-section">
+        <h2 class="cd-h2">taking the vision to leadership</h2>
+        <p class="cd-p">
           Once the future sales flow had been defined, I first took the concept through the
           Head of Digital and the Executive for Customer Experience to validate the direction
           and pressure-test the thinking. Following alignment at that level, I was invited to
           present the proposal to the executive steering committee, including the CEO.
         </p>
-        <p>
+        <p class="cd-p">
           The presentation focused on clearly articulating the problem, the data-led rationale
           for a ground-up rebuild, and how the proposed flow would improve conversion while
           setting a scalable foundation for the future. The outcome of the session was clear
           alignment and approval to proceed with the rebuild and redesign of the sales journey.
         </p>
-        <p>
+        <p class="cd-p">
           Below are selected slides from the executive presentation used to align leadership
           on the proposed future sales flow.
         </p>
       </section>
 
-      <div class="ph-grid">
-        <div class="ph">Problem Statement slide</div>
-        <div class="ph">Comparative Insights slide</div>
-        <div class="ph">Opportunities slide</div>
-        <div class="ph">Digital Enablement slide</div>
+      <div class="cd-gallery">
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-7.jpg" alt="Problem statement slide">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-7.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Problem Statement slide</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-8.jpg" alt="Comparative insights slide">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-8.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Comparative Insights slide</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-9.jpg" alt="Opportunities slide">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-9.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Opportunities slide</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-tih-10.jpg" alt="Digital enablement slide">
+          <div class="cd-ph"><span class="cd-ph-name">cs-tih-10.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">TIH: Digital Enablement slide</figcaption>
+        </figure>
       </div>
 
-      <!-- Prototype -->
-      <section class="case-card">
-        <h2>Full prototype</h2>
-        <p>
+      <section class="cd-section">
+        <h2 class="cd-h2">full prototype</h2>
+        <p class="cd-p">
           In addition to outlining the problem and the data-led rationale for a ground-up
           rebuild, we showcased a fully interactive prototype of the end-to-end journey. This
           allowed the executive team to experience the proposed flow firsthand, making the
@@ -330,18 +361,292 @@
         </p>
       </section>
 
-      <div class="ph ph-wide">Prototype flow</div>
+      <figure class="cd-figure">
+        <img src="assets/cs-tih-11.jpg" alt="Prototype flow">
+        <div class="cd-ph"><span class="cd-ph-name">cs-tih-11.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Prototype flow</figcaption>
+      </figure>
 
-      <!-- Sections still to come — copy not yet supplied. -->
-      <section class="case-card case-card-todo">
-        <h2>From approval to build</h2>
-        <p class="case-todo">Copy and screenshots to follow.</p>
+      <section class="cd-section cd-section--todo">
+        <h2 class="cd-h2">from approval to build</h2>
+        <p class="cd-todo">Copy and screenshots to follow.</p>
+        <h2 class="cd-h2">validating the experience with real users</h2>
+        <p class="cd-todo">Copy and screenshots to follow.</p>
+        <h2 class="cd-h2">from system to scale</h2>
+        <p class="cd-todo">Copy and screenshots to follow.</p>
+      </section>
 
-        <h2>Validating the experience with real users</h2>
-        <p class="case-todo">Copy and screenshots to follow.</p>
+    </div>
+  </div>
 
-        <h2>From system to scale</h2>
-        <p class="case-todo">Copy and screenshots to follow.</p>
+  <!-- ── Case study 02 ────────────────────────────────────── -->
+  <div class="finder win-doc win-case" id="caseStudy2Window" role="dialog" aria-modal="false" aria-labelledby="caseStudy2Title" hidden>
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="caseStudy2Title">Marketing Templatisation</span>
+    </div>
+
+    <div class="cd-body">
+
+      <header class="cd-hero">
+        <h1 class="cd-hero-title">marketing templatisation</h1>
+        <p class="cd-p cd-p--lead">
+          A component system that took page publishing out of the dev queue.
+        </p>
+        <ul class="cd-tags">
+          <li class="cd-tag">Design Lead</li>
+          <li class="cd-tag">Product Owner</li>
+          <li class="cd-tag">SME</li>
+          <li class="cd-tag">5 Brands</li>
+          <li class="cd-tag">Optimizely (Angular)</li>
+          <li class="cd-tag">Design System</li>
+        </ul>
+      </header>
+
+      <figure class="cd-figure">
+        <img src="assets/cs-mt-1.jpg" alt="Auto &amp; General car insurance page">
+        <div class="cd-ph"><span class="cd-ph-name">cs-mt-1.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Auto &amp; General car insurance page — a block component skinned to a TIH brand palette</figcaption>
+      </figure>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">the problem</h2>
+        <p class="cd-p">
+          Every new marketing page at TIH depended on developer availability. Five brands, no
+          shared component system, and marketing teams unable to build or edit even simple
+          pages without engineering capacity — which meant brand and content decisions were
+          bottlenecked by dev queue, not by strategy.
+        </p>
+      </section>
+
+      <figure class="cd-figure">
+        <img src="assets/cs-mt-2.jpg" alt="Marketing pages queued behind developer availability">
+        <div class="cd-ph"><span class="cd-ph-name">cs-mt-2.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Marketing pages queued behind developer availability across five brands</figcaption>
+      </figure>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">grounding the work in evidence</h2>
+        <p class="cd-p">
+          Before any component was built, I established the case. I audited industry UX
+          research, benchmarked best-in-class insurance and SaaS sites, and mapped the gap
+          between where TIH's brands were and where they needed to be — presenting findings to
+          leadership to align around a shared technical direction.
+        </p>
+
+        <div class="cd-cards">
+          <div class="cd-card">
+            <span class="cd-card-num">01</span>
+            <h3 class="cd-card-title">industry best practice research</h3>
+            <p class="cd-card-body">Reviewed proven UX &amp; conversion principles to define the benchmark we should aspire to.</p>
+          </div>
+          <div class="cd-card">
+            <span class="cd-card-num">02</span>
+            <h3 class="cd-card-title">as-is audit of current sites</h3>
+            <p class="cd-card-body">Audited current sites against the benchmark to identify key gaps and opportunities.</p>
+          </div>
+          <div class="cd-card">
+            <span class="cd-card-num">03</span>
+            <h3 class="cd-card-title">inspiration scanning</h3>
+            <p class="cd-card-body">Understood effective patterns and approaches to explore ways of closing the gaps.</p>
+          </div>
+        </div>
+
+        <p class="cd-table-label">table a — best-practice benchmark</p>
+        <div class="cd-table-scroll">
+          <table class="cd-table">
+            <thead>
+              <tr><th scope="col">Segment</th><th scope="col">Insight</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Micro-Interactions / Emotional Design</td><td>Thought-out micro-interactions lift conversions by up to 40%.<span class="cd-src">saleshub.ca</span></td></tr>
+              <tr><td>Non-Generic CTAs</td><td>Smart, personalised CTAs convert 202% better than generic ones.<span class="cd-src">blog.hubspot.com</span></td></tr>
+              <tr><td>Trust Markers &amp; Social Proofing</td><td>Adding a trust badge increased conversions by 42% in A/B tests.<span class="cd-src">nestify.io</span></td></tr>
+              <tr><td>Hero Videos</td><td>A background hero video can boost conversions up to 80% (Forbes data).<span class="cd-src">vwo.com</span></td></tr>
+              <tr><td>Visual Storytelling</td><td>Visual content drives a 150% surge in engagement and a 27% higher click-through rate compared with text-only content.<span class="cd-src">medium.com</span></td></tr>
+              <tr><td>Whitespace</td><td>Adding whitespace around key elements boosts conversion and speeds reading by 20%.<span class="cd-src">smashingmagazine.com</span></td></tr>
+              <tr><td>Copy</td><td>Unbounce's benchmark: pages with under 100 words convert 50% better than pages with 500+ words.<span class="cd-src">smashingmagazine.com</span></td></tr>
+              <tr><td>Interactive Content</td><td>Interactive (dynamic) content is shown to double conversions versus static formats.<span class="cd-src">embryo.com</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="cd-table-label">table b — as-is audit of current sites</p>
+        <div class="cd-table-scroll">
+          <table class="cd-table">
+            <thead>
+              <tr><th scope="col">Segment</th><th scope="col">As-Is</th><th scope="col">Why it matters</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Social Proof</td><td>None of our sites surfaces real testimonials above the fold.</td><td>Real voices feel more trustworthy than brand claims; immediate social validation builds trust with customers.</td></tr>
+              <tr><td>Micro-Interactions &amp; Emotional Design</td><td>Overall feel is static / transactional, with limited feedback or delight elements.</td><td>Responsive, "alive" interfaces signal quality and care; users feel guided and reassured that the brand is modern and attentive.</td></tr>
+              <tr><td>Headline</td><td>Headlines compete with dense sub-copy, carousel slides, or badge overlays, diluting a single, memorable benefit.</td><td>Clear, focused messaging lets visitors instantly grasp "what's in it for me," boosting engagement and reducing bounce.</td></tr>
+              <tr><td>Compelling Visuals</td><td>Heavy reliance on generic stock across all brands; very limited animated or interactive design elements.</td><td>Owned visuals elevate perceived quality, differentiate from competitors, and build an emotional connection faster than text.</td></tr>
+              <tr><td>Captivating Heroes</td><td>All have functional CTAs, but heroes feel cluttered and copy-dense; none balance whitespace, headline, and visual hierarchy like modern best-in-class sites.</td><td>A clean, confident hero is the first thing most customers will see.</td></tr>
+              <tr><td>Copy</td><td>Averaging well over 600 words per page. The heavy copy reduces the ability to quickly scan.</td><td>Concise, skimmable copy respects visitors' time, feels modern, and lets visuals and CTAs shine — improving first impressions.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">aligning leadership around a clear opportunity</h2>
+        <p class="cd-p">
+          With the evidence in place, I led the stakeholder alignment process — presenting the
+          case for a unified design system to executive and marketing leadership across five
+          brands. The outcome was a shared understanding of the problem and buy-in to build a
+          scalable solution rather than continue with one-off page builds.
+        </p>
+      </section>
+
+      <figure class="cd-figure">
+        <img src="assets/cs-mt-3.jpg" alt="Leadership alignment deck">
+        <div class="cd-ph"><span class="cd-ph-name">cs-mt-3.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Leadership alignment deck — inspiration scanning, audit gap-to-pattern mapping, and reusable block concepts presented to executive and marketing stakeholders</figcaption>
+      </figure>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">the solution: a shared technical design framework</h2>
+        <p class="cd-p">
+          Marketing Templatisation is a reusable, CMS-editable block component library built in
+          Optimizely (Angular). Non-technical marketing staff can assemble and publish pages
+          across all five TIH brands without developer involvement. The system is built as
+          infrastructure — a set of decisions that hold across five different brand identities
+          at once.
+        </p>
+
+        <div class="cd-specs">
+          <div class="cd-spec">
+            <h3 class="cd-spec-title">container &amp; breakpoints</h3>
+            <p class="cd-spec-body">1100px fixed desktop inner container. Responsive mobile at 100% minus 16px each side. Single 1199px breakpoint. No tablet view.</p>
+          </div>
+          <div class="cd-spec">
+            <h3 class="cd-spec-title">token naming</h3>
+            <p class="cd-spec-body">Functional naming (brand-primary, brand-secondary) not brand-literal — the same block re-skins across all five brands without touching the underlying component.</p>
+          </div>
+          <div class="cd-spec">
+            <h3 class="cd-spec-title">theme engine</h3>
+            <p class="cd-spec-body">Five semantic themes (style-primary, style-white, style-secondary, style-interactive, style-surface) govern how any block can present. Theme switching works via variable name assignment, not hex values — making brand-agnostic theming possible at scale.</p>
+          </div>
+          <div class="cd-spec">
+            <h3 class="cd-spec-title">block naming convention</h3>
+            <p class="cd-spec-body">3-letter category codes plus sequential variant numbers (e.g. HRO-001) — a shared vocabulary between design, content, and dev that removes ambiguity from every handoff and ticket.</p>
+          </div>
+          <div class="cd-spec">
+            <h3 class="cd-spec-title">spacing &amp; type scale</h3>
+            <p class="cd-spec-body">80px/40px block padding, 40px column gutter, Tailwind CSS font scale — applied consistently regardless of which brand skin is active.</p>
+          </div>
+          <div class="cd-spec">
+            <h3 class="cd-spec-title">live technical specification</h3>
+            <p class="cd-spec-body">The full system specification is hosted as a live HTML document on Netlify — not a static handoff. It includes a changelog, block anatomy, token definitions, and responsive rules. It is the single source of truth for design and the external dev team.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="cd-gallery">
+        <figure class="cd-figure">
+          <img src="assets/cs-mt-4.jpg" alt="Block anatomy spec">
+          <div class="cd-ph"><span class="cd-ph-name">cs-mt-4.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Block anatomy spec: the 1100px rule — outer frame at 100vw, fixed 1100px inner container on desktop, responsive 100% minus 16px each side on mobile, single 1199px breakpoint, with labelled padding and container-width diagrams</figcaption>
+        </figure>
+        <figure class="cd-figure">
+          <img src="assets/cs-mt-5.jpg" alt="Theme variable mapping">
+          <div class="cd-ph"><span class="cd-ph-name">cs-mt-5.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+          <figcaption class="cd-cap">Theme variable mapping: the same block re-skinned across style-primary, style-white, style-secondary, and style-interactive themes, with each colour-1 through colour-6 token resolving to a different brand hex value</figcaption>
+        </figure>
+      </div>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">responsive behaviour defined</h2>
+        <p class="cd-p">
+          Every block in the system has a defined mobile behaviour — not retrofitted after
+          desktop build but specified at the point of component design. The 1199px breakpoint
+          collapses layouts to single column, adjusts padding to 16px per side, and reorders
+          content where visual hierarchy demands it.
+        </p>
+      </section>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">adoption &amp; rollout</h2>
+        <ol class="cd-steps">
+          <li class="cd-step">
+            <span class="cd-step-label">Stage 1</span>
+            <p class="cd-step-title">First brand go-live (October 2026)</p>
+          </li>
+          <li class="cd-step">
+            <span class="cd-step-label">Stage 2</span>
+            <p class="cd-step-title">Configured onto all remaining brands</p>
+          </li>
+        </ol>
+        <p class="cd-p">
+          Marketing Templatisation is set to go live on its first brand in October 2026. From
+          there it will be configured onto the remaining brands, with each completed build
+          serving as the proof case for the next.
+        </p>
+      </section>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">operational impact</h2>
+        <p class="cd-p">
+          Once live, marketing teams will be able to build and publish pages without raising a
+          developer ticket. Design direction is enforced at the token level, not through review
+          cycles. All five brands can share one system without any brand losing its individual
+          identity.
+        </p>
+
+        <div class="cd-cards">
+          <div class="cd-card">
+            <span class="cd-card-num">01</span>
+            <h3 class="cd-card-title">faster campaign turnaround</h3>
+            <p class="cd-card-body">Campaigns and CRO optimisation ship far faster, with no dev queue sitting between an idea and a published page.</p>
+          </div>
+          <div class="cd-card">
+            <span class="cd-card-num">02</span>
+            <h3 class="cd-card-title">design freed for strategy</h3>
+            <p class="cd-card-body">The design team's focus shifts from mundane website updates to strategic redesign and higher-value work.</p>
+          </div>
+          <div class="cd-card">
+            <span class="cd-card-num">03</span>
+            <h3 class="cd-card-title">optimised by default</h3>
+            <p class="cd-card-body">Every block bakes in UX best practice, CRO, SEO and AEO optimisation — so pages start optimised, not retrofitted.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">governance &amp; sustainability</h2>
+        <p class="cd-p">
+          The system is maintained through a live Netlify-hosted specification with a versioned
+          changelog. Design decisions are documented at the point they are made — not
+          reconstructed after the fact. The external dev team and internal designers work from
+          the same source of truth, keeping design intent intact through every sprint.
+        </p>
+      </section>
+
+      <figure class="cd-figure">
+        <img src="assets/cs-mt-7.jpg" alt="Changelog section of the live tech spec">
+        <div class="cd-ph"><span class="cd-ph-name">cs-mt-7.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+        <figcaption class="cd-cap">Changelog section of the live tech spec — dated entries tracking token, typography, colour and responsive-framework changes, kept as a versioned record of design decisions</figcaption>
+      </figure>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">gallery</h2>
+        <div class="cd-gallery" style="margin-top:22px">
+          <figure class="cd-figure">
+            <img src="assets/cs-mt-6.jpg" alt="Auto &amp; General page rendered from the block system">
+            <div class="cd-ph"><span class="cd-ph-name">cs-mt-6.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+            <figcaption class="cd-cap">Auto &amp; General car insurance page rendered from the block system — the same components shown on desktop and mobile, skinned to the brand's palette and type</figcaption>
+          </figure>
+          <figure class="cd-figure">
+            <img src="assets/cs-mt-8.jpg" alt="The design source file behind the system">
+            <div class="cd-ph"><span class="cd-ph-name">cs-mt-8.jpg</span><span class="cd-ph-note">placeholder — add to /assets to replace</span></div>
+            <figcaption class="cd-cap">The design source file behind the system — brand pages, component library and shared text styles that every block is built and maintained from</figcaption>
+          </figure>
+        </div>
       </section>
 
     </div>
@@ -411,6 +716,6 @@
 
 </div>
 
-<script src="main.js?v=8"></script>
+<script src="main.js?v=9"></script>
 </body>
 </html>

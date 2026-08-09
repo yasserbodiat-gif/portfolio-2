@@ -530,229 +530,415 @@ body {
   }
 }
 
-/* ── Case study window ─────────────────────────────────── */
+/* ── Case study window ─────────────────────────────────────
+   Carries over the design language of the original case study
+   pages: lowercase Newsreader headings, ultra-light sans body,
+   translucent panels over the desktop, purple accent.
+   ───────────────────────────────────────────────────────── */
 .win-case {
-  --case-ink: rgba(255, 255, 255, 0.82);
-  --case-accent: #eda29e;
-  --case-card: #1f1f21;
-  width: min(880px, calc(100vw - 40px));
+  --cd-serif: "Newsreader", Georgia, serif;
+  --cd-accent: #9d82e8;
+  --cd-ink: rgba(255, 255, 255, 0.84);
+  width: min(900px, calc(100vw - 40px));
 }
 
-.case-body {
+.cd-body {
   height: min(680px, calc(100vh - 140px));
   overflow-y: auto;
-  padding: 22px;
+  padding: 26px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  background: #121213;
-  color: var(--case-ink);
+  gap: 22px;
+  background: rgba(16, 12, 24, 0.55);
+  color: var(--cd-ink);
   text-shadow: none;
 }
 
-.case-card {
-  padding: 26px 28px;
-  border-radius: 16px;
-  background: var(--case-card);
+/* Panels */
+.cd-section {
+  padding: 30px 32px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
-.case-card-center {
-  text-align: center;
-}
-
-.case-body h2 {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--case-accent);
-}
-
-.case-body p {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* Direct children only — the metric and outcome grids hold sibling <p>s of
-   their own that must not inherit this vertical rhythm. */
-.case-card > h2 + p {
-  margin-top: 12px;
-}
-
-.case-card > p + p,
-.case-card > p + h2 {
-  margin-top: 18px;
-}
-
-/* Hero */
-.case-hero {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr 0.8fr;
-  gap: 24px;
-  padding: 28px;
-  border-radius: 16px;
-  background: linear-gradient(150deg, #2a2440 0%, #191722 60%, #131217 100%);
-}
-
-.case-hero-col {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.case-hero-lede {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.45;
-}
-
-.case-stat b {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 3px;
-}
-
-.case-stat {
-  font-size: 12px;
-  line-height: 1.45;
-  opacity: 0.72;
-}
-
-.case-client {
-  margin-top: auto;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0.55;
-}
-
-.case-rule {
-  display: block;
-  width: 34px;
-  height: 1px;
-  margin-bottom: 10px;
-  background: currentColor;
-  opacity: 0.5;
-}
-
-.case-facts {
-  font-size: 13px;
-}
-
-.case-facts dt {
-  font-size: 11px;
-  opacity: 0.5;
-}
-
-.case-facts dd {
-  font-weight: 600;
-  line-height: 1.5;
-  margin-bottom: 14px;
-}
-
-/* Process */
-.case-process {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-  list-style: none;
-}
-
-.case-process li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-}
-
-.case-step {
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--case-accent);
-  background: rgba(237, 162, 158, 0.16);
-}
-
-/* Metrics and outcomes */
-.case-metrics,
-.case-outcomes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 22px;
-  margin-top: 20px;
-}
-
-.case-metrics p {
-  font-size: 12px;
-  line-height: 1.45;
-  opacity: 0.7;
-}
-
-.case-metrics b {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 28px;
-  font-weight: 600;
-  opacity: 1;
+/* Type */
+.cd-hero-title,
+.cd-h2,
+.cd-h3 {
+  font-family: var(--cd-serif);
+  text-transform: lowercase;
+  letter-spacing: -0.03em;
   color: #fff;
 }
 
-.case-outcomes p {
-  font-size: 13px;
-  line-height: 1.5;
+.cd-hero-title {
+  font-weight: 300;
+  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  line-height: 1.04;
 }
 
-/* Placeholders — swapped for real screenshots later. */
-.ph {
-  display: grid;
-  place-items: center;
-  min-height: 150px;
-  padding: 20px;
-  border-radius: 14px;
-  border: 1px dashed rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.04);
-  font-size: 12px;
+.cd-h2 {
+  font-weight: 300;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  line-height: 1.1;
+}
+
+.cd-h3 {
+  font-weight: 400;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.cd-p {
+  max-width: 68ch;
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.cd-h2 + .cd-p,
+.cd-h3 + .cd-p {
+  margin-top: 14px;
+}
+
+.cd-p + .cd-p {
+  margin-top: 14px;
+}
+
+.cd-p + .cd-h2 {
+  margin-top: 26px;
+}
+
+.cd-p--lead {
+  font-family: var(--cd-serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Hero */
+.cd-hero {
+  padding: 34px 32px 32px;
+  border-radius: 20px;
+  background: linear-gradient(150deg, rgba(58, 44, 96, 0.6) 0%, rgba(20, 16, 30, 0.62) 70%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.cd-hero .cd-p--lead {
+  margin-top: 12px;
+}
+
+.cd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 22px;
+  list-style: none;
+}
+
+.cd-tag {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  font-weight: 200;
   letter-spacing: 0.04em;
+  font-size: 0.76rem;
+  text-transform: lowercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Numbered cards */
+.cd-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.1rem;
+  margin-top: 22px;
+}
+
+.cd-card {
+  padding: 1.4rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.cd-card-num {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 200;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: var(--cd-accent);
+}
+
+.cd-card-title {
+  margin-bottom: 0.45rem;
+  font-family: var(--cd-serif);
+  font-weight: 400;
+  text-transform: lowercase;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.cd-card-body {
+  font-weight: 200;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Stat row */
+.cd-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1.4rem;
+  margin-top: 22px;
+}
+
+.cd-stat-num {
+  display: block;
+  font-family: var(--cd-serif);
+  font-weight: 300;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: #fff;
+}
+
+.cd-stat-label {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: 200;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* Definition-style spec list */
+.cd-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.1rem;
+  margin-top: 22px;
+}
+
+.cd-spec {
+  padding: 1.3rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.cd-spec-title {
+  margin-bottom: 0.5rem;
+  font-family: var(--cd-serif);
+  font-weight: 400;
+  text-transform: lowercase;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.cd-spec-body {
+  font-weight: 200;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Tables — wide ones scroll inside the panel, never the window. */
+.cd-table-label {
+  margin-top: 26px;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cd-table-scroll {
+  overflow-x: auto;
+  margin-top: 12px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.cd-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-weight: 200;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cd-table th,
+.cd-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cd-table th {
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cd-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.cd-src {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Stepper */
+.cd-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.1rem;
+  margin-top: 22px;
+  list-style: none;
+}
+
+.cd-step {
+  position: relative;
+  padding: 1.4rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.cd-step::before {
+  content: "";
+  position: absolute;
+  left: 1.4rem;
+  top: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--cd-accent);
+}
+
+.cd-step-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 200;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.cd-step-title {
+  font-family: var(--cd-serif);
+  font-weight: 400;
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* Figures — the <img> points at its real path. Until that file exists
+   the onerror hook adds .is-missing and the labelled placeholder shows
+   instead, so dropping the real image in needs no code change. */
+.cd-figure {
+  position: relative;
+}
+
+.cd-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.cd-ph {
+  display: none;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  padding: 1.5rem;
   text-align: center;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.045) 0 12px,
+    rgba(255, 255, 255, 0.02) 12px 24px
+  );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
-.ph-hero {
-  min-height: 200px;
+.cd-figure.is-missing img {
+  display: none;
 }
 
-.ph-wide {
-  min-height: 260px;
+.cd-figure.is-missing .cd-ph {
+  display: grid;
 }
 
-/* 280px floor lands on a tidy 2x2 at the window's width, as in the original. */
-.ph-grid {
+.cd-ph-name {
+  display: block;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cd-ph-note {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: 200;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.cd-cap {
+  margin-top: 0.7rem;
+  font-weight: 200;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cd-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 14px;
+  gap: 1.3rem;
 }
 
-.case-card-todo {
-  border: 1px dashed rgba(255, 255, 255, 0.14);
-  background: transparent;
-}
-
-.case-todo {
+/* Sections still awaiting copy */
+.cd-todo {
   margin-top: 8px;
-  font-size: 13px;
+  font-weight: 200;
   font-style: italic;
-  opacity: 0.5;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-@media (max-width: 720px) {
-  .case-hero {
-    grid-template-columns: 1fr;
-  }
+.cd-section--todo {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.cd-section--todo .cd-h2 {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cd-section--todo .cd-h2 + .cd-h2 {
+  margin-top: 26px;
 }
 
 /* Once dragged, the window owns its own coordinates and the centring
