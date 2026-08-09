@@ -1,0 +1,263 @@
+/* ── Reset ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bar-h: 30px;
+  --glass: rgba(255, 255, 255, 0.16);
+  --glass-strong: rgba(255, 255, 255, 0.24);
+  --hairline: rgba(255, 255, 255, 0.22);
+  --text: rgba(255, 255, 255, 0.95);
+  --shadow: 0 8px 32px rgba(20, 8, 40, 0.35);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── Desktop ───────────────────────────────────────────── */
+/* The gradient is a stand-in for the dusk tones in the photo and
+   shows through until assets/background.jpg is added. */
+.desktop {
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    image-set(url("assets/background.jpg") 1x),
+    radial-gradient(120% 90% at 42% 34%, #f2c4a8 0%, rgba(242, 196, 168, 0) 45%),
+    linear-gradient(180deg, #5b4a78 0%, #8a5f8c 38%, #a86a83 62%, #3d2b4a 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ── Menu bar ──────────────────────────────────────────── */
+.menubar {
+  position: relative;
+  z-index: 10;
+  height: var(--bar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.menubar-left,
+.menubar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.menubar-right {
+  gap: 12px;
+}
+
+.menu-item {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 6px;
+  transition: background 0.15s var(--ease);
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.menu-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  color: inherit;
+  opacity: 0.92;
+  transition: background 0.15s var(--ease), opacity 0.15s var(--ease);
+}
+
+.menu-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.menu-icon:hover {
+  background: rgba(255, 255, 255, 0.22);
+  opacity: 1;
+}
+
+.menu-clock {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* ── Dock ──────────────────────────────────────────────── */
+.dock-wrap {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Clears the tallest magnified icon so the label never collides with it. */
+  gap: 22px;
+  padding-bottom: 18px;
+}
+
+.dock-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.dock {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 22px;
+  background: var(--glass);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+.dock-item {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  /* --scale is written by main.js for the magnification effect */
+  transform: scale(var(--scale, 1));
+  transform-origin: bottom center;
+  transition: transform 0.18s var(--ease);
+}
+
+.dock-item:active {
+  transform: scale(calc(var(--scale, 1) * 0.92));
+}
+
+.dock-tile {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(20, 8, 40, 0.32);
+}
+
+.dock-tile svg {
+  width: 56%;
+  height: 56%;
+  display: block;
+}
+
+.tile-figma {
+  background: #fff;
+}
+
+.tile-figma svg {
+  width: 40%;
+}
+
+.tile-claude {
+  background: #faf9f5;
+}
+
+.tile-slack {
+  background: #fff;
+}
+
+.tile-higgsfield {
+  background: linear-gradient(150deg, #1c1c22 0%, #3a2f4d 100%);
+}
+
+/* ── Tooltip ───────────────────────────────────────────── */
+.dock-tip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  background: rgba(28, 20, 40, 0.72);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s var(--ease), transform 0.15s var(--ease);
+}
+
+.dock-item:hover .dock-tip,
+.dock-item:focus-visible .dock-tip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.dock-item:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+/* ── Small screens ─────────────────────────────────────── */
+@media (max-width: 560px) {
+  .menubar {
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+  .menu-item {
+    padding: 3px 7px;
+  }
+
+  .dock {
+    gap: 8px;
+  }
+
+  .dock-tile {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-item,
+  .dock-tip {
+    transition: none;
+  }
+}
