@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
   <!-- ── Menu bar ─────────────────────────────────────────── -->
   <header class="menubar">
     <nav class="menubar-left">
-      <a class="menu-item" href="assets/cv.pdf" download>Download CV</a>
+      <a class="menu-item" id="cvLink" href="assets/YasserB_CV_2026_2027.pdf" target="_blank" rel="noopener">Download CV</a>
       <a class="menu-item" href="mailto:hello@example.com">Contact Me</a>
     </nav>
 
@@ -51,6 +51,18 @@
         </svg>
       </span>
       <span class="desk-icon-label">Case Studies</span>
+    </button>
+
+    <button class="desk-icon" id="resumeIcon" aria-haspopup="dialog" aria-expanded="false" aria-controls="resumeWindow">
+      <span class="desk-icon-art desk-icon-page">
+        <span class="page-sheet">
+          <span class="page-rule"></span>
+          <span class="page-rule short"></span>
+          <span class="page-rule"></span>
+          <span class="page-rule short"></span>
+        </span>
+      </span>
+      <span class="desk-icon-label">Resume</span>
     </button>
   </main>
 
@@ -94,7 +106,7 @@
 
   <!-- ── Finder window ────────────────────────────────────── -->
   <div class="finder" id="caseStudiesWindow" role="dialog" aria-modal="false" aria-labelledby="finderTitle" hidden>
-    <div class="finder-bar" id="finderBar">
+    <div class="win-bar" id="finderBar">
       <div class="traffic">
         <button class="light close" id="finderClose" aria-label="Close"></button>
         <span class="light min" aria-hidden="true"></span>
@@ -120,6 +132,28 @@
         <span class="file-name">Case Study 03</span>
         <span class="file-meta">Coming soon</span>
       </a>
+    </div>
+  </div>
+
+  <!-- ── Resume window ────────────────────────────────────── -->
+  <div class="finder win-doc" id="resumeWindow" role="dialog" aria-modal="false" aria-labelledby="resumeTitle" hidden>
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="resumeTitle">Resume</span>
+      <a class="win-action" href="assets/YasserB_CV_2026_2027.pdf" download>Download</a>
+    </div>
+
+    <!-- Page images rather than an embedded PDF: inline PDF rendering is
+         inconsistent across browsers and blocked outright on iOS Safari.
+         Regenerate with the script in README.md when the CV changes. -->
+    <div class="doc-body">
+      <img class="doc-page" src="assets/resume-p1.jpg" alt="Resume page 1" loading="lazy">
+      <img class="doc-page" src="assets/resume-p2.jpg" alt="Resume page 2" loading="lazy">
+      <img class="doc-page" src="assets/resume-p3.jpg" alt="Resume page 3" loading="lazy">
     </div>
   </div>
 
@@ -187,6 +221,6 @@
 
 </div>
 
-<script src="main.js?v=4"></script>
+<script src="main.js?v=6"></script>
 </body>
 </html>

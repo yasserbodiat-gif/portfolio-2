@@ -175,6 +175,35 @@ body {
   display: block;
 }
 
+/* Paper-sheet icon for document items, drawn rather than shipped as art. */
+.desk-icon-page {
+  display: grid;
+  place-items: center;
+  height: 58px;
+}
+
+.page-sheet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 42px;
+  height: 54px;
+  padding: 0 7px;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #fdfcf8 0%, #ece7dc 100%);
+}
+
+.page-rule {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(90, 76, 110, 0.32);
+}
+
+.page-rule.short {
+  width: 62%;
+}
+
 .desk-icon-label {
   font-size: 11px;
   font-weight: 500;
@@ -364,7 +393,7 @@ body {
   }
 }
 
-.finder-bar {
+.win-bar {
   position: relative;
   display: flex;
   align-items: center;
@@ -377,7 +406,7 @@ body {
   user-select: none;
 }
 
-.finder-bar.is-dragging {
+.win-bar.is-dragging {
   cursor: grabbing;
 }
 
@@ -427,6 +456,89 @@ body {
   margin-left: auto;
   font-size: 11px;
   opacity: 0.6;
+}
+
+.win-action {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background 0.15s var(--ease);
+}
+
+.win-action:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+/* ── Document window (Resume) ──────────────────────────── */
+.win-doc {
+  top: 74px;
+  left: 50%;
+  width: min(760px, calc(100vw - 40px));
+  transform: translateX(-50%);
+  transform-origin: top center;
+}
+
+.doc-body {
+  height: min(660px, calc(100vh - 150px));
+  overflow-y: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: rgba(20, 15, 28, 0.5);
+}
+
+.doc-page {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(8, 3, 16, 0.45);
+}
+
+/* The open/close keyframes reset transform, which would undo the centring
+   above, so the document window gets its own pair. */
+.win-doc {
+  animation: doc-open 0.22s var(--ease);
+}
+
+.win-doc.is-closing {
+  animation: doc-close 0.16s var(--ease) forwards;
+}
+
+@keyframes doc-open {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.94) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1) translateY(0);
+  }
+}
+
+@keyframes doc-close {
+  to {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96) translateY(-6px);
+  }
+}
+
+/* Once dragged, the window owns its own coordinates and the centring
+   transform must go — including in the close animation. */
+.win-doc.is-moved {
+  transform: none;
+  transform-origin: top left;
+}
+
+.win-doc.is-moved.is-closing {
+  animation-name: finder-close;
 }
 
 .finder-body {

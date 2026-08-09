@@ -99,82 +99,113 @@ const TRACKS = [
   load(0, false);
 })();
 
-/* Case Studies folder — opens a Finder-style window that can be dragged. */
-(function finder() {
-  const icon = document.getElementById("caseStudiesIcon");
-  const win = document.getElementById("caseStudiesWindow");
-  const bar = document.getElementById("finderBar");
-  const closeBtn = document.getElementById("finderClose");
-  if (!icon || !win || !bar || !closeBtn) return;
+/* Desktop windows — one factory drives every draggable window on screen. */
+(function windows() {
+  let topZ = 50; // bumped so the most recently touched window sits in front
+  const opened = []; // most recent last, so Escape closes the top one
 
-  const open = () => {
-    win.classList.remove("is-closing");
-    win.hidden = false;
-    icon.classList.add("is-open");
-    icon.setAttribute("aria-expanded", "true");
-    closeBtn.focus();
+  const makeWindow = (iconId, winId) => {
+    const icon = document.getElementById(iconId);
+    const win = document.getElementById(winId);
+    if (!icon || !win) return null;
+
+    const bar = win.querySelector(".win-bar");
+    const closeBtn = win.querySelector(".light.close");
+    if (!bar || !closeBtn) return null;
+
+    const front = () => (win.style.zIndex = ++topZ);
+
+    const open = () => {
+      win.classList.remove("is-closing");
+      win.hidden = false;
+      icon.classList.add("is-open");
+      icon.setAttribute("aria-expanded", "true");
+      front();
+      if (!opened.includes(api)) opened.push(api);
+      closeBtn.focus();
+    };
+
+    const close = () => {
+      if (win.hidden) return;
+      icon.classList.remove("is-open");
+      icon.setAttribute("aria-expanded", "false");
+      win.classList.add("is-closing");
+      // Wait for the shrink to finish before pulling it from the layout.
+      win.addEventListener(
+        "animationend",
+        () => {
+          win.hidden = true;
+          win.classList.remove("is-closing");
+        },
+        { once: true }
+      );
+      const i = opened.indexOf(api);
+      if (i > -1) opened.splice(i, 1);
+      icon.focus();
+    };
+
+    const api = { open, close, isOpen: () => !win.hidden };
+
+    icon.addEventListener("click", () => (win.hidden ? open() : close()));
+    closeBtn.addEventListener("click", close);
+    win.addEventListener("pointerdown", front);
+
+    /* Drag by the title bar, clamped so the window can't be lost off-screen. */
+    let startX = 0;
+    let startY = 0;
+    let originLeft = 0;
+    let originTop = 0;
+
+    bar.addEventListener("pointerdown", (e) => {
+      if (e.target.closest(".light")) return; // let the traffic lights be clicked
+      const box = win.getBoundingClientRect();
+
+      // A window centred with translateX(-50%) would jump by half its width
+      // the moment we start writing pixel coordinates. Freeze it in place
+      // first; .is-moved drops the transform and swaps in matching keyframes.
+      if (!win.classList.contains("is-moved")) {
+        win.classList.add("is-moved");
+        win.style.left = box.left + "px";
+        win.style.top = box.top + "px";
+      }
+
+      startX = e.clientX;
+      startY = e.clientY;
+      originLeft = box.left;
+      originTop = box.top;
+      bar.classList.add("is-dragging");
+      bar.setPointerCapture(e.pointerId);
+    });
+
+    bar.addEventListener("pointermove", (e) => {
+      if (!bar.hasPointerCapture(e.pointerId)) return;
+      const box = win.getBoundingClientRect();
+      const maxLeft = window.innerWidth - box.width;
+      // Keep the title bar below the menu bar and always reachable.
+      const maxTop = window.innerHeight - 44;
+      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+      win.style.left = clamp(originLeft + (e.clientX - startX), 0, maxLeft) + "px";
+      win.style.top = clamp(originTop + (e.clientY - startY), 30, maxTop) + "px";
+    });
+
+    const endDrag = (e) => {
+      bar.classList.remove("is-dragging");
+      if (bar.hasPointerCapture(e.pointerId)) bar.releasePointerCapture(e.pointerId);
+    };
+
+    bar.addEventListener("pointerup", endDrag);
+    bar.addEventListener("pointercancel", endDrag);
+
+    return api;
   };
 
-  const close = () => {
-    if (win.hidden) return;
-    icon.classList.remove("is-open");
-    icon.setAttribute("aria-expanded", "false");
-    win.classList.add("is-closing");
-    // Wait for the shrink to finish before pulling it from the layout.
-    win.addEventListener(
-      "animationend",
-      () => {
-        win.hidden = true;
-        win.classList.remove("is-closing");
-      },
-      { once: true }
-    );
-    icon.focus();
-  };
-
-  icon.addEventListener("click", () => (win.hidden ? open() : close()));
-  closeBtn.addEventListener("click", close);
+  makeWindow("caseStudiesIcon", "caseStudiesWindow");
+  makeWindow("resumeIcon", "resumeWindow");
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
+    if (e.key === "Escape" && opened.length) opened[opened.length - 1].close();
   });
-
-  /* Drag by the title bar, clamped so the window can't be lost off-screen. */
-  let startX = 0;
-  let startY = 0;
-  let originLeft = 0;
-  let originTop = 0;
-
-  bar.addEventListener("pointerdown", (e) => {
-    if (e.target.closest(".light")) return; // let the traffic lights be clicked
-    const box = win.getBoundingClientRect();
-    startX = e.clientX;
-    startY = e.clientY;
-    originLeft = box.left;
-    originTop = box.top;
-    bar.classList.add("is-dragging");
-    bar.setPointerCapture(e.pointerId);
-  });
-
-  bar.addEventListener("pointermove", (e) => {
-    if (!bar.hasPointerCapture(e.pointerId)) return;
-    const box = win.getBoundingClientRect();
-    const maxLeft = window.innerWidth - box.width;
-    // Keep the title bar below the menu bar and always reachable.
-    const maxTop = window.innerHeight - 44;
-    const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-
-    win.style.left = clamp(originLeft + (e.clientX - startX), 0, maxLeft) + "px";
-    win.style.top = clamp(originTop + (e.clientY - startY), 30, maxTop) + "px";
-  });
-
-  const endDrag = (e) => {
-    bar.classList.remove("is-dragging");
-    if (bar.hasPointerCapture(e.pointerId)) bar.releasePointerCapture(e.pointerId);
-  };
-
-  bar.addEventListener("pointerup", endDrag);
-  bar.addEventListener("pointercancel", endDrag);
 })();
 
 /* Dock magnification — neighbours scale on a falloff curve from the cursor. */
