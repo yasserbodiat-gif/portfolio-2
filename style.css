@@ -30,8 +30,8 @@ body {
 }
 
 /* ── Desktop ───────────────────────────────────────────── */
-/* The gradient is a stand-in for the dusk tones in the photo and
-   shows through until assets/background.jpg is added. */
+/* The gradient sits under the photo in the same dusk palette, so the layout
+   still reads correctly for the moment before the image decodes. */
 .desktop {
   position: relative;
   height: 100dvh;
@@ -40,12 +40,22 @@ body {
   flex-direction: column;
   justify-content: space-between;
   background:
-    image-set(url("assets/background.jpg") 1x),
+    url("assets/background.jpg"),
     radial-gradient(120% 90% at 42% 34%, #f2c4a8 0%, rgba(242, 196, 168, 0) 45%),
     linear-gradient(180deg, #5b4a78 0%, #8a5f8c 38%, #a86a83 62%, #3d2b4a 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Phones and small laptops get the 1440px cut instead of the 2560px one. */
+@media (max-width: 900px) {
+  .desktop {
+    background-image:
+      url("assets/background-small.jpg"),
+      radial-gradient(120% 90% at 42% 34%, #f2c4a8 0%, rgba(242, 196, 168, 0) 45%),
+      linear-gradient(180deg, #5b4a78 0%, #8a5f8c 38%, #a86a83 62%, #3d2b4a 100%);
+  }
 }
 
 /* ── Menu bar ──────────────────────────────────────────── */
