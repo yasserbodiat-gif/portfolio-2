@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -117,11 +117,11 @@
     </div>
 
     <div class="finder-body">
-      <a class="finder-item" href="#">
+      <button class="finder-item" id="caseStudy1Item" aria-haspopup="dialog" aria-expanded="false" aria-controls="caseStudy1Window">
         <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
-        <span class="file-name">Case Study 01</span>
-        <span class="file-meta">Coming soon</span>
-      </a>
+        <span class="file-name">Sales Flow Redesign</span>
+        <span class="file-meta">TIH · 2025</span>
+      </button>
       <a class="finder-item" href="#">
         <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
         <span class="file-name">Case Study 02</span>
@@ -154,6 +154,196 @@
       <img class="doc-page" src="assets/resume-p1.jpg" alt="Resume page 1" loading="lazy">
       <img class="doc-page" src="assets/resume-p2.jpg" alt="Resume page 2" loading="lazy">
       <img class="doc-page" src="assets/resume-p3.jpg" alt="Resume page 3" loading="lazy">
+    </div>
+  </div>
+
+  <!-- ── Case study window ────────────────────────────────── -->
+  <div class="finder win-doc win-case" id="caseStudy1Window" role="dialog" aria-modal="false" aria-labelledby="caseStudy1Title" hidden>
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="caseStudy1Title">Sales Flow Redesign</span>
+    </div>
+
+    <!-- Every .ph block is a placeholder awaiting a real screenshot. -->
+    <div class="case-body">
+
+      <!-- Hero -->
+      <header class="case-hero">
+        <div class="case-hero-col">
+          <p class="case-hero-lede">
+            Redesigning the short-term insurance sales flows across all 5 brands
+            and for all products
+          </p>
+          <p class="case-stat"><b>66% Flow reduction</b>Strategic redesign to reduce form fatigue and abandonment</p>
+          <p class="case-stat"><b>4.5%</b>Increase end-to-end digital policy sales to 4.5% from 2.5%</p>
+          <p class="case-client"><span class="case-rule"></span>Telesure Investment Holdings</p>
+        </div>
+
+        <div class="ph ph-hero">Hero image</div>
+
+        <dl class="case-facts">
+          <dt>Year</dt><dd>2025</dd>
+          <dt>Role</dt><dd>Design Lead</dd>
+          <dt>Remit</dt>
+          <dd>Build customer journeys<br>Design systems<br>Proof of concept<br>Manage design teams</dd>
+        </dl>
+      </header>
+
+      <!-- Overview -->
+      <section class="case-card">
+        <h2>Project overview</h2>
+        <p>
+          Part of my role within TIH is to optimise our sales flows for short-term
+          insurance on digital platforms. Instead of simply optimising small portions
+          of the flow, I proposed a big-bang rebuild/redesign which would enhance the
+          customer experience and mitigate abandonment by reducing the cognitive load
+          customers currently experience while simultaneously bringing more joy to an
+          otherwise cumbersome and frictional experience.
+        </p>
+
+        <h2>The problem statement</h2>
+        <p>
+          The current sales journey is long and cumbersome, which risks losing customers
+          along the way. Entry points provide little context, and motivation to complete
+          can taper off without stronger cues to build trust and momentum. By rethinking
+          the flow through UX optimisation, we can create a simpler, more engaging
+          experience that sets the stage for growth and confidently accommodates upcoming
+          multi-risk and multi-vehicle inclusions.
+        </p>
+      </section>
+
+      <!-- Process -->
+      <section class="case-card">
+        <h2>Our process</h2>
+        <ol class="case-process">
+          <li><span class="case-step">1</span>Research</li>
+          <li><span class="case-step">2</span>Build</li>
+          <li><span class="case-step">3</span>Validate</li>
+          <li><span class="case-step">4</span>Release</li>
+        </ol>
+      </section>
+
+      <!-- Data -->
+      <section class="case-card">
+        <h2>Using data to define</h2>
+        <p>
+          Our data analysts consistently tracked key metrics across the sales funnel,
+          including abandonment rates, premium views, and end-to-end conversions. With an
+          end-to-end close rate of 1.8%, it became clear that meaningful improvement would
+          require more than incremental tweaks. To drive higher conversions in the next
+          financial year, we rebuilt the sales flow from the ground up — focusing on speed,
+          clarity, and a more future-fit experience across the entire funnel.
+        </p>
+      </section>
+
+      <div class="ph ph-wide">Product photograph</div>
+
+      <!-- Research -->
+      <section class="case-card">
+        <h2>Research, research + more research..</h2>
+        <p>
+          Research is not a one-off phase in our process — it's something we continuously
+          invest in where time allows. Alongside internal data, my team and I benchmarked
+          established UX patterns across insurance, fintech, and best-in-class consumer
+          products to understand where friction typically emerges and what genuinely drives
+          completion.
+        </p>
+        <p>
+          By analysing models such as MQPS vs OQPS, reviewing behavioural research, and
+          studying proven principles from teams like Headspace and Google, we were able to
+          ground design decisions in evidence rather than intuition. This approach ensured
+          the redesigned flow wasn't just visually improved, but deliberately structured to
+          reduce cognitive load, build trust earlier, and maintain momentum throughout the
+          journey.
+        </p>
+      </section>
+
+      <div class="ph-grid">
+        <div class="ph">Design principles board</div>
+        <div class="ph">Headspace design principles</div>
+        <div class="ph">Principle intensity plot</div>
+        <div class="ph">Component audit</div>
+      </div>
+
+      <!-- Metrics -->
+      <section class="case-card">
+        <h2>Quantifiable metrics</h2>
+        <div class="case-metrics">
+          <p><b>66%</b>Reduction in new flow length (end-to-end)</p>
+          <p><b>82%</b>Reduction in below the fold content</p>
+          <p><b>27</b>No. of pages reduced from start quote to premium viewed</p>
+        </div>
+      </section>
+
+      <!-- Outcomes -->
+      <section class="case-card case-card-center">
+        <h2>Key Outcomes</h2>
+        <div class="case-outcomes">
+          <p>Reduce friction and cognitive load across the entire sales journey</p>
+          <p>Increase E2E conversion with trust and momentum</p>
+          <p>Deliver a scalable, future-fit sales framework</p>
+        </div>
+      </section>
+
+      <!-- Leadership -->
+      <section class="case-card">
+        <h2>Taking the vision to leadership</h2>
+        <p>
+          Once the future sales flow had been defined, I first took the concept through the
+          Head of Digital and the Executive for Customer Experience to validate the direction
+          and pressure-test the thinking. Following alignment at that level, I was invited to
+          present the proposal to the executive steering committee, including the CEO.
+        </p>
+        <p>
+          The presentation focused on clearly articulating the problem, the data-led rationale
+          for a ground-up rebuild, and how the proposed flow would improve conversion while
+          setting a scalable foundation for the future. The outcome of the session was clear
+          alignment and approval to proceed with the rebuild and redesign of the sales journey.
+        </p>
+        <p>
+          Below are selected slides from the executive presentation used to align leadership
+          on the proposed future sales flow.
+        </p>
+      </section>
+
+      <div class="ph-grid">
+        <div class="ph">Problem Statement slide</div>
+        <div class="ph">Comparative Insights slide</div>
+        <div class="ph">Opportunities slide</div>
+        <div class="ph">Digital Enablement slide</div>
+      </div>
+
+      <!-- Prototype -->
+      <section class="case-card">
+        <h2>Full prototype</h2>
+        <p>
+          In addition to outlining the problem and the data-led rationale for a ground-up
+          rebuild, we showcased a fully interactive prototype of the end-to-end journey. This
+          allowed the executive team to experience the proposed flow firsthand, making the
+          impact of the changes — in speed, clarity, and overall usability — immediately
+          tangible. The session concluded with clear alignment and encouragement to proceed
+          with the rebuild and redesign.
+        </p>
+      </section>
+
+      <div class="ph ph-wide">Prototype flow</div>
+
+      <!-- Sections still to come — copy not yet supplied. -->
+      <section class="case-card case-card-todo">
+        <h2>From approval to build</h2>
+        <p class="case-todo">Copy and screenshots to follow.</p>
+
+        <h2>Validating the experience with real users</h2>
+        <p class="case-todo">Copy and screenshots to follow.</p>
+
+        <h2>From system to scale</h2>
+        <p class="case-todo">Copy and screenshots to follow.</p>
+      </section>
+
     </div>
   </div>
 
@@ -221,6 +411,6 @@
 
 </div>
 
-<script src="main.js?v=7"></script>
+<script src="main.js?v=8"></script>
 </body>
 </html>

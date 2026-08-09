@@ -530,6 +530,231 @@ body {
   }
 }
 
+/* ── Case study window ─────────────────────────────────── */
+.win-case {
+  --case-ink: rgba(255, 255, 255, 0.82);
+  --case-accent: #eda29e;
+  --case-card: #1f1f21;
+  width: min(880px, calc(100vw - 40px));
+}
+
+.case-body {
+  height: min(680px, calc(100vh - 140px));
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #121213;
+  color: var(--case-ink);
+  text-shadow: none;
+}
+
+.case-card {
+  padding: 26px 28px;
+  border-radius: 16px;
+  background: var(--case-card);
+}
+
+.case-card-center {
+  text-align: center;
+}
+
+.case-body h2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--case-accent);
+}
+
+.case-body p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Direct children only — the metric and outcome grids hold sibling <p>s of
+   their own that must not inherit this vertical rhythm. */
+.case-card > h2 + p {
+  margin-top: 12px;
+}
+
+.case-card > p + p,
+.case-card > p + h2 {
+  margin-top: 18px;
+}
+
+/* Hero */
+.case-hero {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 0.8fr;
+  gap: 24px;
+  padding: 28px;
+  border-radius: 16px;
+  background: linear-gradient(150deg, #2a2440 0%, #191722 60%, #131217 100%);
+}
+
+.case-hero-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.case-hero-lede {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.case-stat b {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.case-stat {
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.72;
+}
+
+.case-client {
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.55;
+}
+
+.case-rule {
+  display: block;
+  width: 34px;
+  height: 1px;
+  margin-bottom: 10px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.case-facts {
+  font-size: 13px;
+}
+
+.case-facts dt {
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+.case-facts dd {
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+/* Process */
+.case-process {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+  list-style: none;
+}
+
+.case-process li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.case-step {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--case-accent);
+  background: rgba(237, 162, 158, 0.16);
+}
+
+/* Metrics and outcomes */
+.case-metrics,
+.case-outcomes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.case-metrics p {
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.7;
+}
+
+.case-metrics b {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 28px;
+  font-weight: 600;
+  opacity: 1;
+  color: #fff;
+}
+
+.case-outcomes p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Placeholders — swapped for real screenshots later. */
+.ph {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+  text-align: center;
+}
+
+.ph-hero {
+  min-height: 200px;
+}
+
+.ph-wide {
+  min-height: 260px;
+}
+
+/* 280px floor lands on a tidy 2x2 at the window's width, as in the original. */
+.ph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.case-card-todo {
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  background: transparent;
+}
+
+.case-todo {
+  margin-top: 8px;
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.5;
+}
+
+@media (max-width: 720px) {
+  .case-hero {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Once dragged, the window owns its own coordinates and the centring
    transform must go — including in the close animation. */
 .win-doc.is-moved {
@@ -556,9 +781,13 @@ body {
   align-items: center;
   gap: 6px;
   padding: 10px 6px 8px;
+  border: 0; /* items are a mix of links and buttons */
   border-radius: 8px;
+  background: transparent;
   text-decoration: none;
   color: inherit;
+  font: inherit;
+  cursor: pointer;
   transition: background 0.15s var(--ease);
 }
 

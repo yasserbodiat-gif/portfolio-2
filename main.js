@@ -202,6 +202,8 @@ const TRACKS = [
 
   makeWindow("caseStudiesIcon", "caseStudiesWindow");
   makeWindow("resumeIcon", "resumeWindow");
+  // Opened from inside the folder rather than from a desktop icon.
+  makeWindow("caseStudy1Item", "caseStudy1Window");
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && opened.length) opened[opened.length - 1].close();
