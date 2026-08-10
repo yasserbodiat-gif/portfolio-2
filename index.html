@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=21">
+<link rel="stylesheet" href="style.css?v=22">
 </head>
 <body>
 
@@ -1143,6 +1143,12 @@
 
 </div>
 
+<!-- Transparent: lets the pinned desktop show through and stay clickable. -->
+<div class="stage-spacer" aria-hidden="true"></div>
+
+<!-- Everything below scrolls up over the desktop as one sheet. -->
+<div class="sheet">
+
 <!-- ── FAQ ─────────────────────────────────────────────────── -->
 <section class="faq" id="faq" aria-label="Frequently asked questions">
   <div class="faq-inner">
@@ -1234,9 +1240,51 @@
   </div>
 </section>
 
-<!-- Gives the page something to scroll; the view itself never moves. -->
-<div class="scroll-track" aria-hidden="true"></div>
+<!-- ── Gallery ─────────────────────────────────────────────── -->
+<section class="gallery" aria-label="Gallery">
+  <h2 class="gallery-title">Gallery</h2>
 
-<script src="main.js?v=21"></script>
+  <div class="gallery-grid">
+    <figure class="shot shot--wide">
+      <img src="assets/gallery-1.jpg" alt="">
+      <span class="shot-ph">gallery-1.jpg</span>
+    </figure>
+    <figure class="shot shot--wide">
+      <img src="assets/gallery-2.jpg" alt="">
+      <span class="shot-ph">gallery-2.jpg</span>
+    </figure>
+
+    <figure class="shot shot--third">
+      <img src="assets/gallery-3.jpg" alt="">
+      <span class="shot-ph">gallery-3.jpg</span>
+    </figure>
+    <figure class="shot shot--third">
+      <img src="assets/gallery-4.jpg" alt="">
+      <span class="shot-ph">gallery-4.jpg</span>
+    </figure>
+    <figure class="shot shot--third">
+      <img src="assets/gallery-5.jpg" alt="">
+      <span class="shot-ph">gallery-5.jpg</span>
+    </figure>
+
+    <figure class="shot shot--full">
+      <img src="assets/gallery-6.jpg" alt="">
+      <span class="shot-ph">gallery-6.jpg</span>
+    </figure>
+
+    <figure class="shot shot--wide">
+      <img src="assets/gallery-7.jpg" alt="">
+      <span class="shot-ph">gallery-7.jpg</span>
+    </figure>
+    <figure class="shot shot--wide">
+      <img src="assets/gallery-8.jpg" alt="">
+      <span class="shot-ph">gallery-8.jpg</span>
+    </figure>
+  </div>
+</section>
+
+</div><!-- /.sheet -->
+
+<script src="main.js?v=22"></script>
 </body>
 </html>

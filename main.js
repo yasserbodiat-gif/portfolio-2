@@ -99,41 +99,18 @@ const TRACKS = [
   load(0, false);
 })();
 
-/* Scroll transition — the desktop is pinned and recedes while the FAQ
-   rises over it. Only transform and opacity are touched, so the whole
-   thing stays on the compositor. */
-(function scrollStage() {
-  const faq = document.getElementById("faq");
+/* The sheet slides over the pinned desktop through native scrolling, so
+   there is no transition to drive — only the cue needs to get out of the way. */
+(function scrollCue() {
   const cue = document.getElementById("scrollCue");
-  if (!faq) return;
+  if (!cue) return;
 
-  let ticking = false;
-
-  const apply = () => {
-    ticking = false;
-    const range = document.documentElement.scrollHeight - window.innerHeight;
-    const p = range > 0 ? Math.min(Math.max(window.scrollY / range, 0), 1) : 0;
-
-    // Ease-out cubic: the panel decelerates as it lands rather than stopping dead.
-    const eased = 1 - Math.pow(1 - p, 3);
-
-    // The desktop is left alone entirely — no fade, no scale. The panel
-    // simply slides up over the lower half of it.
-    faq.style.transform = `translate3d(0, ${(1 - eased) * 100}%, 0)`;
-    faq.classList.toggle("is-open", p > 0.6);
-
-    if (cue) cue.style.opacity = String(Math.max(0.55 - p * 3, 0));
+  const update = () => {
+    cue.style.opacity = window.scrollY > 40 ? "0" : "0.55";
   };
 
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(apply);
-  };
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  apply();
+  window.addEventListener("scroll", update, { passive: true });
+  update();
 })();
 
 /* FAQ accordion — buttons rather than <details> so the open/close height
@@ -153,8 +130,8 @@ const TRACKS = [
 /* Case study figures — show the labelled placeholder until the real image
    file exists, so dropping a screenshot into assets/ needs no code change. */
 (function figurePlaceholders() {
-  document.querySelectorAll(".cd-figure img, .intro-avatar img").forEach((img) => {
-    const holder = img.closest(".cd-figure, .intro-avatar");
+  document.querySelectorAll(".cd-figure img, .intro-avatar img, .shot img").forEach((img) => {
+    const holder = img.closest(".cd-figure, .intro-avatar, .shot");
     const miss = () => holder.classList.add("is-missing");
     // A cached failure can land before this script runs.
     if (img.complete && img.naturalWidth === 0) miss();
