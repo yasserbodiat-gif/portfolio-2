@@ -1423,7 +1423,7 @@ body {
    --p is the 0→1 scroll progress, written by main.js.
    ───────────────────────────────────────────────────────── */
 .scroll-track {
-  height: 200vh; /* one viewport of scroll distance */
+  height: 175vh; /* enough scroll to bring the panel up, no more */
   pointer-events: none;
 }
 
@@ -1461,9 +1461,13 @@ body {
    Deliberately a different surface from the desktop — this is the
    scene change. Inter throughout, not the case study serif.
    ───────────────────────────────────────────────────────── */
+/* Covers the lower half of the desktop, not the whole of it. */
 .faq {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(400px, 56vh, 660px);
   z-index: 100;
   overflow-y: auto;
   /* Scroll must chain back to the page, otherwise a long answer list traps
@@ -1471,11 +1475,12 @@ body {
   background: #f4f4f2;
   color: #17171a;
   text-shadow: none;
+  border-radius: 20px 20px 0 0;
   transform: translate3d(0, 100%, 0);
   will-change: transform;
   /* Only interactive once it has essentially arrived. */
   pointer-events: none;
-  box-shadow: 0 -30px 80px rgba(10, 4, 20, 0.45);
+  box-shadow: 0 -24px 60px rgba(10, 4, 20, 0.4);
 }
 
 .faq.is-open {
@@ -1489,7 +1494,7 @@ body {
   align-items: start;
   max-width: 1180px;
   margin: 0 auto;
-  padding: clamp(3.5rem, 12vh, 8rem) clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(2rem, 5vh, 3.2rem) clamp(1.5rem, 5vw, 4rem) 3rem;
 }
 
 .faq-title {
