@@ -127,6 +127,145 @@ body {
   font-size: 13px;
 }
 
+/* ── Intro card ────────────────────────────────────────── */
+.intro {
+  position: fixed;
+  z-index: 15; /* under windows, so opening one covers it as a window should */
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(600px, calc(100vw - 40px));
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background: rgba(24, 20, 32, 0.5);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+}
+
+.intro-avatar {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(150deg, #6f5f9b 0%, #b3799a 100%);
+  box-shadow: 0 4px 14px rgba(10, 4, 20, 0.4);
+}
+
+.intro-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Initials show through until assets/avatar.jpg exists. */
+.intro-monogram {
+  position: absolute;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  opacity: 0;
+}
+
+.intro-avatar.is-missing img {
+  display: none;
+}
+
+.intro-avatar.is-missing .intro-monogram {
+  opacity: 0.9;
+}
+
+.intro-copy {
+  min-width: 0;
+}
+
+.intro-role {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.intro-lede {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.intro-p {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.55;
+  opacity: 0.78;
+}
+
+.intro-more {
+  margin-top: 14px;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), opacity 0.15s var(--ease);
+}
+
+.intro-more:hover {
+  border-color: #fff;
+}
+
+.intro-more:focus-visible,
+.menu-name:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+/* The app-name slot: heavier than the surrounding menu items. */
+.menu-name {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cd-tag--link {
+  display: inline-block;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: background 0.15s var(--ease);
+}
+
+.cd-tag--link:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Desktop-focused: below this the card would crowd the icons, so the
+   About window (via the menu bar name) becomes the only route. */
+@media (max-width: 900px) {
+  .intro {
+    display: none;
+  }
+}
+
 /* ── Desktop icons ─────────────────────────────────────── */
 .desktop-icons {
   position: relative; /* anchors the free-standing icons below */

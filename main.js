@@ -102,8 +102,9 @@ const TRACKS = [
 /* Case study figures — show the labelled placeholder until the real image
    file exists, so dropping a screenshot into assets/ needs no code change. */
 (function figurePlaceholders() {
-  document.querySelectorAll(".cd-figure img").forEach((img) => {
-    const miss = () => img.closest(".cd-figure").classList.add("is-missing");
+  document.querySelectorAll(".cd-figure img, .intro-avatar img").forEach((img) => {
+    const holder = img.closest(".cd-figure, .intro-avatar");
+    const miss = () => holder.classList.add("is-missing");
     // A cached failure can land before this script runs.
     if (img.complete && img.naturalWidth === 0) miss();
     img.addEventListener("error", miss);
@@ -215,6 +216,11 @@ const TRACKS = [
   makeWindow("resumeIcon", "resumeWindow");
   makeWindow("recentIcon", "recentWindow");
   makeWindow("blogsIcon", "blogsWindow");
+
+  // The intro card's link and the menu bar name open the same About window.
+  const about = makeWindow("aboutTrigger", "aboutWindow");
+  const introMore = document.getElementById("introMore");
+  if (about && introMore) introMore.addEventListener("click", about.open);
   // Opened from inside the folder rather than from a desktop icon.
   makeWindow("caseStudy1Item", "caseStudy1Window");
   makeWindow("caseStudy2Item", "caseStudy2Window");

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=15">
+<link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
 
@@ -17,6 +17,9 @@
   <!-- ── Menu bar ─────────────────────────────────────────── -->
   <header class="menubar">
     <nav class="menubar-left">
+      <!-- Doubles as the app-name slot and the About trigger, the way the
+           macOS menu bar works — and the only About route on mobile. -->
+      <button class="menu-item menu-name" id="aboutTrigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="aboutWindow">Yasser Bodiat</button>
       <a class="menu-item" id="cvLink" href="assets/YasserB_CV_2026_2027.pdf" target="_blank" rel="noopener">Download CV</a>
       <a class="menu-item" href="mailto:yasserbodiat@gmail.com">Contact Me</a>
     </nav>
@@ -85,6 +88,72 @@
       <span class="desk-icon-label">Blogs</span>
     </button>
   </main>
+
+  <!-- ── Intro card ───────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <span class="intro-avatar">
+      <img src="assets/avatar.jpg" alt="Yasser Bodiat">
+      <span class="intro-monogram" aria-hidden="true">YB</span>
+    </span>
+
+    <div class="intro-copy">
+      <p class="intro-role">Design Lead</p>
+      <p class="intro-lede">Hi, I'm Yasser… I lead design teams within large-scale organisations.</p>
+      <p class="intro-p">
+        Owning design architecture, strategy implementation, building and maintaining
+        design standards, systems and best-practice.
+      </p>
+      <button class="intro-more" id="introMore">More about me <span aria-hidden="true">→</span></button>
+    </div>
+  </aside>
+
+  <!-- ── About window ─────────────────────────────────────── -->
+  <div class="finder win-doc win-case" id="aboutWindow" role="dialog" aria-modal="false" aria-labelledby="aboutTitle" hidden>
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="aboutTitle">About Me</span>
+    </div>
+
+    <div class="cd-body">
+      <header class="cd-hero">
+        <h1 class="cd-hero-title">hi, i'm yasser</h1>
+        <p class="cd-p cd-p--lead">
+          I lead design teams within large-scale organisations.
+        </p>
+        <ul class="cd-tags">
+          <li class="cd-tag">Design Lead</li>
+          <li class="cd-tag">Design Systems</li>
+          <li class="cd-tag">Design Architecture</li>
+          <li class="cd-tag">Johannesburg</li>
+        </ul>
+      </header>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">what i do</h2>
+        <p class="cd-p">
+          Owning design architecture, strategy implementation, building and maintaining
+          design standards, systems and best-practice.
+        </p>
+        <p class="cd-p">
+          Currently leading Telesure Investment Holdings pre-login (sales) design
+          capability — across five leading insurance brands inside our holding company.
+        </p>
+      </section>
+
+      <section class="cd-section">
+        <h2 class="cd-h2">get in touch</h2>
+        <ul class="cd-tags">
+          <li><a class="cd-tag cd-tag--link" href="mailto:yasserbodiat@gmail.com">yasserbodiat@gmail.com</a></li>
+          <li><a class="cd-tag cd-tag--link" href="https://www.linkedin.com/in/yasserbodiat-tih" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a class="cd-tag cd-tag--link" href="assets/YasserB_CV_2026_2027.pdf" target="_blank" rel="noopener">Download CV</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
 
   <!-- ── Now Playing widget ───────────────────────────────── -->
   <aside class="player" id="player" aria-label="Now playing">
@@ -1068,6 +1137,6 @@
 
 </div>
 
-<script src="main.js?v=15"></script>
+<script src="main.js?v=16"></script>
 </body>
 </html>
