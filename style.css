@@ -128,23 +128,19 @@ body {
 }
 
 /* ── Intro card ────────────────────────────────────────── */
+/* Sits directly on the desktop with no panel — legibility comes from the
+   text shadow rather than a background. */
 .intro {
   position: fixed;
   z-index: 15; /* under windows, so opening one covers it as a window should */
-  top: 58px;
+  top: 66px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(600px, calc(100vw - 40px));
+  width: min(720px, calc(100vw - 40px));
   display: flex;
   align-items: flex-start;
-  gap: 18px;
-  padding: 20px 22px;
-  border-radius: 18px;
-  background: rgba(24, 20, 32, 0.5);
-  border: 1px solid var(--hairline);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(26px) saturate(180%);
-  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  gap: 22px;
+  text-shadow: 0 1px 6px rgba(12, 6, 22, 0.65), 0 1px 2px rgba(12, 6, 22, 0.5);
 }
 
 .intro-avatar {
@@ -197,17 +193,17 @@ body {
 }
 
 .intro-lede {
-  margin-top: 8px;
-  font-size: 15px;
+  margin-top: 9px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .intro-p {
-  margin-top: 8px;
-  font-size: 13px;
-  line-height: 1.55;
-  opacity: 0.78;
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  opacity: 0.86;
 }
 
 .intro-more {
