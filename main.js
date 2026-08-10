@@ -213,6 +213,8 @@ const TRACKS = [
 
   makeWindow("caseStudiesIcon", "caseStudiesWindow");
   makeWindow("resumeIcon", "resumeWindow");
+  makeWindow("recentIcon", "recentWindow");
+  makeWindow("blogsIcon", "blogsWindow");
   // Opened from inside the folder rather than from a desktop icon.
   makeWindow("caseStudy1Item", "caseStudy1Window");
   makeWindow("caseStudy2Item", "caseStudy2Window");

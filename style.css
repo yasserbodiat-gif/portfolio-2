@@ -129,12 +129,28 @@ body {
 
 /* ── Desktop icons ─────────────────────────────────────── */
 .desktop-icons {
+  position: relative; /* anchors the free-standing icons below */
   flex: 1;
   padding: 22px 18px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 14px;
+}
+
+/* Icons placed away from the top-left stack, the way a real desktop drifts. */
+.desk-icon--float {
+  position: absolute;
+}
+
+.desk-icon--recent {
+  right: 26px;
+  bottom: 40px;
+}
+
+.desk-icon--blogs {
+  left: 33%;
+  top: 54%;
 }
 
 .desk-icon {
@@ -996,6 +1012,17 @@ body {
   overflow-y: auto;
 }
 
+.finder-body--empty {
+  display: block;
+  padding: 34px 20px 38px;
+}
+
+.finder-empty {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
 .finder-item {
   display: flex;
   flex-direction: column;
@@ -1233,6 +1260,11 @@ body {
 
   .desktop-icons {
     padding: 16px 12px;
+  }
+
+  /* Too little room to scatter — fold the free-standing icons back in. */
+  .desk-icon--float {
+    position: static;
   }
 }
 

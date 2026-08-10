@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=13">
+<link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -63,6 +63,26 @@
         </span>
       </span>
       <span class="desk-icon-label">Resume</span>
+    </button>
+
+    <button class="desk-icon desk-icon--float desk-icon--recent" id="recentIcon" aria-haspopup="dialog" aria-expanded="false" aria-controls="recentWindow">
+      <span class="desk-icon-art">
+        <svg viewBox="0 0 64 52" aria-hidden="true">
+          <path fill="url(#folderBack)" d="M0 8a6 6 0 0 1 6-6h17.2c1.6 0 3.1.6 4.2 1.8L31 7h27a6 6 0 0 1 6 6v33a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V8Z"/>
+          <path fill="url(#folderFront)" d="M0 17h64v29a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V17Z"/>
+        </svg>
+      </span>
+      <span class="desk-icon-label">Most Recent</span>
+    </button>
+
+    <button class="desk-icon desk-icon--float desk-icon--blogs" id="blogsIcon" aria-haspopup="dialog" aria-expanded="false" aria-controls="blogsWindow">
+      <span class="desk-icon-art">
+        <svg viewBox="0 0 64 52" aria-hidden="true">
+          <path fill="url(#folderBack)" d="M0 8a6 6 0 0 1 6-6h17.2c1.6 0 3.1.6 4.2 1.8L31 7h27a6 6 0 0 1 6 6v33a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V8Z"/>
+          <path fill="url(#folderFront)" d="M0 17h64v29a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V17Z"/>
+        </svg>
+      </span>
+      <span class="desk-icon-label">Blogs</span>
     </button>
   </main>
 
@@ -132,6 +152,39 @@
         <span class="file-name">Smart Goals</span>
         <span class="file-meta">Old Mutual · App</span>
       </button>
+    </div>
+  </div>
+
+  <!-- ── Most Recent window ───────────────────────────────── -->
+  <!-- Opens clear of the Now Playing widget rather than on top of it. -->
+  <div class="finder" id="recentWindow" role="dialog" aria-modal="false" aria-labelledby="recentTitle" hidden style="top:250px; left:auto; right:110px">
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="recentTitle">Most Recent</span>
+      <span class="finder-count">0 items</span>
+    </div>
+    <div class="finder-body finder-body--empty">
+      <p class="finder-empty">This folder is empty</p>
+    </div>
+  </div>
+
+  <!-- ── Blogs window ─────────────────────────────────────── -->
+  <div class="finder" id="blogsWindow" role="dialog" aria-modal="false" aria-labelledby="blogsTitle" hidden style="top:210px; left:300px">
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="blogsTitle">Blogs</span>
+      <span class="finder-count">0 items</span>
+    </div>
+    <div class="finder-body finder-body--empty">
+      <p class="finder-empty">This folder is empty</p>
     </div>
   </div>
 
@@ -1015,6 +1068,6 @@
 
 </div>
 
-<script src="main.js?v=13"></script>
+<script src="main.js?v=15"></script>
 </body>
 </html>
