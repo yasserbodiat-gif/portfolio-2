@@ -99,6 +99,59 @@ const TRACKS = [
   load(0, false);
 })();
 
+/* Scroll transition — the desktop is pinned and recedes while the FAQ
+   rises over it. Only transform and opacity are touched, so the whole
+   thing stays on the compositor. */
+(function scrollStage() {
+  const desktop = document.querySelector(".desktop");
+  const faq = document.getElementById("faq");
+  const cue = document.getElementById("scrollCue");
+  if (!desktop || !faq) return;
+
+  let ticking = false;
+
+  const apply = () => {
+    ticking = false;
+    const range = document.documentElement.scrollHeight - window.innerHeight;
+    const p = range > 0 ? Math.min(Math.max(window.scrollY / range, 0), 1) : 0;
+
+    // Ease-out cubic: the panel decelerates as it lands rather than stopping dead.
+    const eased = 1 - Math.pow(1 - p, 3);
+
+    faq.style.transform = `translate3d(0, ${(1 - eased) * 100}%, 0)`;
+    faq.classList.toggle("is-open", p > 0.6);
+
+    // The desktop clears out ahead of the panel so the two never fight.
+    desktop.style.opacity = String(Math.max(1 - p * 1.35, 0));
+    desktop.style.transform = `scale(${1 - 0.04 * eased})`;
+    if (cue) cue.style.opacity = String(Math.max(0.55 - p * 3, 0));
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(apply);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  apply();
+})();
+
+/* FAQ accordion — buttons rather than <details> so the open/close height
+   can animate, and so aria-expanded drives the icon state. */
+(function faqAccordion() {
+  const list = document.getElementById("faqList");
+  if (!list) return;
+
+  list.querySelectorAll(".faq-q").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+    });
+  });
+})();
+
 /* Case study figures — show the labelled placeholder until the real image
    file exists, so dropping a screenshot into assets/ needs no code change. */
 (function figurePlaceholders() {

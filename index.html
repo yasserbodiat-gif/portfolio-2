@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=17">
+<link rel="stylesheet" href="style.css?v=19">
 </head>
 <body>
 
@@ -1135,8 +1135,161 @@
     </div>
   </footer>
 
+  <!-- Fades out as the FAQ rises; hidden once the scroll has begun. -->
+  <div class="scroll-cue" id="scrollCue" aria-hidden="true">
+    <span>FAQ</span>
+    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
+  </div>
+
 </div>
 
-<script src="main.js?v=17"></script>
+<!-- ── FAQ ─────────────────────────────────────────────────── -->
+<section class="faq" id="faq" aria-label="Frequently asked questions">
+  <div class="faq-inner">
+    <div class="faq-head">
+      <h2 class="faq-title">You asked,<br>I answered</h2>
+      <p class="faq-sub">The things hiring managers usually want to know.</p>
+    </div>
+
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What kind of role are you looking for?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          Senior design leadership at organisations that treat design as a strategic
+          function — where systems thinking, engineering fluency and scalable delivery
+          matter as much as craft. I'm most useful where design needs to operate at the
+          level of architecture and standards, not just screens.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What do you actually do day to day?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          I lead design teams inside large-scale organisations — owning design
+          architecture, strategy implementation, and building and maintaining design
+          standards, systems and best practice. Currently I lead the pre-login (sales)
+          design capability at Telesure Investment Holdings, across five insurance brands
+          inside the holding company.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Are you still hands-on, or purely managing?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          Both. I build and manage high-performing design functions while remaining an
+          active contributor — owning design system architecture, digital CI, sales journey
+          design and multi-brand campaign delivery. I lead a team of five designers across
+          four business verticals, and I'm still in the file.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Can you point to measurable impact?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>
+            Yes — the sales flow redesign is the clearest example. A ground-up rebuild
+            rather than incremental optimisation, taken through the executive steering
+            committee and approved on a data-led case.
+          </p>
+          <ul class="faq-stats">
+            <li><b>66%</b>reduction in end-to-end flow length</li>
+            <li><b>82%</b>reduction in below-the-fold content</li>
+            <li><b>27</b>pages removed between start quote and premium viewed</li>
+            <li><b>4.5%</b>target for end-to-end digital policy sales, up from 2.5%</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>How do you approach design systems?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          As infrastructure, not a component library. On Marketing Templatisation that
+          meant functional token naming rather than brand-literal, five semantic themes
+          that re-skin any block by variable assignment instead of hex values, a shared
+          block naming convention that removes ambiguity from every handoff, and a live
+          specification with a versioned changelog as the single source of truth. The test
+          is whether decisions hold across five brand identities at once.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>How do you work with engineering?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          Closely, and in their language. I've specced a CMS-editable block system in
+          Optimizely (Angular) with an external dev team working from a live HTML spec
+          rather than a static handoff — block anatomy, token definitions and responsive
+          rules documented at the point decisions are made. Responsive behaviour is defined
+          at component design, not retrofitted after desktop build.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>How much of your work is research-led?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          Enough that decisions are defensible. On Smart Goals we researched with over 50
+          participants, then tested continuously — guerrilla sessions in office, moderated
+          usability testing on hi-fi prototypes, and rapid comparative and A/B testing on
+          Maze. One proposal, switching from photography to illustration, was carried on
+          research: 90% of respondents preferred it.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Where are you based?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><p>
+          Johannesburg, South Africa. I've worked with distributed teams and external
+          agencies throughout, so remote collaboration is the norm rather than an
+          adjustment.
+        </p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>How do I get in touch?</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Directly — I answer everything.</p>
+          <p class="faq-links">
+            <a href="mailto:yasserbodiat@gmail.com">yasserbodiat@gmail.com</a>
+            <a href="https://www.linkedin.com/in/yasserbodiat-tih" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="assets/YasserB_CV_2026_2027.pdf" target="_blank" rel="noopener">Download CV</a>
+          </p>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Gives the page something to scroll; the view itself never moves. -->
+<div class="scroll-track" aria-hidden="true"></div>
+
+<script src="main.js?v=19"></script>
 </body>
 </html>
