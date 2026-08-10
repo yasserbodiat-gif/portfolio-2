@@ -1475,7 +1475,6 @@ body {
   background: #f4f4f2;
   color: #17171a;
   text-shadow: none;
-  border-radius: 20px 20px 0 0;
   transform: translate3d(0, 100%, 0);
   will-change: transform;
   /* Only interactive once it has essentially arrived. */
@@ -1491,7 +1490,8 @@ body {
   display: grid;
   grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.4fr);
   gap: clamp(2rem, 6vw, 6rem);
-  align-items: start;
+  /* Heading sits against the vertical centre of the question list. */
+  align-items: center;
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(2rem, 5vh, 3.2rem) clamp(1.5rem, 5vw, 4rem) 3rem;
