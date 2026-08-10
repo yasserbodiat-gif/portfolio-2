@@ -48,7 +48,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   background:
-    url("assets/background.jpg?v=2"),
+    url("assets/background.jpg?v=3"),
     radial-gradient(120% 80% at 50% 12%, #ffffff 0%, rgba(255, 255, 255, 0) 55%),
     linear-gradient(180deg, #dfe9f2 0%, #eef3ee 45%, #e6dfe8 75%, #d8cfdd 100%);
   background-size: cover;
@@ -60,7 +60,7 @@ body {
 @media (max-width: 640px) {
   .desktop {
     background-image:
-      url("assets/background-portrait.jpg?v=2"),
+      url("assets/background-portrait.jpg?v=3"),
       radial-gradient(120% 80% at 50% 12%, #ffffff 0%, rgba(255, 255, 255, 0) 55%),
       linear-gradient(180deg, #dfe9f2 0%, #eef3ee 45%, #e6dfe8 75%, #d8cfdd 100%);
   }
@@ -70,7 +70,7 @@ body {
 @media (min-width: 641px) and (max-width: 900px) {
   .desktop {
     background-image:
-      url("assets/background-small.jpg?v=2"),
+      url("assets/background-small.jpg?v=3"),
       radial-gradient(120% 80% at 50% 12%, #ffffff 0%, rgba(255, 255, 255, 0) 55%),
       linear-gradient(180deg, #dfe9f2 0%, #eef3ee 45%, #e6dfe8 75%, #d8cfdd 100%);
   }
