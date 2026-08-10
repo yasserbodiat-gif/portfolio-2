@@ -113,6 +113,33 @@ const TRACKS = [
   update();
 })();
 
+/* Testimonials — the panel slides in the first time it enters view. */
+(function testimonials() {
+  const panel = document.getElementById("testiPanel");
+  const section = panel && panel.closest(".testi");
+  if (!panel || !section) return;
+
+  if (!("IntersectionObserver" in window)) {
+    panel.classList.add("is-in"); // no observer: show it rather than hide it
+    return;
+  }
+
+  // Watch the section, not the panel — the panel is parked off to the right
+  // and would never intersect the viewport on its own.
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        panel.classList.add("is-in");
+        io.disconnect(); // it only arrives once
+      });
+    },
+    { threshold: 0.25 }
+  );
+
+  io.observe(section);
+})();
+
 /* FAQ accordion — buttons rather than <details> so the open/close height
    can animate, and so aria-expanded drives the icon state. */
 (function faqAccordion() {
@@ -130,13 +157,15 @@ const TRACKS = [
 /* Case study figures — show the labelled placeholder until the real image
    file exists, so dropping a screenshot into assets/ needs no code change. */
 (function figurePlaceholders() {
-  document.querySelectorAll(".cd-figure img, .intro-avatar img, .shot img").forEach((img) => {
-    const holder = img.closest(".cd-figure, .intro-avatar, .shot");
-    const miss = () => holder.classList.add("is-missing");
-    // A cached failure can land before this script runs.
-    if (img.complete && img.naturalWidth === 0) miss();
-    img.addEventListener("error", miss);
-  });
+  document
+    .querySelectorAll(".cd-figure img, .intro-avatar img, .shot img, .testi-img")
+    .forEach((img) => {
+      const holder = img.closest(".cd-figure, .intro-avatar, .shot, .testi-panel");
+      const miss = () => holder.classList.add("is-missing");
+      // A cached failure can land before this script runs.
+      if (img.complete && img.naturalWidth === 0) miss();
+      img.addEventListener("error", miss);
+    });
 })();
 
 /* Desktop windows — one factory drives every draggable window on screen. */
