@@ -1489,7 +1489,7 @@ body {
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
-  padding: clamp(2.5rem, 6vh, 4rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 8vh, 5rem);
+  padding: clamp(4.5rem, 12vh, 8rem) clamp(1.5rem, 5vw, 4rem) clamp(3.5rem, 9vh, 5.5rem);
 }
 
 /* Header sits above the list, centred, matching the Gallery heading. */
@@ -1499,6 +1499,8 @@ body {
 }
 
 .faq-title {
+  max-width: 18ch;
+  margin: 0 auto;
   font-size: clamp(2rem, 4.6vw, 3.4rem);
   font-weight: 500;
   line-height: 1.06;
