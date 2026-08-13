@@ -1,0 +1,24 @@
+# Static site: no build step, published straight from the repo root.
+# Keeping these here rather than in the Netlify UI means the settings
+# travel with the repo and cannot drift.
+
+[build]
+  publish = "."
+  command = ""
+
+# Long-lived caching for the versioned assets. index.html is deliberately
+# left on Netlify's default so a deploy is picked up immediately.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

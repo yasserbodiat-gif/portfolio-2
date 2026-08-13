@@ -1,7 +1,16 @@
 # Portfolio
 
 A single-screen portfolio styled as a macOS desktop. Static HTML, CSS and JS —
-no build step, no dependencies. Deployed with GitHub Pages from `main`.
+no build step, no dependencies. Deployed from `main`.
+
+## Deploying
+
+`netlify.toml` holds the deploy settings, so Netlify needs nothing configured
+in its UI: publish directory is the repo root and the build command is empty.
+To point an existing Netlify site here: **Site configuration → Build & deploy →
+Continuous deployment → Manage repository → Link to a different repository**.
+
+GitHub Pages serves the same repo from `main` with the root folder.
 
 ```
 index.html    markup for the desktop, windows, widget and dock
