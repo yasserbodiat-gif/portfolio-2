@@ -49,20 +49,6 @@ EOF
 Then update the `<img>` tags in the resume window if the page count changed,
 and the two PDF links if the filename changed.
 
-## Adding songs
-
-Edit the `TRACKS` array at the top of `main.js`:
-
-```js
-const TRACKS = [
-  { title: "Song", artist: "Artist",
-    src: "assets/song.mp3", cover: "assets/cover.jpg" },
-];
-```
-
-A track with no `src` leaves the play button inert; no `cover` falls back to a
-gradient tile. Keep audio files small — they ship with the repo.
-
 ## Cache busting
 
 `index.html` loads `style.css?v=N` and `main.js?v=N`. **Bump `N` whenever either
