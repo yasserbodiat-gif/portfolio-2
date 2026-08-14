@@ -34,31 +34,48 @@
   update();
 })();
 
-/* Testimonials — the panel slides in the first time it enters view. */
+/* Testimonials — one quote at a time, wrapping in both directions. */
 (function testimonials() {
-  const panel = document.getElementById("testiPanel");
-  const section = panel && panel.closest(".testi");
-  if (!panel || !section) return;
+  const viewport = document.getElementById("testiViewport");
+  const prev = document.getElementById("testiPrev");
+  const next = document.getElementById("testiNext");
+  const dotWrap = document.getElementById("testiDots");
+  if (!viewport || !prev || !next) return;
 
-  if (!("IntersectionObserver" in window)) {
-    panel.classList.add("is-in"); // no observer: show it rather than hide it
-    return;
-  }
+  const slides = [...viewport.querySelectorAll(".testi-slide")];
+  const dots = dotWrap ? [...dotWrap.querySelectorAll(".testi-dot")] : [];
+  if (slides.length < 2) return;
 
-  // Watch the section, not the panel — the panel is parked off to the right
-  // and would never intersect the viewport on its own.
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        panel.classList.add("is-in");
-        io.disconnect(); // it only arrives once
-      });
-    },
-    { threshold: 0.25 }
-  );
+  let index = 0;
 
-  io.observe(section);
+  const show = (i) => {
+    index = (i + slides.length) % slides.length; // wraps both ways
+    slides.forEach((s, n) => {
+      const on = n === index;
+      s.classList.toggle("is-active", on);
+      // Hidden slides stay in the layout to hold the height, but are
+      // taken out of the accessibility tree.
+      if (on) s.removeAttribute("aria-hidden");
+      else s.setAttribute("aria-hidden", "true");
+    });
+    dots.forEach((d, n) => {
+      d.classList.toggle("is-active", n === index);
+      if (n === index) d.setAttribute("aria-current", "true");
+      else d.removeAttribute("aria-current");
+    });
+  };
+
+  prev.addEventListener("click", () => show(index - 1));
+  next.addEventListener("click", () => show(index + 1));
+  dots.forEach((d) => d.addEventListener("click", () => show(+d.dataset.index)));
+
+  // Arrow keys work once focus is anywhere inside the carousel.
+  viewport.closest(".testi-carousel").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") show(index - 1);
+    else if (e.key === "ArrowRight") show(index + 1);
+  });
+
+  show(0);
 })();
 
 /* FAQ accordion — buttons rather than <details> so the open/close height

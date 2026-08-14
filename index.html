@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=40">
+<link rel="stylesheet" href="style.css?v=41">
 </head>
 <body>
 
@@ -1210,53 +1210,46 @@
 </section>
 
 
-<!-- ── Testimonials ────────────────────────────────────────
-     The panel slides in from the right as it enters view.
-     ─────────────────────────────────────────────────────── -->
+<!-- ── Testimonials ──────────────────────────────────────── -->
 <section class="testi" aria-label="Testimonials">
-  <div class="testi-panel" id="testiPanel">
-    <img class="testi-img" src="assets/testimonials.jpg" alt="">
-    <div class="testi-quote">
-      <blockquote>
-        <p>&ldquo;Yasser is a brilliant, innovative mind who grasps briefs quickly
-        and intuitively. Stakeholder sessions consistently end impressed. He invests
-        heavily in his team&rsquo;s growth, and it&rsquo;s hard to imagine a project
-        he hasn&rsquo;t added tremendous value to.&rdquo;</p>
-      </blockquote>
-      <p class="testi-by">Senior Product Owner</p>
+  <div class="testi-inner">
+    <h2 class="testi-title">Testimonials</h2>
+
+    <div class="testi-carousel">
+      <button class="testi-nav" id="testiPrev" aria-label="Previous testimonial">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="m15 5-7 7 7 7"/></svg>
+      </button>
+
+      <div class="testi-viewport" id="testiViewport" aria-live="polite">
+        <figure class="testi-slide is-active" data-index="0">
+          <blockquote><p>&ldquo;Yasser is a brilliant, innovative mind who grasps briefs quickly and intuitively. Stakeholder sessions consistently end impressed. He invests heavily in his team&rsquo;s growth, and it&rsquo;s hard to imagine a project he hasn&rsquo;t added tremendous value to.&rdquo;</p></blockquote>
+          <figcaption>Senior Product Owner</figcaption>
+        </figure>
+        <figure class="testi-slide" data-index="1" aria-hidden="true">
+          <blockquote><p>&ldquo;Yasser is extremely knowledgeable and well-researched, never shooting from the hip. He brings great ideas to brainstorms and is patient explaining things clearly, especially valuable for upskilling junior staff on websites, an area marketing previously had little visibility into.&rdquo;</p></blockquote>
+          <figcaption>Head of Marketing<span>Auto &amp; General</span></figcaption>
+        </figure>
+        <figure class="testi-slide" data-index="2" aria-hidden="true">
+          <blockquote><p>&ldquo;Yasser is a genuine asset, approaching every brief with a thoughtful, strategic mindset. He turns insights into clear, impactful design solutions, and his reliability, attention to detail, and kind, supportive nature make him a true dream team member.&rdquo;</p></blockquote>
+          <figcaption>Head of Marketing<span>First For Women</span></figcaption>
+        </figure>
+        <figure class="testi-slide" data-index="3" aria-hidden="true">
+          <blockquote><p>&ldquo;Yasser&rsquo;s contribution to Budget Insurance has been highly impactful. His communication, reliability, and proactive approach are ones the team depends on. During the Budget Price Beat launch, his responsiveness and hands-on support were invaluable.&rdquo;</p></blockquote>
+          <figcaption>Head of Marketing<span>Budget Insurance</span></figcaption>
+        </figure>
+      </div>
+
+      <button class="testi-nav" id="testiNext" aria-label="Next testimonial">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg>
+      </button>
     </div>
-  </div>
 
-  <div class="testi-more">
-    <figure class="testi-card">
-      <blockquote>
-        <p>&ldquo;Yasser is extremely knowledgeable and well-researched, never
-        shooting from the hip. He brings great ideas to brainstorms and is patient
-        explaining things clearly, especially valuable for upskilling junior staff on
-        websites, an area marketing previously had little visibility into.&rdquo;</p>
-      </blockquote>
-      <figcaption>Head of Marketing<span>Auto &amp; General</span></figcaption>
-    </figure>
-
-    <figure class="testi-card">
-      <blockquote>
-        <p>&ldquo;Yasser is a genuine asset, approaching every brief with a
-        thoughtful, strategic mindset. He turns insights into clear, impactful design
-        solutions, and his reliability, attention to detail, and kind, supportive
-        nature make him a true dream team member.&rdquo;</p>
-      </blockquote>
-      <figcaption>Head of Marketing<span>First For Women</span></figcaption>
-    </figure>
-
-    <figure class="testi-card">
-      <blockquote>
-        <p>&ldquo;Yasser&rsquo;s contribution to Budget Insurance has been highly
-        impactful. His communication, reliability, and proactive approach are ones the
-        team depends on. During the Budget Price Beat launch, his responsiveness and
-        hands-on support were invaluable.&rdquo;</p>
-      </blockquote>
-      <figcaption>Head of Marketing<span>Budget Insurance</span></figcaption>
-    </figure>
+    <div class="testi-dots" id="testiDots">
+        <button class="testi-dot is-active" data-index="0" aria-label="Testimonial 1 of 4" aria-current="true"></button>
+        <button class="testi-dot" data-index="1" aria-label="Testimonial 2 of 4"></button>
+        <button class="testi-dot" data-index="2" aria-label="Testimonial 3 of 4"></button>
+        <button class="testi-dot" data-index="3" aria-label="Testimonial 4 of 4"></button>
+    </div>
   </div>
 </section>
 
