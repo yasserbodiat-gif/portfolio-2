@@ -1710,6 +1710,12 @@ body {
      setting one stops margin-top:auto reaching the bottom. */
 }
 
+/* Space above the rule has to live here: on the tallest card in the row
+   margin-top:auto collapses to zero, so the caption cannot supply it. */
+.testi-card blockquote {
+  padding-bottom: 1.8rem;
+}
+
 .testi-card blockquote p {
   font-size: 0.98rem;
   line-height: 1.6;
@@ -1720,7 +1726,7 @@ body {
   /* auto pushes the caption to the bottom of the stretched card, so the
      rules line up across the row whatever length each quote runs. */
   margin-top: auto;
-  padding-top: 1.4rem;
+  padding-top: 1.2rem;
   border-top: 1px solid #e2e2de;
   font-size: 0.82rem;
   font-weight: 600;
