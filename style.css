@@ -885,6 +885,7 @@ body {
 .cd-figure img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
   border-radius: 12px;
   border: 1px solid var(--cd-line);
@@ -911,23 +912,6 @@ body {
 
 .cd-figure.is-missing .cd-ph {
   display: grid;
-}
-
-/* Portrait screens and small illustration tiles need their own proportions,
-   otherwise a 16/9 placeholder misrepresents what will sit there. */
-.cd-figure--phone .cd-ph {
-  aspect-ratio: 9 / 16;
-  max-width: 280px;
-  margin-inline: auto;
-}
-
-.cd-figure--phone img {
-  max-width: 280px;
-  margin-inline: auto;
-}
-
-.cd-figure--tile .cd-ph {
-  aspect-ratio: 1 / 1;
 }
 
 .cd-ph-name {
