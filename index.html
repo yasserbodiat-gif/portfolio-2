@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=44">
+<link rel="stylesheet" href="style.css?v=45">
 </head>
 <body>
 
@@ -213,10 +213,14 @@
         <span class="light max" aria-hidden="true"></span>
       </div>
       <span class="finder-title" id="blogsTitle">Blogs</span>
-      <span class="finder-count">0 items</span>
+      <span class="finder-count">1 item</span>
     </div>
-    <div class="finder-body finder-body--empty">
-      <p class="finder-empty">This folder is empty</p>
+    <div class="finder-body">
+      <button class="finder-item" id="blog1Item" aria-haspopup="dialog" aria-expanded="false" aria-controls="blog1Window">
+        <span class="file-art"><span class="file-corner"></span><span class="file-tag">01</span></span>
+        <span class="file-name">Designing against the system</span>
+        <span class="file-meta">3 min read</span>
+      </button>
     </div>
   </div>
 
@@ -900,6 +904,44 @@
       </figure>
       </section>
 
+    </div>
+  </div>
+
+  <!-- ── Blog: Designing against the system ───────────────── -->
+  <div class="finder win-doc win-post" id="blog1Window" role="dialog" aria-modal="false" aria-labelledby="blog1Title" hidden>
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="blog1Title">Designing against the system</span>
+    </div>
+
+    <div class="post-body">
+      <article class="post">
+        <header class="post-head">
+          <p class="post-kicker">Design systems</p>
+          <h1 class="post-title">Designing against the system</h1>
+          <p class="post-meta">Yasser Bodiat<span>3 min read</span></p>
+        </header>
+
+        <p class="post-p">I lead design for five separate insurance brands. Different names, different customers, different visual identities, but underneath, the same marketing team trying to get pages live across all of them.</p>
+        <p class="post-p">For years, that meant every new page, every campaign update, every small content change went through a developer. Not because the changes were hard. Because there was no shared system, just five brands&rsquo; worth of legacy front-end code, one-off pages, and quick fixes nobody had time to go back and clean up. Marketing couldn&rsquo;t touch any of it themselves.</p>
+        <p class="post-p">So we set out to build a design system that would let non-technical marketing teams publish and edit pages across all five brands without a developer in the loop for every change. Something CMS-editable, reusable, and consistent enough that &ldquo;brand five&rdquo; wouldn&rsquo;t need to reinvent what &ldquo;brand one&rdquo; already had.</p>
+        <p class="post-p">On paper, this shouldn&rsquo;t have been possible. Five brands, each wanting to keep its own identity. An external development team we don&rsquo;t manage directly, working in Angular. A CMS (Optimizely) that was never built with a shared component library in mind. Every constraint on that list is normally a reason a project like this stalls or gets watered down into something brand-specific and non-reusable.</p>
+        <p class="post-p">I want to write about how we built it anyway, because the lesson that came out of it wasn&rsquo;t the one I expected going in.</p>
+        <p class="post-p">My first instinct, honestly, was to build something comprehensive. Cover every case. Anticipate every brand&rsquo;s edge cases up front, so nobody ever hit a wall later. That instinct was wrong, and it took a few false starts to see why.</p>
+        <p class="post-p">We ended up calling the system 100 Blocks. And the version that actually worked is the leaner one.</p>
+        <p class="post-p">We named tokens functionally instead of literally. Not &ldquo;brand-blue,&rdquo; but &ldquo;brand-primary.&rdquo; That one decision is doing more work than almost anything else in the system. It means the same block can carry five completely different identities without anyone touching the underlying component. Five semantic themes sit on top, and switching between them is a matter of assigning a variable, not rebuilding anything.</p>
+        <p class="post-p">We kept the naming convention brutally simple too. Three letters for category, a sequential number for the variant. HRO-001. No ambiguity, no debate in a ticket about what something should be called. Design, content, and dev are all reading from the same short vocabulary.</p>
+        <p class="post-p">What surprised me is how much restraint that required. Every instinct in a complex environment pulls you toward building more flexibility in, more options, more coverage for every scenario. But complexity in a design system doesn&rsquo;t stay contained. It leaks into every handoff, every onboarding conversation, every ticket where someone has to relearn a rule that only applies in one edge case. A system only scales if the average person touching it doesn&rsquo;t need the full context to use it correctly.</p>
+        <p class="post-p">The leaner system also turned out to be the more resilient one. When something breaks, or a sixth brand eventually needs to plug in, the fix lives in one place instead of scattered across five one-off implementations. That wasn&rsquo;t the goal going in. It was a side effect of choosing simplicity over completeness.</p>
+
+        <blockquote class="post-pull"><p>The system that should have been impossible to build across five brands was only possible because we stopped trying to solve every brand&rsquo;s problem at once, and built the smallest thing that could flex instead.</p></blockquote>
+
+        <p class="post-p">Still learning where the edges of that are. But it&rsquo;s changed how I think about every system I design since.</p>
+      </article>
     </div>
   </div>
 

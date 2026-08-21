@@ -211,6 +211,7 @@
   makeWindow("resumeIcon", "resumeWindow");
   makeWindow("recentIcon", "recentWindow");
   makeWindow("blogsIcon", "blogsWindow");
+  makeWindow("blog1Item", "blog1Window");
 
   // The intro card's link and the menu bar name open the same About window.
   const about = makeWindow("aboutTrigger", "aboutWindow");
