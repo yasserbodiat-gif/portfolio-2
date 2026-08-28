@@ -78,6 +78,25 @@
   show(0);
 })();
 
+/* Locked case study — the work is not public yet, so nothing sits behind
+   the gate. A submit just explains how to get access. */
+(function lockedCaseStudy() {
+  const form = document.getElementById("dialForm");
+  const error = document.getElementById("dialError");
+  if (!form || !error) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    form.classList.remove("is-wrong");
+    void form.offsetWidth; // restart the shake on a repeat submit
+    form.classList.add("is-wrong");
+    error.innerHTML =
+      'That password is not recognised. ' +
+      '<a href="mailto:yasserbodiat@gmail.com?subject=Dialdirect%20case%20study">Email me</a> ' +
+      'and I will walk you through the work.';
+  });
+})();
+
 /* FAQ accordion — buttons rather than <details> so the open/close height
    can animate, and so aria-expanded drives the icon state. */
 (function faqAccordion() {
@@ -221,6 +240,7 @@
   makeWindow("caseStudy1Item", "caseStudy1Window");
   makeWindow("caseStudy2Item", "caseStudy2Window");
   makeWindow("caseStudy3Item", "caseStudy3Window");
+  makeWindow("dialItem", "dialWindow");
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && opened.length) opened[opened.length - 1].close();

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=49">
+<link rel="stylesheet" href="style.css?v=50">
 </head>
 <body>
 
@@ -165,7 +165,7 @@
         <span class="light max" aria-hidden="true"></span>
       </div>
       <span class="finder-title" id="finderTitle">Case Studies</span>
-      <span class="finder-count">3 items</span>
+      <span class="finder-count">4 items</span>
     </div>
 
     <div class="finder-body">
@@ -178,6 +178,17 @@
         <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
         <span class="file-name">Marketing Templatisation</span>
         <span class="file-meta">TIH · 2026</span>
+      </button>
+      <button class="finder-item" id="dialItem" aria-haspopup="dialog" aria-expanded="false" aria-controls="dialWindow">
+        <span class="file-art file-art--locked">
+          <span class="file-corner"></span>
+          <svg class="file-lock" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 10V7a5 5 0 0 1 10 0v3"/>
+            <rect x="4.5" y="10" width="15" height="10.5" rx="2.2" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="file-name">Dialdirect Rebrand</span>
+        <span class="file-meta">Password protected</span>
       </button>
       <button class="finder-item" id="caseStudy3Item" aria-haspopup="dialog" aria-expanded="false" aria-controls="caseStudy3Window">
         <span class="file-art"><span class="file-corner"></span><span class="file-tag">CS</span></span>
@@ -942,6 +953,50 @@
 
         <p class="post-p">Still learning where the edges of that are. But it&rsquo;s changed how I think about every system I design since.</p>
       </article>
+    </div>
+  </div>
+
+  <!-- ── Dialdirect: locked ───────────────────────────────── -->
+  <div class="finder win-doc win-lock" id="dialWindow" role="dialog" aria-modal="false" aria-labelledby="dialTitle" hidden>
+    <div class="win-bar">
+      <div class="traffic">
+        <button class="light close" aria-label="Close"></button>
+        <span class="light min" aria-hidden="true"></span>
+        <span class="light max" aria-hidden="true"></span>
+      </div>
+      <span class="finder-title" id="dialTitle">Dialdirect Rebrand</span>
+    </div>
+
+    <div class="lock-body">
+      <span class="lock-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M7 10V7a5 5 0 0 1 10 0v3"/>
+          <rect x="4.5" y="10" width="15" height="10.5" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="12" cy="15.2" r="1.4" fill="currentColor"/>
+        </svg>
+      </span>
+
+      <p class="lock-kicker">Case study</p>
+      <h2 class="lock-title">Dialdirect Rebrand</h2>
+
+      <p class="lock-p">
+        This case study is password protected. The work is still proprietary —
+        Dialdirect has not yet launched its public rebrand.
+      </p>
+      <p class="lock-p">
+        My role was to lead the redesign of the website and collaborate with the
+        agency on the digital rebrand.
+      </p>
+
+      <form class="lock-form" id="dialForm" novalidate>
+        <label class="lock-label" for="dialPassword">Password</label>
+        <div class="lock-row">
+          <input class="lock-input" id="dialPassword" type="password" autocomplete="off"
+                 placeholder="Enter password" aria-describedby="dialError">
+          <button class="lock-btn" type="submit">Unlock</button>
+        </div>
+        <p class="lock-error" id="dialError" role="status"></p>
+      </form>
     </div>
   </div>
 
