@@ -2390,3 +2390,106 @@ body {
     margin-top: 14px;
   }
 }
+
+/* ── Closing statement ─────────────────────────────────────
+   The reference paints behind white text set to
+   mix-blend-mode: difference. That inverts beautifully on a
+   dark ground but does nothing for dark text on a light one,
+   so the layers are swapped: the canvas sits ON TOP and
+   multiplies. Light ground takes the colour, the dark
+   letterforms stay dark — ink over print rather than a glow.
+   ───────────────────────────────────────────────────────── */
+.scribble {
+  position: relative;
+  min-height: min(720px, 88vh);
+  display: grid;
+  place-items: center;
+  padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 5vw, 4rem);
+  background: #f4f4f2;
+  border-top: 1px solid #e2e2de;
+  overflow: hidden;
+}
+
+.scribble-copy {
+  grid-area: 1 / 1;
+  max-width: 16ch;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: clamp(2.4rem, 7.5vw, 6.5rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #17171a;
+  text-shadow: none;
+}
+
+.scribble-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  mix-blend-mode: multiply;
+  cursor: crosshair;
+  /* Vertical panning stays with the browser, so a touch drag can never
+     trap the reader on the last section. Sideways drags draw. */
+  touch-action: pan-y;
+}
+
+/* Above the canvas so they stay clickable while it is being drawn on. */
+.scribble-foot {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: clamp(3.5rem, 9vh, 5.5rem);
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.scribble-cta {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid #17171a;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #17171a;
+  text-decoration: none;
+  background: rgba(244, 244, 242, 0.7);
+  transition: background 0.18s var(--ease), color 0.18s var(--ease);
+}
+
+.scribble-cta:hover {
+  background: #17171a;
+  color: #f4f4f2;
+}
+
+.scribble-hint {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: clamp(1.4rem, 4vh, 2.2rem);
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a4a49c;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+.scribble-hint.is-hidden {
+  opacity: 0;
+}
+
+/* Nothing to draw on without a pointer to drag; the statement still reads. */
+@media (prefers-reduced-motion: reduce) {
+  .scribble-canvas {
+    display: none;
+  }
+}

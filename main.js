@@ -138,6 +138,81 @@
   });
 })();
 
+/* Closing statement — drag to paint, the stroke clears on release.
+   Adapted from the supplied mouse_7 brush: same hue cycle and breathing
+   line width, rewritten on pointer events so one path covers mouse, pen
+   and touch, and sized to the section rather than the viewport. */
+(function scribble() {
+  const canvas = document.getElementById("scribbleCanvas");
+  const hint = document.getElementById("scribbleHint");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const section = canvas.closest(".scribble");
+
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const { width, height } = section.getBoundingClientRect();
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Resetting the bitmap clears these, so they are reapplied.
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+  };
+
+  resize();
+  window.addEventListener("resize", resize);
+
+  let drawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+
+  const at = (e) => {
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+
+  const clear = () =>
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  canvas.addEventListener("pointerdown", (e) => {
+    drawing = true;
+    ({ x: lastX, y: lastY } = at(e));
+    canvas.setPointerCapture(e.pointerId);
+    if (hint) hint.classList.add("is-hidden");
+  });
+
+  canvas.addEventListener("pointermove", (e) => {
+    if (!drawing) return;
+    const { x, y } = at(e);
+
+    // Width breathes along the hue cycle, so the stroke reads as drawn
+    // rather than extruded.
+    ctx.lineWidth = 70 + Math.sin(hue * (Math.PI / 180)) * 14;
+    ctx.strokeStyle = `hsl(${hue}, 95%, 55%)`;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    lastX = x;
+    lastY = y;
+    hue = (hue + 1.6) % 360;
+  });
+
+  const stop = () => {
+    if (!drawing) return;
+    drawing = false;
+    clear();
+  };
+
+  canvas.addEventListener("pointerup", stop);
+  canvas.addEventListener("pointercancel", stop);
+  canvas.addEventListener("pointerleave", stop);
+})();
+
 /* Desktop windows — one factory drives every draggable window on screen. */
 (function windows() {
   let topZ = 50; // bumped so the most recently touched window sits in front
