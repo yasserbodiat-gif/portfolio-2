@@ -324,6 +324,9 @@
   const about = makeWindow("aboutTrigger", "aboutWindow");
   const introMore = document.getElementById("introMore");
   if (about && introMore) introMore.addEventListener("click", about.open);
+  // Same window, reached from the desktop where the menu bar is hidden.
+  const aboutIcon = document.getElementById("aboutIcon");
+  if (about && aboutIcon) aboutIcon.addEventListener("click", about.open);
   // Opened from inside the folder rather than from a desktop icon.
   makeWindow("caseStudy1Item", "caseStudy1Window");
   makeWindow("caseStudy2Item", "caseStudy2Window");

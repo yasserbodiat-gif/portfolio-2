@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@200;400;500;600;800;900&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=55">
+<link rel="stylesheet" href="style.css?v=57">
 </head>
 <body>
 
@@ -66,6 +66,14 @@
         </span>
       </span>
       <span class="desk-icon-label">Resume</span>
+    </button>
+
+    <!-- Only shown where the menu bar is hidden, which is the other route in. -->
+    <button class="desk-icon desk-icon--about" id="aboutIcon">
+      <span class="desk-icon-art desk-icon-page">
+        <span class="page-sheet page-sheet--about">YB</span>
+      </span>
+      <span class="desk-icon-label">About Me</span>
     </button>
 
     <button class="desk-icon desk-icon--float desk-icon--recent" id="recentIcon" aria-haspopup="dialog" aria-expanded="false" aria-controls="recentWindow">
@@ -215,8 +223,7 @@
   </div>
 
   <!-- ── Most Recent window ───────────────────────────────── -->
-  <!-- Opens clear of the Now Playing widget rather than on top of it. -->
-  <div class="finder" id="recentWindow" role="dialog" aria-modal="false" aria-labelledby="recentTitle" hidden style="top:250px; left:auto; right:110px">
+  <div class="finder win-recent" id="recentWindow" role="dialog" aria-modal="false" aria-labelledby="recentTitle" hidden>
     <div class="win-bar">
       <div class="traffic">
         <button class="light close" aria-label="Close"></button>
@@ -232,7 +239,7 @@
   </div>
 
   <!-- ── Blogs window ─────────────────────────────────────── -->
-  <div class="finder" id="blogsWindow" role="dialog" aria-modal="false" aria-labelledby="blogsTitle" hidden style="top:210px; left:300px">
+  <div class="finder win-blogs" id="blogsWindow" role="dialog" aria-modal="false" aria-labelledby="blogsTitle" hidden>
     <div class="win-bar">
       <div class="traffic">
         <button class="light close" aria-label="Close"></button>

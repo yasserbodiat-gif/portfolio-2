@@ -2493,3 +2493,103 @@ body {
     display: none;
   }
 }
+
+/* Window positions that used to be inline, so a media query can move them. */
+.win-recent {
+  top: 250px;
+  left: auto;
+  right: 110px;
+}
+
+.win-blogs {
+  top: 210px;
+  left: 300px;
+}
+
+/* The About icon is the route in where the menu bar is hidden. */
+.desk-icon--about {
+  display: none;
+}
+
+.page-sheet--about {
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #6a5a86;
+  padding: 0;
+}
+
+/* ── Phones ────────────────────────────────────────────────
+   No menu bar, and every window opens centred in the viewport
+   instead of at a fixed desktop coordinate.
+   ───────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .menubar {
+    display: none;
+  }
+
+  .desk-icon--about {
+    display: flex;
+  }
+
+  .desktop-icons {
+    padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  }
+
+  /* Centred by equal insets rather than a transform: the open and close
+     keyframes animate transform, and a translate here would fight them. */
+  .finder,
+  .win-doc,
+  .win-recent,
+  .win-blogs {
+    top: 20px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    transform: none;
+    transform-origin: top center;
+  }
+
+  /* .win-doc's own keyframes carry translateX(-50%), which no longer
+     applies once the window is inset-centred. */
+  .win-doc {
+    animation-name: finder-open;
+  }
+
+  .win-doc.is-closing {
+    animation-name: finder-close;
+  }
+
+  /* Dragging writes pixel coordinates, so the right inset has to release. */
+  .finder.is-moved {
+    right: auto;
+  }
+
+  .cd-body,
+  .post-body,
+  .doc-body,
+  .finder-body {
+    max-height: calc(100dvh - 120px);
+  }
+
+  /* Three labels across a phone need the room. */
+  .desk-links {
+    gap: 2px;
+  }
+
+  .desk-links .desk-link {
+    width: 88px;
+    padding-inline: 2px;
+  }
+
+  .desk-links .desk-icon-label {
+    font-size: 10px;
+  }
+
+  /* The dock occupies the bottom on a phone, and scrolling is obvious there. */
+  .scroll-cue {
+    display: none;
+  }
+}
