@@ -2603,3 +2603,120 @@ body {
     display: none;
   }
 }
+
+/* ── Opening sequence ──────────────────────────────────────
+   Scroll-scrubbed in three stages. The motion follows the
+   supplied Aurela loader — a box opening between two halves
+   of a word, then growing to fill the screen — rebuilt off a
+   scroll position rather than a GSAP timeline.
+   ───────────────────────────────────────────────────────── */
+.hero-track {
+  height: 220vh;
+  pointer-events: none;
+}
+
+.hero-seq {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #fff;
+  /* Set by the scroll handler; the sequence lifts once it is done. */
+  opacity: 1;
+}
+
+.hero-seq.is-done {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s var(--ease), visibility 0s linear 0.45s;
+}
+
+.hero-fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* Only the cursor drives it; never intercepts scrolling. */
+  pointer-events: none;
+}
+
+.hero-line {
+  /* Positioned but deliberately z-index:auto — a stacking context here would
+     isolate the words' blend mode from the white ground and the pixel field,
+     and they would simply vanish. DOM order already puts it over the canvas. */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(2.2rem, 9vw, 8rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* The blend sits on the words, not the line — putting it on the parent
+   would drag the photograph through it and invert its colours too.
+   Against white this resolves to black; over the black pixel field the
+   letters invert, which is the whole trick. */
+.hero-word {
+  mix-blend-mode: difference;
+  transition: opacity 0.15s linear;
+}
+
+/* Width and height are written by the scroll handler. */
+.hero-box {
+  flex: none;
+  margin-inline: 0.1em;
+  width: 0;
+  height: 0.78em;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+/* Final leg: the box leaves the line and grows to the viewport from where
+   it stood, so the words are never shoved past the right-hand edge. */
+.hero-box.is-filling {
+  position: fixed;
+  margin-inline: 0;
+  border-radius: 0;
+}
+
+.hero-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-cue {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: clamp(1.5rem, 5vh, 2.5rem);
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a4a49c;
+  transition: opacity 0.3s var(--ease);
+}
+
+/* No scrubbing to do without motion — hand straight over to the desktop. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-seq {
+    display: none;
+  }
+
+  .hero-track {
+    height: 0;
+  }
+}

@@ -49,6 +49,31 @@ EOF
 Then update the `<img>` tags in the resume window if the page count changed,
 and the two PDF links if the filename changed.
 
+## Opening sequence
+
+The page opens on `.hero-seq`, a fixed white overlay that scrubs off scroll
+position rather than a timeline, in three legs:
+
+| Scroll progress | What happens |
+| --- | --- |
+| 0 – 0.34 | "Yasser Bodiat" on white. Moving the cursor paints a dithered black pixel ripple behind it. |
+| 0.34 – 0.68 | A box opens between the two words and shows the hero image. |
+| 0.68 – 1 | The box leaves the line, grows from where it stood to fill the viewport, and the overlay hands over to the desktop. |
+
+Progress is `window.scrollY / #heroTrack.offsetHeight`, so the pacing is set by
+one number: `.hero-track { height }` in `style.css`. `prefers-reduced-motion`
+skips the whole thing and collapses the track to zero.
+
+Two details are load-bearing and easy to break:
+
+- `mix-blend-mode: difference` sits on `.hero-word`, **not** on `.hero-line`.
+  On the line it would drag the photograph through the blend and invert its
+  colours; and `.hero-line` must stay at `z-index: auto`, because a stacking
+  context there isolates the blend and the words disappear entirely.
+- The pixel field is a small canvas drawn at cell resolution and scaled up
+  with smoothing off. It stops itself once the cursor rests or the image
+  starts taking over, so it never competes with scrolling.
+
 ## Cache busting
 
 `index.html` loads `style.css?v=N` and `main.js?v=N`. **Bump `N` whenever either

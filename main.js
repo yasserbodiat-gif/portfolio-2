@@ -1,3 +1,185 @@
+/* Opening sequence — scroll drives three stages:
+     0.00-0.34  the name on white, cursor paints the pixel field
+     0.34-0.68  an image opens between the two words
+     0.68-1.00  that image grows to fill the screen
+   The motion is the supplied Aurela loader, scrubbed off scroll position
+   instead of run on a timeline, so the reader controls the pace. */
+(function openingSequence() {
+  const seq = document.getElementById("heroSeq");
+  const track = document.getElementById("heroTrack");
+  const box = document.getElementById("heroBox");
+  const cue = document.getElementById("heroCue");
+  const fxCanvas = document.getElementById("heroFx");
+  if (!seq || !track || !box) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    seq.classList.add("is-done");
+    return;
+  }
+
+  const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
+  // Progress across one leg of the sequence.
+  const leg = (p, from, to) => clamp01((p - from) / (to - from));
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  const words = Array.from(document.querySelectorAll(".hero-word"));
+
+  let progress = 0;
+  // Where the box sat in the line when the last leg began, so it can grow
+  // out from exactly that spot instead of jumping to the middle.
+  let restRect = null;
+
+  const apply = () => {
+    const range = track.offsetHeight;
+    progress = range > 0 ? clamp01(window.scrollY / range) : 1;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Stage 2: the box opens to roughly a letter's width.
+    const open = easeInOut(leg(progress, 0.34, 0.68));
+    // Stage 3: it leaves the line and takes the whole viewport.
+    const fill = easeInOut(leg(progress, 0.68, 1));
+    const restW = Math.min(vw * 0.16, 220);
+
+    if (fill <= 0) {
+      restRect = null;
+      box.classList.remove("is-filling");
+      box.style.cssText = "";
+      box.style.width = restW * open + "px";
+      words.forEach((w) => (w.style.opacity = "1"));
+    } else {
+      // Measure once, at the box's in-flow rest size. Re-laying it out first
+      // keeps a jump straight into this leg honest.
+      if (!restRect) {
+        box.classList.remove("is-filling");
+        box.style.cssText = "";
+        box.style.width = restW + "px";
+        restRect = box.getBoundingClientRect();
+      }
+      const lerp = (a, b) => a + (b - a) * fill;
+      box.classList.add("is-filling");
+      box.style.left = lerp(restRect.left, 0) + "px";
+      box.style.top = lerp(restRect.top, 0) + "px";
+      box.style.width = lerp(restRect.width, vw) + "px";
+      box.style.height = lerp(restRect.height, vh) + "px";
+      // The words would only be overlapped by the photograph; let them go.
+      words.forEach((w) => (w.style.opacity = String(1 - clamp01(fill * 2.2))));
+    }
+
+    if (cue) cue.style.opacity = String(1 - clamp01(progress / 0.2));
+
+    // Once the image owns the screen, hand over to the desktop underneath.
+    seq.classList.toggle("is-done", progress >= 0.995);
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      apply();
+    });
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", apply);
+  apply();
+
+  /* Pointer field — a monochrome pixel ripple that follows the cursor while
+     the name is on screen. Rendered at cell resolution into a small buffer
+     and scaled up with smoothing off, so it costs a few thousand pixels a
+     frame rather than a few million. */
+  if (!fxCanvas) return;
+
+  const ctx = fxCanvas.getContext("2d");
+  const buf = document.createElement("canvas");
+  const bctx = buf.getContext("2d");
+  const CELL = 9;
+
+  let cols = 0;
+  let rows = 0;
+  let image = null;
+  let px = -999;
+  let py = -999;
+  let alive = false;
+  let idle = 0;
+
+  const size = () => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    fxCanvas.width = w;
+    fxCanvas.height = h;
+    cols = Math.ceil(w / CELL);
+    rows = Math.ceil(h / CELL);
+    buf.width = cols;
+    buf.height = rows;
+    image = bctx.createImageData(cols, rows);
+    ctx.imageSmoothingEnabled = false;
+  };
+
+  size();
+  window.addEventListener("resize", size);
+
+  // 4x4 ordered dither, so the falloff breaks into pixels rather than a gradient.
+  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+
+  const paint = (t) => {
+    const data = image.data;
+    const cx = px / CELL;
+    const cy = py / CELL;
+    const reach = 26;
+
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const dx = x - cx;
+        const dy = y - cy;
+        const d = Math.sqrt(dx * dx + dy * dy);
+
+        // A ring travelling out from the cursor, fading with distance.
+        const ring = Math.sin(d * 0.55 - t * 5) * 0.5 + 0.5;
+        let v = ring * Math.max(0, 1 - d / reach);
+
+        const threshold = BAYER[(y & 3) * 4 + (x & 3)] / 16;
+        const on = v > threshold ? 1 : 0;
+
+        const i = (y * cols + x) * 4;
+        data[i] = data[i + 1] = data[i + 2] = 0;
+        data[i + 3] = on * 235;
+      }
+    }
+
+    bctx.putImageData(image, 0, 0);
+    ctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+    ctx.drawImage(buf, 0, 0, fxCanvas.width, fxCanvas.height);
+  };
+
+  const frame = (ms) => {
+    if (!alive) return;
+    // Stops itself once the cursor rests, and while the image is taking over.
+    idle += 1;
+    if (idle > 90 || progress > 0.45) {
+      alive = false;
+      ctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+      return;
+    }
+    paint(ms / 1000);
+    requestAnimationFrame(frame);
+  };
+
+  window.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch" || progress > 0.45) return;
+    px = e.clientX;
+    py = e.clientY;
+    idle = 0;
+    if (!alive) {
+      alive = true;
+      requestAnimationFrame(frame);
+    }
+  });
+})();
+
 /* Menu bar clock — matches macOS "Mon 4:45 PM" formatting. */
 (function clock() {
   const el = document.getElementById("clock");
