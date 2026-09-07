@@ -2256,13 +2256,23 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Mono runs wider and its counters are more open, so the display sizes
-   come down a step and the tight tracking is relaxed. */
+/* Section headers take the closing statement's face: heavy uppercase Inter,
+   set tight. The body of each section stays in the mono. */
 .faq-title,
 .gallery-title,
 .testi-title {
-  font-size: clamp(1.6rem, 3.4vw, 2.5rem);
-  letter-spacing: -0.02em;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(2.1rem, 5.6vw, 4.4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+/* Uppercase at this weight runs wide, so the long one gets a measure that
+   breaks it onto two lines rather than stretching the section. */
+.faq-title {
+  max-width: 15ch;
 }
 
 .cd-hero-title,
