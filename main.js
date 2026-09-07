@@ -125,121 +125,17 @@
     });
 })();
 
-/* Shuffle transition — plays when a section shortcut is clicked.
-   The slide geometry is the supplied Shuffle FX component: widths grow
-   exponentially left to right and wrap infinitely. Here the scroll value
-   is driven by a timed easing rather than by the pointer. */
-(function shuffleTransition() {
-  const overlay = document.getElementById("shuffle");
-  const links = [...document.querySelectorAll(".desk-link")];
-  if (!overlay || !links.length) return;
-
-  const IMAGES = [
-    "assets/cs-tih-1.jpg", "assets/gal-image-1.jpg", "assets/gallery-3.jpg",
-    "assets/cs-sg-1.jpg", "assets/cs-tih-2.jpg", "assets/gallery-6_1.jpg",
-    "assets/gallery-6_2.jpg", "assets/cs-mt-6.jpg", "assets/gallery-8.jpg",
-  ];
-
-  const config = { lerp: 0.075, minSize: 0.1, growth: 0.25, aspect: 1 / 1.25 };
-  const growthRatio = Math.exp(config.growth);
-  const slideCount =
-    Math.ceil(Math.log(1 + (growthRatio - 1) / config.minSize) / config.growth) + 4;
-
-  const wrap = (v, max) => ((v % max) + max) % max;
-  const edgeX = (position, width) =>
-    (width * config.minSize * (Math.pow(growthRatio, position) - 1)) / (growthRatio - 1);
-
-  let slides = null;
-  let streamIndex = null;
-
-  const build = () => {
-    slides = [];
-    streamIndex = [];
-    for (let i = 0; i < slideCount; i++) {
-      const slide = document.createElement("div");
-      slide.className = "shuffle-slide";
-      slide.appendChild(document.createElement("img"));
-      overlay.appendChild(slide);
-      slides.push(slide);
-      streamIndex.push(i);
-    }
-  };
-
-  const setImage = (slide, n) => {
-    if (slide.dataset.image === String(n)) return;
-    slide.dataset.image = n;
-    slide.querySelector("img").src = IMAGES[n];
-  };
-
-  let scroll = 0;
-  let scrollTarget = 0;
-  let running = false;
-
-  const layout = () => {
-    const w = overlay.clientWidth;
-    for (let i = 0; i < slideCount; i++) {
-      const slide = slides[i];
-      let index = streamIndex[i];
-
-      while (edgeX(index + scroll, w) > w) index -= slideCount;
-      while (edgeX(index + scroll + 1, w) < 0) index += slideCount;
-      streamIndex[i] = index;
-
-      const left = Math.round(edgeX(index + scroll, w));
-      const right = Math.round(edgeX(index + scroll + 1, w));
-      const width = right - left;
-
-      setImage(slide, wrap(index, IMAGES.length));
-      slide.style.width = width + "px";
-      slide.style.height = width / config.aspect + "px";
-      slide.style.zIndex = Math.round(right);
-      slide.style.transform = "translate(" + left + "px, 0)";
-    }
-  };
-
-  const render = () => {
-    scroll += (scrollTarget - scroll) * config.lerp;
-    layout();
-    if (running) requestAnimationFrame(render);
-  };
-
-  const go = (target) => {
-    const section = document.querySelector(target);
-    if (!section) return;
-
-    const jump = () => {
+/* Section shortcuts — jump to a section of the sheet. */
+(function sectionLinks() {
+  document.querySelectorAll(".desk-link").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const section = document.querySelector(btn.dataset.target);
+      if (!section) return;
       const y = section.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo(0, y);
-    };
-
-    // Reduced motion: skip the sweep entirely rather than flash it.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      jump();
-      return;
-    }
-
-    if (!slides) build();
-
-    scroll = 0;
-    scrollTarget = 0;
-    layout();
-
-    overlay.classList.add("is-on");
-    running = true;
-    requestAnimationFrame(render);
-
-    // Sweep, jump behind the cover, then lift.
-    scrollTarget = 9;
-    setTimeout(jump, 620);
-    setTimeout(() => {
-      overlay.classList.remove("is-on");
-      setTimeout(() => { running = false; }, 300);
-    }, 780);
-  };
-
-  links.forEach((btn) =>
-    btn.addEventListener("click", () => go(btn.dataset.target))
-  );
+      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: y, behavior: smooth ? "smooth" : "auto" });
+    });
+  });
 })();
 
 /* Desktop windows — one factory drives every draggable window on screen. */

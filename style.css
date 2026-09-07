@@ -2327,8 +2327,7 @@ body {
 }
 
 /* ── Section shortcuts ─────────────────────────────────────
-   Three desktop items that jump to a section, playing the
-   shuffle transition on the way.
+   Three desktop items that jump to a section of the sheet.
    ───────────────────────────────────────────────────────── */
 .desk-links {
   position: absolute;
@@ -2382,45 +2381,6 @@ body {
   width: 22px;
   height: 22px;
   fill: currentColor;
-}
-
-/* ── Shuffle transition ────────────────────────────────────
-   Slides grow exponentially left to right and sweep across
-   while the page jumps to the target section behind it.
-   Adapted from the supplied Shuffle FX component.
-   ───────────────────────────────────────────────────────── */
-.shuffle {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  overflow: hidden;
-  background: #edede7;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.28s var(--ease), visibility 0s linear 0.28s;
-}
-
-.shuffle.is-on {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.22s var(--ease);
-}
-
-.shuffle-slide {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  overflow: hidden;
-  will-change: transform, width, height;
-}
-
-.shuffle-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
 }
 
 @media (max-width: 900px) {
