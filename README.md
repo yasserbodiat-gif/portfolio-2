@@ -56,20 +56,27 @@ position rather than a timeline, in three legs:
 
 | Scroll progress | What happens |
 | --- | --- |
-| 0 – 0.34 | "Yasser Bodiat" on white. Moving the cursor paints a dithered black pixel ripple behind it. |
-| 0.34 – 0.68 | A box opens between the two words and shows the hero image. |
-| 0.68 – 1 | The box leaves the line, grows from where it stood to fill the viewport, and the overlay hands over to the desktop. |
+| 0 – 0.26 | "Yasser Bodiat" on white. Moving the cursor paints a dithered black pixel ripple behind it. |
+| 0.26 – 0.56 | The words part and the hero image appears in the gap. |
+| 0.56 – 0.86 | The image grows out of that gap to fill the viewport. |
+| 0.86 – 1 | Full-bleed hold, then the overlay hands over to the desktop. |
 
 Progress is `window.scrollY / #heroTrack.offsetHeight`, so the pacing is set by
-one number: `.hero-track { height }` in `style.css`. `prefers-reduced-motion`
-skips the whole thing and collapses the track to zero.
+one number: `.hero-track { height }` in `style.css`. `.stage-spacer` then sets
+how long the desktop is held before the FAQ starts rising.
+`prefers-reduced-motion` skips the whole thing and collapses the track to zero.
 
-Two details are load-bearing and easy to break:
+Three details are load-bearing and easy to break:
 
+- `.hero-box` is `position: fixed` for the **whole** sequence and is laid over
+  an in-flow `.hero-gap` that reserves the space between the words. Putting
+  the image in the line and switching it to fixed part-way through makes the
+  words snap back together at the seam.
 - `mix-blend-mode: difference` sits on `.hero-word`, **not** on `.hero-line`.
   On the line it would drag the photograph through the blend and invert its
   colours; and `.hero-line` must stay at `z-index: auto`, because a stacking
-  context there isolates the blend and the words disappear entirely.
+  context there isolates the blend and the words disappear entirely. The blend
+  comes off again via `.hero-line.is-filling` once the photograph reaches them.
 - The pixel field is a small canvas drawn at cell resolution and scaled up
   with smoothing off. It stops itself once the cursor rests or the image
   starts taking over, so it never competes with scrolling.

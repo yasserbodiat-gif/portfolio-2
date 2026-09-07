@@ -22,12 +22,11 @@
   const leg = (p, from, to) => clamp01((p - from) / (to - from));
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+  const line = document.querySelector(".hero-line");
+  const gap = document.getElementById("heroGap");
   const words = Array.from(document.querySelectorAll(".hero-word"));
 
   let progress = 0;
-  // Where the box sat in the line when the last leg began, so it can grow
-  // out from exactly that spot instead of jumping to the middle.
-  let restRect = null;
 
   const apply = () => {
     const range = track.offsetHeight;
@@ -36,36 +35,28 @@
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // Stage 2: the box opens to roughly a letter's width.
-    const open = easeInOut(leg(progress, 0.34, 0.68));
-    // Stage 3: it leaves the line and takes the whole viewport.
-    const fill = easeInOut(leg(progress, 0.68, 1));
+    // Stage 2: the gap opens between the words to roughly a letter's width.
+    const open = easeInOut(leg(progress, 0.26, 0.56));
+    // Stage 3: the image grows out of that gap to the whole viewport, and
+    // then holds there for the last stretch of the track before handing over.
+    const fill = easeInOut(leg(progress, 0.56, 0.86));
     const restW = Math.min(vw * 0.16, 220);
 
-    if (fill <= 0) {
-      restRect = null;
-      box.classList.remove("is-filling");
-      box.style.cssText = "";
-      box.style.width = restW * open + "px";
-      words.forEach((w) => (w.style.opacity = "1"));
-    } else {
-      // Measure once, at the box's in-flow rest size. Re-laying it out first
-      // keeps a jump straight into this leg honest.
-      if (!restRect) {
-        box.classList.remove("is-filling");
-        box.style.cssText = "";
-        box.style.width = restW + "px";
-        restRect = box.getBoundingClientRect();
-      }
-      const lerp = (a, b) => a + (b - a) * fill;
-      box.classList.add("is-filling");
-      box.style.left = lerp(restRect.left, 0) + "px";
-      box.style.top = lerp(restRect.top, 0) + "px";
-      box.style.width = lerp(restRect.width, vw) + "px";
-      box.style.height = lerp(restRect.height, vh) + "px";
-      // The words would only be overlapped by the photograph; let them go.
-      words.forEach((w) => (w.style.opacity = String(1 - clamp01(fill * 2.2))));
-    }
+    // The gap is the only thing in the line that moves, so the words part and
+    // close smoothly and the image simply tracks the hole they leave.
+    gap.style.width = restW * open + "px";
+    const hole = gap.getBoundingClientRect();
+
+    const lerp = (a, b) => a + (b - a) * fill;
+    box.style.left = lerp(hole.left, 0) + "px";
+    box.style.top = lerp(hole.top, 0) + "px";
+    box.style.width = lerp(hole.width, vw) + "px";
+    box.style.height = lerp(hole.height, vh) + "px";
+    box.style.borderRadius = 3 * (1 - fill) + "px";
+
+    // The photograph is about to cover them, so the words step aside early.
+    line.classList.toggle("is-filling", fill > 0);
+    words.forEach((w) => (w.style.opacity = String(1 - clamp01(fill * 3.2))));
 
     if (cue) cue.style.opacity = String(1 - clamp01(progress / 0.2));
 

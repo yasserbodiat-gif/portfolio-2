@@ -1255,7 +1255,9 @@ body {
    native scrolling, so the motion is as smooth as the browser.
    ───────────────────────────────────────────────────────── */
 .stage-spacer {
-  height: 100vh;
+  /* Two viewports, so the desktop gets real dwell after the opening hands
+     over and the FAQ does not start rising the moment it lands. */
+  height: 200vh;
   pointer-events: none; /* clicks fall through to the desktop */
 }
 
@@ -2611,7 +2613,9 @@ body {
    scroll position rather than a GSAP timeline.
    ───────────────────────────────────────────────────────── */
 .hero-track {
-  height: 220vh;
+  /* Sets the pacing for the whole opening. The last ~15% of it is the
+     full-bleed hold before the desktop takes over. */
+  height: 300vh;
   pointer-events: none;
 }
 
@@ -2668,25 +2672,30 @@ body {
    letters invert, which is the whole trick. */
 .hero-word {
   mix-blend-mode: difference;
-  transition: opacity 0.15s linear;
 }
 
-/* Width and height are written by the scroll handler. */
-.hero-box {
+/* Once the photograph is over them the blend has an image to fight with, so
+   it comes off and the words go plain black on the white still around them. */
+.hero-line.is-filling .hero-word {
+  mix-blend-mode: normal;
+  color: #0b0b0d;
+}
+
+/* Reserves the space between the words. Width is written by the handler. */
+.hero-gap {
   flex: none;
   margin-inline: 0.1em;
   width: 0;
   height: 0.78em;
-  overflow: hidden;
-  border-radius: 3px;
 }
 
-/* Final leg: the box leaves the line and grows to the viewport from where
-   it stood, so the words are never shoved past the right-hand edge. */
-.hero-box.is-filling {
+/* Fixed for the whole sequence — laid over the gap, then grown to the
+   viewport. Nothing switches positioning mid-scroll, so the line never
+   snaps back together under it. Geometry is written by the handler. */
+.hero-box {
   position: fixed;
-  margin-inline: 0;
-  border-radius: 0;
+  z-index: 2;
+  overflow: hidden;
 }
 
 .hero-box img {
