@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@200;400;500;600&display=swap" rel="stylesheet">
 <!-- Bump ?v= on every deploy so browsers can't serve a stale copy. -->
-<link rel="stylesheet" href="style.css?v=51">
+<link rel="stylesheet" href="style.css?v=53">
 </head>
 <body>
 
@@ -87,6 +87,22 @@
       </span>
       <span class="desk-icon-label">Blogs</span>
     </button>
+
+    <!-- Section shortcuts — each plays the shuffle transition on the way. -->
+    <div class="desk-links">
+    <button class="desk-link" data-target="#gallery">
+        <span class="desk-link-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="1.4"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.4"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.4"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.4"/></svg></span>
+        <span class="desk-icon-label">Gallery</span>
+      </button>
+      <button class="desk-link" data-target="#testimonials">
+        <span class="desk-link-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.6 5.2c-3 1.4-4.9 4-4.9 7.2 0 3.4 2 5.6 4.6 5.6 2.1 0 3.7-1.5 3.7-3.5 0-2-1.4-3.4-3.3-3.4-.4 0-.8.1-1 .2.3-1.6 1.6-3 3.4-3.9l-2.5-2.2Zm9.1 0c-3 1.4-4.9 4-4.9 7.2 0 3.4 2 5.6 4.6 5.6 2.1 0 3.7-1.5 3.7-3.5 0-2-1.4-3.4-3.3-3.4-.4 0-.8.1-1 .2.3-1.6 1.6-3 3.4-3.9l-2.5-2.2Z"/></svg></span>
+        <span class="desk-icon-label">Testimonials</span>
+      </button>
+      <button class="desk-link" data-target="#faq">
+        <span class="desk-link-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" d="M9.2 9a2.9 2.9 0 1 1 3.9 2.7c-.8.3-1.2 1-1.2 1.8v.6"/><circle cx="12" cy="18" r="1.3"/></svg></span>
+        <span class="desk-icon-label">FAQ</span>
+      </button>
+    </div>
   </main>
 
   <!-- ── Intro card ───────────────────────────────────────── -->
@@ -1078,6 +1094,9 @@
 
 </div>
 
+<!-- Shuffle transition overlay, built on first use. -->
+<div class="shuffle" id="shuffle" aria-hidden="true"></div>
+
 <!-- Transparent: lets the pinned desktop show through and stay clickable. -->
 <div class="stage-spacer" aria-hidden="true"></div>
 
@@ -1176,7 +1195,7 @@
 </section>
 
 <!-- ── Gallery ─────────────────────────────────────────────── -->
-<section class="gallery" aria-label="Gallery">
+<section class="gallery" id="gallery" aria-label="Gallery">
   <h2 class="gallery-title">Gallery</h2>
 
   <div class="gallery-grid">
@@ -1224,7 +1243,7 @@
 
 
 <!-- ── Testimonials ──────────────────────────────────────── -->
-<section class="testi" aria-label="Testimonials">
+<section class="testi" id="testimonials" aria-label="Testimonials">
   <div class="testi-inner">
     <h2 class="testi-title">Testimonials</h2>
 
