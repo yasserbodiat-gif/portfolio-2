@@ -1,7 +1,8 @@
-/* Opening sequence — scroll drives three stages:
-     0.00-0.34  the name on white, cursor paints the pixel field
-     0.34-0.68  an image opens between the two words
-     0.68-1.00  that image grows to fill the screen
+/* Opening sequence — scroll drives the stages:
+     0.00-0.26  the name on white, cursor paints the pixel field
+     0.26-0.56  the words part and an image appears between them
+     0.56-0.86  that image grows to fill the screen
+     0.86-1.00  full-bleed hold, then hand over to the desktop
    The motion is the supplied Aurela loader, scrubbed off scroll position
    instead of run on a timeline, so the reader controls the pace. */
 (function openingSequence() {
@@ -28,55 +29,115 @@
 
   let progress = 0;
 
-  const apply = () => {
-    const range = track.offsetHeight;
-    progress = range > 0 ? clamp01(window.scrollY / range) : 1;
+  /* Everything the render needs about the resting layout, taken once. Reading
+     it per frame meant writing a width into the line and immediately measuring
+     it back, which forces a synchronous re-layout of the whole line — at this
+     type size that alone was dropping about one frame in six. */
+  let m = { holeX: 0, holeY: 0, holeH: 0, restW: 0, vw: 0, vh: 0 };
+  let filling = null;
 
+  const measure = () => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    // Words sit at rest for the measurement, so the gap is a zero-width strip
+    // exactly where the hole will open from.
+    words.forEach((w) => (w.style.transform = "translate3d(0,0,0)"));
+    const r = gap.getBoundingClientRect();
+    m = {
+      holeX: r.left,
+      holeY: r.top,
+      holeH: r.height,
+      restW: Math.min(vw * 0.16, 220),
+      vw,
+      vh,
+    };
+  };
 
-    // Stage 2: the gap opens between the words to roughly a letter's width.
+  const render = () => {
+    // Stage 2: the words part and the image appears in the gap between them.
     const open = easeInOut(leg(progress, 0.26, 0.56));
     // Stage 3: the image grows out of that gap to the whole viewport, and
     // then holds there for the last stretch of the track before handing over.
     const fill = easeInOut(leg(progress, 0.56, 0.86));
-    const restW = Math.min(vw * 0.16, 220);
 
-    // The gap is the only thing in the line that moves, so the words part and
-    // close smoothly and the image simply tracks the hole they leave.
-    gap.style.width = restW * open + "px";
-    const hole = gap.getBoundingClientRect();
+    // Half the hole each way, as a transform — no layout, just a composite.
+    const half = (m.restW * open) / 2;
+    words[0].style.transform = `translate3d(${-half}px,0,0)`;
+    words[1].style.transform = `translate3d(${half}px,0,0)`;
 
-    const lerp = (a, b) => a + (b - a) * fill;
-    box.style.left = lerp(hole.left, 0) + "px";
-    box.style.top = lerp(hole.top, 0) + "px";
-    box.style.width = lerp(hole.width, vw) + "px";
-    box.style.height = lerp(hole.height, vh) + "px";
-    box.style.borderRadius = 3 * (1 - fill) + "px";
+    // Whole pixels: a fractional width makes the browser resample the photo
+    // against a slightly different grid every frame, which shimmers.
+    const lerp = (a, b) => Math.round(a + (b - a) * fill);
+    box.style.left = lerp(m.holeX - half, 0) + "px";
+    box.style.top = lerp(m.holeY, 0) + "px";
+    box.style.width = lerp(m.restW * open, m.vw) + "px";
+    box.style.height = lerp(m.holeH, m.vh) + "px";
 
     // The photograph is about to cover them, so the words step aside early.
-    line.classList.toggle("is-filling", fill > 0);
-    words.forEach((w) => (w.style.opacity = String(1 - clamp01(fill * 3.2))));
+    const nowFilling = fill > 0;
+    if (nowFilling !== filling) {
+      filling = nowFilling;
+      line.classList.toggle("is-filling", nowFilling);
+    }
+    const wordAlpha = String(1 - clamp01(fill * 3.2));
+    words.forEach((w) => (w.style.opacity = wordAlpha));
 
     if (cue) cue.style.opacity = String(1 - clamp01(progress / 0.2));
 
     // Once the image owns the screen, hand over to the desktop underneath.
-    seq.classList.toggle("is-done", progress >= 0.995);
+    // Off the raw scroll rather than the damped value, so leaving the track
+    // hands over straight away instead of easing for another half second.
+    seq.classList.toggle("is-done", target >= 0.995);
   };
 
-  let ticking = false;
+  /* A wheel delivers scroll in coarse jumps, so pinning the render straight to
+     scrollY reads as stepping however cheap the frame is. Chasing the scroll
+     position instead smooths those steps out without decoupling the two. */
+  let target = 0;
+  let running = false;
+
+  const readTarget = () => {
+    const range = track.offsetHeight;
+    target = range > 0 ? clamp01(window.scrollY / range) : 1;
+  };
+
+  const tick = () => {
+    const delta = target - progress;
+    if (Math.abs(delta) < 0.0004) {
+      progress = target;
+      render();
+      running = false;
+      return;
+    }
+    progress += delta * 0.18;
+    render();
+    requestAnimationFrame(tick);
+  };
+
   const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      ticking = false;
-      apply();
-    });
+    readTarget();
+    if (running) return;
+    running = true;
+    requestAnimationFrame(tick);
+  };
+
+  const onResize = () => {
+    measure();
+    readTarget();
+    progress = target;
+    render();
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", apply);
-  apply();
+  window.addEventListener("resize", onResize);
+
+  measure();
+  readTarget();
+  progress = target;
+  render();
+  // The display face changes the line's metrics, so take them again once it
+  // has actually loaded.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
 
   /* Pointer field — a monochrome pixel ripple that follows the cursor while
      the name is on screen. Rendered at cell resolution into a small buffer
