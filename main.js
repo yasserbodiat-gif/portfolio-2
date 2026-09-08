@@ -139,84 +139,152 @@
   // has actually loaded.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
 
-  /* Pointer field — a monochrome pixel ripple that follows the cursor while
-     the name is on screen. Rendered at cell resolution into a small buffer
-     and scaled up with smoothing off, so it costs a few thousand pixels a
-     frame rather than a few million. */
+  /* Pointer field — a single body of liquid ink that follows the cursor.
+
+     A chain of nodes chases the pointer, each lagging the one in front, and
+     every node is drawn as an ellipse stretched along its own direction of
+     travel. Drawing that chain through blur + contrast is the classic gooey
+     trick: the blur bleeds the ellipses into one another, the contrast snaps
+     the soft grey back to a hard edge, and what comes out is one continuous
+     form that necks and swells rather than a string of circles.
+
+     It reads as ink because the words above it are in difference blend — the
+     type inverts to white wherever the ink slides underneath, so the effect
+     is doing something to the name rather than decorating around it.
+
+     The ink is composited on an opaque white ground rather than a
+     transparent one: contrast() works on colour and leaves alpha alone, so
+     over transparency it cannot harden anything and the whole thing stays a
+     smudge. White ground also costs nothing here, since it is the same white
+     the section is already painted in.
+
+     Everything is drawn at roughly half viewport size and capped at 760px
+     wide, and the canvas element itself is that small — CSS stretches it to
+     the viewport, so the upscale happens on the compositor for free and the
+     per-frame cost stops growing once the display gets big. Output is a hard
+     silhouette, so the stretch reads as antialiasing. */
   if (!fxCanvas) return;
 
   const ctx = fxCanvas.getContext("2d");
+  // The chain is drawn here, then blurred and hardened as one image on the way
+  // out. Filtering ellipse by ellipse would never fuse them into one body.
   const buf = document.createElement("canvas");
   const bctx = buf.getContext("2d");
-  const CELL = 9;
+  const MAX_W = 760;
+  // CSS pixels to buffer pixels; set on resize.
+  let scale = 0.5;
 
-  let cols = 0;
-  let rows = 0;
-  let image = null;
+  const NODES = 22;
+  const chain = Array.from({ length: NODES }, () => ({ x: -999, y: -999, vx: 0, vy: 0 }));
+
   let px = -999;
   let py = -999;
+  let seeded = false;
   let alive = false;
   let idle = 0;
+  // Eases in on the first movement and back out on rest, so the ink arrives
+  // and leaves rather than popping.
+  let presence = 0;
+  let wantPresence = 0;
 
   const size = () => {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    fxCanvas.width = w;
-    fxCanvas.height = h;
-    cols = Math.ceil(w / CELL);
-    rows = Math.ceil(h / CELL);
-    buf.width = cols;
-    buf.height = rows;
-    image = bctx.createImageData(cols, rows);
-    ctx.imageSmoothingEnabled = false;
+    scale = Math.min(0.5, MAX_W / w);
+    const bw = Math.max(1, Math.round(w * scale));
+    const bh = Math.max(1, Math.round(h * scale));
+    buf.width = fxCanvas.width = bw;
+    buf.height = fxCanvas.height = bh;
   };
 
   size();
   window.addEventListener("resize", size);
 
-  // 4x4 ordered dither, so the falloff breaks into pixels rather than a gradient.
-  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+  const paint = (ms) => {
+    const s = scale;
+    const t = ms / 1000;
+    const w = buf.width;
+    const h = buf.height;
 
-  const paint = (t) => {
-    const data = image.data;
-    const cx = px / CELL;
-    const cy = py / CELL;
-    const reach = 26;
+    // Head chases the pointer; every other node chases the one in front. The
+    // differing rates are what give the tail its lag and taper.
+    const head = chain[0];
+    head.vx = (px - head.x) * 0.3;
+    head.vy = (py - head.y) * 0.3;
+    head.x += head.vx;
+    head.y += head.vy;
 
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        const dx = x - cx;
-        const dy = y - cy;
-        const d = Math.sqrt(dx * dx + dy * dy);
-
-        // A ring travelling out from the cursor, fading with distance.
-        const ring = Math.sin(d * 0.55 - t * 5) * 0.5 + 0.5;
-        let v = ring * Math.max(0, 1 - d / reach);
-
-        const threshold = BAYER[(y & 3) * 4 + (x & 3)] / 16;
-        const on = v > threshold ? 1 : 0;
-
-        const i = (y * cols + x) * 4;
-        data[i] = data[i + 1] = data[i + 2] = 0;
-        data[i + 3] = on * 235;
-      }
+    for (let i = 1; i < NODES; i++) {
+      const n = chain[i];
+      const p = chain[i - 1];
+      const k = 0.36 - i * 0.006;
+      n.vx = (p.x - n.x) * k;
+      n.vy = (p.y - n.y) * k;
+      n.x += n.vx;
+      n.y += n.vy;
     }
 
-    bctx.putImageData(image, 0, 0);
-    ctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
-    ctx.drawImage(buf, 0, 0, fxCanvas.width, fxCanvas.height);
+    presence += (wantPresence - presence) * 0.09;
+
+    bctx.clearRect(0, 0, w, h);
+    bctx.fillStyle = "#fff";
+    bctx.fillRect(0, 0, w, h);
+    bctx.fillStyle = "#000";
+
+    for (let i = 0; i < NODES; i++) {
+      const n = chain[i];
+      const f = i / (NODES - 1);
+      // Tapers to a point, so the form has a head and a tail.
+      const r = (58 - 48 * f * f) * presence * s;
+      if (r <= 0.4) continue;
+
+      const speed = Math.hypot(n.vx, n.vy);
+      const stretch = Math.min(speed * 0.05, 1.35);
+      const angle = speed > 0.5 ? Math.atan2(n.vy, n.vx) : 0;
+
+      // A slow quiver on each node, strongest at rest. Motion supplies its own
+      // shape; without this the ink settles into a plain circle and dies.
+      const q = 7 * presence * Math.max(0, 1 - speed * 0.06);
+      const qx = Math.sin(t * 1.7 + i * 0.9) * q;
+      const qy = Math.cos(t * 1.3 + i * 1.1) * q;
+
+      bctx.beginPath();
+      bctx.ellipse(
+        (n.x + qx) * s,
+        (n.y + qy) * s,
+        r * (1 + stretch),
+        r / (1 + stretch * 0.55),
+        angle,
+        0,
+        Math.PI * 2
+      );
+      bctx.fill();
+    }
+
+    // Blur bleeds the nodes into one another, contrast cuts the soft grey
+    // back to a hard edge. Blur alone is a smudge; the pair is a body.
+    ctx.clearRect(0, 0, w, h);
+    ctx.filter = "blur(5px) contrast(26)";
+    ctx.drawImage(buf, 0, 0);
+    ctx.filter = "none";
   };
 
   const frame = (ms) => {
     if (!alive) return;
-    // Stops itself once the cursor rests, and while the image is taking over.
     idle += 1;
-    if (idle > 90 || progress > 0.45) {
+    // Called for rest, and once the image starts taking the screen.
+    if (idle > 26 || progress > 0.45) wantPresence = 0;
+
+    paint(ms);
+
+    // Runs on until the ink has actually finished retreating.
+    if (wantPresence === 0 && presence < 0.01) {
       alive = false;
+      presence = 0;
+      seeded = false;
       ctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
       return;
     }
-    paint(ms / 1000);
     requestAnimationFrame(frame);
   };
 
@@ -224,7 +292,21 @@
     if (e.pointerType === "touch" || progress > 0.45) return;
     px = e.clientX;
     py = e.clientY;
+
+    // First movement: collapse the whole chain onto the cursor, or it whips
+    // across the screen from wherever it was left.
+    if (!seeded) {
+      seeded = true;
+      for (const n of chain) {
+        n.x = px;
+        n.y = py;
+        n.vx = 0;
+        n.vy = 0;
+      }
+    }
+
     idle = 0;
+    wantPresence = 1;
     if (!alive) {
       alive = true;
       requestAnimationFrame(frame);

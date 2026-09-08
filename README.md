@@ -77,9 +77,20 @@ Three details are load-bearing and easy to break:
   colours; and `.hero-line` must stay at `z-index: auto`, because a stacking
   context there isolates the blend and the words disappear entirely. The blend
   comes off again via `.hero-line.is-filling` once the photograph reaches them.
-- The pixel field is a small canvas drawn at cell resolution and scaled up
-  with smoothing off. It stops itself once the cursor rests or the image
-  starts taking over, so it never competes with scrolling.
+- The cursor effect is a chain of nodes chasing the pointer, each drawn as an
+  ellipse stretched along its own direction of travel, put through
+  `blur() contrast()` **as one image** on the way out — the blur bleeds the
+  ellipses together, the contrast snaps the grey back to a hard edge, and one
+  continuous body of ink comes out. Two things it will not survive: filtering
+  the ellipses individually (they never fuse), and drawing on a transparent
+  ground (`contrast()` works on colour and leaves alpha alone, so the edge
+  stays a smudge — hence the opaque white fill). It is deliberately paired
+  with the type's difference blend: the letters invert to white wherever the
+  ink passes under them.
+- That canvas is small — half viewport size, capped at 760px wide — and CSS
+  stretches it, so the upscale is free and per-frame cost stops growing on
+  large displays. It stops itself once the cursor rests or the image starts
+  taking over, so it never competes with scrolling.
 
 ## Cache busting
 
